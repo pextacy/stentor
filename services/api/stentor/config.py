@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     adaption_base_url: str = "https://api.prod.adaptionlabs.ai"
     stentor_renderer: Literal["adaption", "llm"] = "llm"
     stentor_model_id: str = ""
+    stentor_tz: str = "UTC"  # time zone used to turn alert times into CAP datetimes
     cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
 
     @property

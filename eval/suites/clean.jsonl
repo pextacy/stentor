@@ -1,0 +1,60 @@
+{"id":"c01","text":"Wildfire near Altadena. Evacuate now via Lake Ave. Do not return until 6:00 PM. Info: 211.","expect":{"hazard":"wildfire","action":"evacuate_now","negated":1}}
+{"id":"c02","text":"Wildfire warning for Paradise. Evacuate now. Take your pets with you. Call 911.","expect":{"hazard":"wildfire","action":"evacuate_now","negated":0}}
+{"id":"c03","text":"Wildfire near Malibu Canyon. Prepare to evacuate. Take medicine and important documents. Info: readyla.org","expect":{"hazard":"wildfire","action":"prepare_to_evacuate","negated":0}}
+{"id":"c04","text":"Wildfire warning for Santa Rosa. Evacuate now via Highway 12. Do not light fires.","expect":{"hazard":"wildfire","action":"evacuate_now","negated":1}}
+{"id":"c05","text":"Wildfire near Boulder. Stay indoors. Close all windows and doors. Info: 211.","expect":{"hazard":"wildfire","action":"stay_indoors","negated":0}}
+{"id":"c06","text":"Wildfire warning for Rhodes. Evacuate now. Follow instructions from officials. Info: 112.","expect":{"hazard":"wildfire","action":"evacuate_now","negated":0}}
+{"id":"c07","text":"Wildfire near Lahaina. Evacuate now via Front Street. Do not return. Call 911.","expect":{"hazard":"wildfire","action":"evacuate_now","negated":1}}
+{"id":"c08","text":"Wildfire warning for Evia. Prepare to evacuate by 8:00 PM. Info: 112.","expect":{"hazard":"wildfire","action":"prepare_to_evacuate","negated":0}}
+{"id":"c09","text":"Flash flood warning for Riverside until 11:30 PM. Move to higher ground now. Do not drive through flood water. Call 911.","expect":{"hazard":"flood","action":"move_to_higher_ground","negated":1}}
+{"id":"c10","text":"Flood warning for Houston. Move to higher ground now. Info: 311.","expect":{"hazard":"flood","action":"move_to_higher_ground","negated":0}}
+{"id":"c11","text":"Flood warning for Valencia. Avoid the area. Do not drive through flood water. Info: 112.","expect":{"hazard":"flood","action":"avoid_area","negated":1}}
+{"id":"c12","text":"Flood warning for Derna. Evacuate now. Go to the shelter at Omar Mukhtar School. Call 112.","expect":{"hazard":"flood","action":"evacuate_now","negated":0}}
+{"id":"c13","text":"Flash flood warning for Ellicott City. Move to higher ground now. Do not touch downed power lines. Call 911.","expect":{"hazard":"flood","action":"move_to_higher_ground","negated":1}}
+{"id":"c14","text":"Flood warning for Sacramento. Prepare to evacuate. Take your pets with you. Info: 211.","expect":{"hazard":"flood","action":"prepare_to_evacuate","negated":0}}
+{"id":"c15","text":"Flood warning for New Orleans. Stay away from Canal Street. Info: nola.gov","expect":{"hazard":"flood","action":"avoid_area","negated":0}}
+{"id":"c16","text":"Flood warning for Manila. Evacuate now. Do not return until 6:00 AM. Call 911.","expect":{"hazard":"flood","action":"evacuate_now","negated":1}}
+{"id":"c17","text":"Earthquake warning for Hatay. Drop, cover and hold on. Do not use elevators. Info: 112.","expect":{"hazard":"earthquake","action":"monitor","negated":1}}
+{"id":"c18","text":"Earthquake warning for Los Angeles. Stay alert for updates. Check on your neighbors.","expect":{"hazard":"earthquake","action":"monitor","negated":0}}
+{"id":"c19","text":"Earthquake warning for Antakya. Avoid the area. Do not use elevators. Do not touch downed power lines.","expect":{"hazard":"earthquake","action":"avoid_area","negated":2}}
+{"id":"c20","text":"Earthquake warning for Anchorage. Stay alert for updates. Turn off the gas. Info: 211.","expect":{"hazard":"earthquake","action":"monitor","negated":0}}
+{"id":"c21","text":"Earthquake warning for Christchurch. Stay away from Colombo Street. Follow instructions from officials.","expect":{"hazard":"earthquake","action":"avoid_area","negated":0}}
+{"id":"c22","text":"Earthquake warning for Kahramanmaras. Drop, cover and hold on. Do not return. Call 112.","expect":{"hazard":"earthquake","action":"monitor","negated":1}}
+{"id":"c23","text":"Tsunami warning for Hilo. Move to higher ground now. Do not return until 4:00 PM. Info: 911.","expect":{"hazard":"tsunami","action":"move_to_higher_ground","negated":1}}
+{"id":"c24","text":"Tsunami warning for Crescent City. Evacuate now via Highway 101. Call 911.","expect":{"hazard":"tsunami","action":"evacuate_now","negated":0}}
+{"id":"c25","text":"Tsunami warning for Banda Aceh. Move to higher ground now. Follow instructions from officials.","expect":{"hazard":"tsunami","action":"move_to_higher_ground","negated":0}}
+{"id":"c26","text":"Tsunami warning for Seaside. All clear: the danger has passed. You may return.","expect":{"hazard":"tsunami","action":"all_clear","negated":0}}
+{"id":"c27","text":"Tsunami warning for Kamaishi. Move to higher ground now. Do not return. Info: 119.","expect":{"hazard":"tsunami","action":"move_to_higher_ground","negated":1}}
+{"id":"c28","text":"Hurricane warning for Miami. Evacuate now. Take medicine and important documents. Info: 311.","expect":{"hazard":"hurricane","action":"evacuate_now","negated":0}}
+{"id":"c29","text":"Hurricane warning for Tampa. Prepare to evacuate. Take your pets with you. Call 211.","expect":{"hazard":"hurricane","action":"prepare_to_evacuate","negated":0}}
+{"id":"c30","text":"Hurricane warning for San Juan. Stay indoors. Do not touch downed power lines. Info: 911.","expect":{"hazard":"hurricane","action":"stay_indoors","negated":1}}
+{"id":"c31","text":"Hurricane warning for Port-au-Prince. Go to the shelter at Lycee Petion. Call 116.","expect":{"hazard":"hurricane","action":"monitor","negated":0}}
+{"id":"c32","text":"Hurricane warning for Galveston. Evacuate now via Interstate 45. Do not return until 9:00 AM.","expect":{"hazard":"hurricane","action":"evacuate_now","negated":1}}
+{"id":"c33","text":"Hurricane warning for Tacloban. Shelter in place now. Do not go outside. Info: 911.","expect":{"hazard":"hurricane","action":"shelter_in_place","negated":1}}
+{"id":"c34","text":"Tornado warning for Moore. Shelter in place now. Do not go outside until 7:30 PM.","expect":{"hazard":"tornado","action":"shelter_in_place","negated":1}}
+{"id":"c35","text":"Tornado warning for Joplin. Shelter in place now. Call 911.","expect":{"hazard":"tornado","action":"shelter_in_place","negated":0}}
+{"id":"c36","text":"Tornado warning for Mayfield. Shelter in place now. Do not use elevators.","expect":{"hazard":"tornado","action":"shelter_in_place","negated":1}}
+{"id":"c37","text":"Tornado warning for Tuscaloosa. Stay alert for updates. Info: 211.","expect":{"hazard":"tornado","action":"monitor","negated":0}}
+{"id":"c38","text":"Tornado warning for Rolling Fork. All clear: the danger has passed. Do not touch downed power lines.","expect":{"hazard":"tornado","action":"all_clear","negated":1}}
+{"id":"c39","text":"Extreme heat warning for Phoenix. Stay indoors. Drink plenty of water. Go to the cooling center at Burton Barr Library.","expect":{"hazard":"extreme_heat","action":"stay_indoors","negated":0}}
+{"id":"c40","text":"Extreme heat warning for Seville. Stay indoors until 8:00 PM. Drink plenty of water. Check on your neighbors.","expect":{"hazard":"extreme_heat","action":"stay_indoors","negated":0}}
+{"id":"c41","text":"Extreme heat warning for Delhi. Stay indoors. Do not go outside until 5:00 PM. Info: 112.","expect":{"hazard":"extreme_heat","action":"stay_indoors","negated":1}}
+{"id":"c42","text":"Extreme heat warning for Las Vegas. Go to the cooling center at Cambridge Center. Call 311.","expect":{"hazard":"extreme_heat","action":"monitor","negated":0}}
+{"id":"c43","text":"Extreme heat warning for Athens. Stay alert for updates. Drink plenty of water. Info: 112.","expect":{"hazard":"extreme_heat","action":"monitor","negated":0}}
+{"id":"c44","text":"Chemical spill near Port of Tacoma. Shelter in place now. Close all windows and doors. Do not go outside until 3:00 PM.","expect":{"hazard":"hazmat","action":"shelter_in_place","negated":1}}
+{"id":"c45","text":"Chemical hazard warning for East Palestine. Evacuate now. Do not return. Info: 911.","expect":{"hazard":"hazmat","action":"evacuate_now","negated":1}}
+{"id":"c46","text":"Gas leak near Main Street. Evacuate now. Do not light fires. Call 911.","expect":{"hazard":"hazmat","action":"evacuate_now","negated":1}}
+{"id":"c47","text":"Chemical hazard warning for Deer Park. Shelter in place now. Turn off the gas. Info: 211.","expect":{"hazard":"hazmat","action":"shelter_in_place","negated":0}}
+{"id":"c48","text":"Chemical spill near Elk River. Avoid the area. Do not drink tap water.","expect":{"hazard":"hazmat","action":"avoid_area","negated":1}}
+{"id":"c49","text":"Active shooter near Riverside Mall. Shelter in place now. Lock all doors. Do not open the door. Call 911.","expect":{"hazard":"active_threat","action":"shelter_in_place","negated":1}}
+{"id":"c50","text":"Active shooter near Lincoln Park. Avoid the area. Follow instructions from officials.","expect":{"hazard":"active_threat","action":"avoid_area","negated":0}}
+{"id":"c51","text":"Active shooter near State Campus. Shelter in place now. Lock all doors. Info: 911.","expect":{"hazard":"active_threat","action":"shelter_in_place","negated":0}}
+{"id":"c52","text":"Active shooter near Union Station. Stay away from Union Station. Call 911.","expect":{"hazard":"active_threat","action":"avoid_area","negated":0}}
+{"id":"c53","text":"Boil water notice for Oak Hills. Boil water for 2 minutes before drinking. Do not drink tap water. Info: www.oakhills.gov/water","expect":{"hazard":"boil_water","action":"boil_water","negated":1}}
+{"id":"c54","text":"Boil water notice for Jackson. Boil water before drinking. Info: 311.","expect":{"hazard":"boil_water","action":"boil_water","negated":0}}
+{"id":"c55","text":"Boil water notice for Flint. Boil water for 3 minutes before drinking. Call 211.","expect":{"hazard":"boil_water","action":"boil_water","negated":0}}
+{"id":"c56","text":"Boil water notice for Gaziantep. Boil water before drinking. Do not drink tap water. Info: 112.","expect":{"hazard":"boil_water","action":"boil_water","negated":1}}
+{"id":"c57","text":"Wildfire warning for Kelowna. All clear: the danger has passed. You may return. Info: 211.","expect":{"hazard":"wildfire","action":"all_clear","negated":0}}
+{"id":"c58","text":"Flood warning for Chennai. Stay indoors. Do not go outside. Do not touch downed power lines.","expect":{"hazard":"flood","action":"stay_indoors","negated":2}}
+{"id":"c59","text":"Hurricane warning for Key West. Evacuate now via Highway 1. Do not return until 6:00 AM. Info: 311.","expect":{"hazard":"hurricane","action":"evacuate_now","negated":1}}
+{"id":"c60","text":"Earthquake warning for Izmir. Stay alert for updates. Do not use elevators. Do not return. Info: 112.","expect":{"hazard":"earthquake","action":"monitor","negated":2}}
