@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getEval } from "@/lib/api";
+import { getEval, getEvalRenderers } from "@/lib/api";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type EvalFile = any;
@@ -37,7 +37,9 @@ function Meter({ pct }: { pct: number | null }) {
 export default function EvalPage() {
   const [data, setData] = useState<EvalFile | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [renderers, setRenderers] = useState<any[]>([]);
   useEffect(() => {
+    getEvalRenderers().then(setRenderers).catch(() => setRenderers([]));
     getEval().then(setData).catch(() => setError("No eval results yet. Run: cd services/api && uv run python ../../eval/run_eval.py --offline"));
   }, []);
 
@@ -94,10 +96,22 @@ export default function EvalPage() {
 
       <section aria-labelledby="adaption-h" className="mt-6 rounded-xl border-2 border-dashed border-slate-rule bg-white p-4">
         <h2 id="adaption-h" className="font-display text-2xl font-bold uppercase tracking-wide">Baseline vs Adaption fine tuned renderer</h2>
-        {s.slot_match_by_renderer_pct?.adaption != null ? (
-          <p className="mt-2">Slot match: baseline {s.slot_match_by_renderer_pct.llm ?? "n/a"}%, Adaption {s.slot_match_by_renderer_pct.adaption}%.</p>
+        {renderers.length > 0 ? (
+          <table className="mt-3 w-full text-left">
+            <caption className="sr-only">Model renderers measured with templates switched off</caption>
+            <thead><tr className="border-b-2 border-ink text-sm"><th className="py-2">Renderer</th><th>Slot match</th><th>Placeholder survival</th><th>False block</th><th>Cases</th></tr></thead>
+            <tbody>
+              {renderers.map((r) => (
+                <tr key={r.renderer} className="border-b border-slate-rule">
+                  <th scope="row" className="py-2 font-medium">{r.renderer === "llm" ? "Baseline LLM" : r.renderer === "adaption" ? "Adaption fine tuned" : r.renderer}</th>
+                  <td><Meter pct={r.slot_match_pct} /></td><td><Meter pct={r.placeholder_survival_pct} /></td>
+                  <td className="font-mono">{r.false_block_rate_pct}%</td><td className="font-mono">{r.clean_cases}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         ) : (
-          <p className="mt-2 text-slate-mute">No fine tuned model has been evaluated yet. This chart appears after an Adaption run is scored with the same verifier. We do not show numbers we have not measured.</p>
+          <p className="mt-2 text-slate-mute">No model renderer has been measured yet. Run the eval with --force-model llm (baseline) and --force-model adaption once a model is trained. We do not show numbers we have not measured.</p>
         )}
       </section>
 

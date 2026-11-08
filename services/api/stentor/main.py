@@ -17,7 +17,7 @@ from stentor.examples import EXAMPLES
 from stentor.intent.extract import IntentResult, extract
 from stentor.intent.schema import AlertIntent
 from stentor.lexicon import TARGET_LANGS, available, meta
-from stentor.lock import placeholders_in
+from stentor.lock import placeholders_in, restore
 from stentor.pipeline import LangResult, compile_all
 from stentor.verify.chaos import CORRUPTIONS, parse_chaos
 
@@ -131,7 +131,9 @@ def post_compile(req: CompileRequest, chaos: str | None = Query(default=None, de
     except ValueError as e:
         raise HTTPException(422, str(e)) from e
     results = compile_all(req.intent, req.locked_text, req.mapping, req.langs, chaos_map)
-    source_text = req.source_text or req.locked_text
+    # Operator markers like ⟦Altadena⟧ are input syntax, never part of the sent English text.
+    source_text = (req.source_text.replace("⟦", "").replace("⟧", "") if req.source_text
+                   else restore(req.locked_text, req.mapping, "en"))
     alert_id = db.save_alert(source_text, req.locked_text, req.mapping, req.intent.model_dump(mode="json"),
                              [r.model_dump(mode="json") for r in results], chaos)
     return CompileResponse(alert_id=alert_id, source_text=source_text, intent=req.intent, results=results, chaos=chaos)
@@ -246,3 +248,23 @@ def eval_latest() -> dict:
     if not path.exists():
         raise HTTPException(404, "no eval results yet; run eval/run_eval.py")
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+@app.get("/eval/renderers")
+def eval_renderers() -> list[dict]:
+    """Baseline LLM vs Adaption model, from eval runs with --force-model. Empty until measured."""
+    out = []
+    for path in sorted(EVAL_RESULTS.glob("renderer-*.json")):
+        d = json.loads(path.read_text(encoding="utf-8"))
+        s = d["summary"]
+        name = path.stem.removeprefix("renderer-")
+        out.append({
+            "renderer": name,
+            "generated_at": d["meta"]["generated_at"],
+            "slot_match_pct": s["slot_match_by_renderer_pct"].get(name),
+            "placeholder_survival_pct": s["placeholder_survival_pct"],
+            "false_block_rate_pct": s["false_block_rate_pct"],
+            "catch_rate_pct": s["catch_rate_pct"],
+            "clean_cases": s["clean_cases"],
+        })
+    return out

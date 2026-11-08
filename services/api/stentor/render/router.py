@@ -1,6 +1,7 @@
 """Renderer router: template > Adaption model > LLM (docs/DOCS.md section 3)."""
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 
 from stentor import llm
@@ -22,7 +23,11 @@ class Rendering:
 def route(intent: AlertIntent, locked_text: str, lang: str, covered: bool) -> Rendering:
     notes: list[str] = []
     tpl = render_template(intent, lang)
-    if tpl.ok and covered:
+    # Eval only: STENTOR_FORCE_MODEL=1 skips templates to measure model renderers.
+    force_model = os.environ.get("STENTOR_FORCE_MODEL") == "1"
+    if force_model:
+        notes.append("eval: templates skipped to measure the model renderer")
+    if tpl.ok and covered and not force_model:
         return Rendering(tpl.text, "template", ["approved phrase templates cover the whole alert"])
     if not tpl.ok:
         notes.append("templates cannot express: " + "; ".join(tpl.uncovered))

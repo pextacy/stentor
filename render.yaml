@@ -1,0 +1,19 @@
+# Render blueprint for the API. The web app deploys to Vercel (root: apps/web).
+services:
+  - type: web
+    name: stentor-api
+    runtime: docker
+    dockerfilePath: services/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ADAPTION_API_KEY
+        sync: false
+      - key: STENTOR_RENDERER
+        value: llm
+      - key: CORS_ORIGINS
+        sync: false   # e.g. https://stentor.vercel.app
+      - key: STENTOR_TZ
+        value: America/Los_Angeles

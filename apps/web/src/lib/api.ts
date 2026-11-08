@@ -43,6 +43,7 @@ export const postCompile = (
     body: JSON.stringify(body),
   });
 export const getPublic = (id: string, lang: string) => req<PublicAlert>(`/public/${id}?lang=${lang}`);
+export const getEvalRenderers = () => req<any[]>("/eval/renderers"); // eslint-disable-line @typescript-eslint/no-explicit-any
 export const getEval = () => req<Record<string, any>>("/eval/latest"); // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export async function downloadCap(alertId: string): Promise<void> {

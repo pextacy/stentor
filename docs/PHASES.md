@@ -16,54 +16,54 @@ Rule: the demo path must work end to end after Phase 2. Everything after that is
 **Done when:** web app calls `/health` and shows OK.
 
 ## Phase 1: Core pipeline (Sun 8 to Mon 9 morning, 12h)
-- [ ] `AlertIntent` schema + `/intent` with Claude tool use
-- [ ] Placeholder locking + restore with unit tests
-- [ ] LLM renderer with strict prompt
-- [ ] Lexicons for vi, tl, ko, ar, ht (LLM seeded, `reviewed_by: unreviewed`)
-- [ ] Lexicon checks (action, weaker action, negation count)
-- [ ] Back parse with a second model + slot diff + status tiers
-- [ ] Safe fallback templates per hazard
-- [ ] `/compile` returning per language results
-- [ ] Unit tests: negation drop, placeholder drop, action downgrade
+- [x] `AlertIntent` schema + `/intent` with Claude tool use
+- [x] Placeholder locking + restore with unit tests
+- [x] LLM renderer with strict prompt
+- [x] Lexicons for vi, tl, ko, ar, ht (LLM seeded, `reviewed_by: unreviewed`)
+- [x] Lexicon checks (action, weaker action, negation count)
+- [x] Back parse with a second model + slot diff + status tiers
+- [x] Safe fallback templates per hazard
+- [x] `/compile` returning per language results
+- [x] Unit tests: negation drop, placeholder drop, action downgrade
 
 **Done when:** a curl request compiles the demo alert into 5 languages with correct statuses, and an injected negation drop is BLOCKED.
 
 ## Phase 2: Operator console + citizen preview (Mon 9, 10h)
-- [ ] Composer with example alerts dropdown
-- [ ] Intent card (editable enums, placeholders as chips)
-- [ ] Language grid: status badge (icon + word), rendered text, expandable slot diff and reasons
-- [ ] Chaos mode toggle (clearly labeled)
-- [ ] Citizen phone mockup: language switcher, RTL for Arabic, audio button
-- [ ] Accessibility pass (keyboard, labels, contrast)
+- [x] Composer with example alerts dropdown
+- [x] Intent card (editable enums, placeholders as chips)
+- [x] Language grid: status badge (icon + word), rendered text, expandable slot diff and reasons
+- [x] Chaos mode toggle (clearly labeled)
+- [x] Citizen phone mockup: language switcher, RTL for Arabic, audio button
+- [x] Accessibility pass (keyboard, labels, contrast)
 
 **Done when:** full demo script in PLAN.md runs in the browser without the terminal.
 
 ## Phase 3: Channels (Mon 9 evening, 6h)
-- [ ] CAP 1.2 XML export + download button
-- [ ] SMS segment counter per language
-- [ ] Short alert budget + compress and re-verify
-- [ ] Pictogram card SVG for at least 4 hazards
-- [ ] Public citizen page `/a/{id}`
+- [x] CAP 1.2 XML export + download button
+- [x] SMS segment counter per language
+- [x] Short alert budget + compress and re-verify
+- [x] Pictogram card SVG for at least 4 hazards
+- [x] Public citizen page `/a/{id}`
 
 ## Phase 4: Eval (Mon 9 night to Tue 10 morning, 6h)
-- [ ] 60 clean alerts, adversarial generator
-- [ ] `run_eval.py` + results JSON
-- [ ] Eval dashboard page with catch rate, false block rate, placeholder survival
-- [ ] Fix top failure causes, add them as tests
+- [x] 60 clean alerts, adversarial generator
+- [x] `run_eval.py` + results JSON
+- [x] Eval dashboard page with catch rate, false block rate, placeholder survival
+- [x] Fix top failure causes, add them as tests
 
 ## Phase 5: Adaption track (start Sun night, runs in parallel)
-- [ ] Write Invent-a-Dataset spec for `ht` alert rendering; generate ~1k pairs
+- [x] Write Invent-a-Dataset spec for `ht` alert rendering; generate ~1k pairs (spec + 4,224 pair template seed done; Invent generation needs ADAPTION_API_KEY: `adaption_track.py estimate`, then `invent --confirm`)
 - [ ] Adaptive Data: augment / localize seed set, export
 - [ ] Launch AutoScientist run (cost estimate first)
-- [ ] Wire `STENTOR_RENDERER=adaption` path
-- [ ] Baseline vs fine tuned eval chart in dashboard
+- [x] Wire `STENTOR_RENDERER=adaption` path
+- [x] Baseline vs fine tuned eval chart in dashboard (table fills from `run_eval.py --force-model llm|adaption`; empty until measured)
 - [ ] If training is not done by Tue 10 14:00: ship datasets + partial results, keep LLM renderer
 
 ## Phase 6: Submission (Tue 10, 6h)
 - [ ] Record demo video (under 3 min, follow PLAN.md script), captions on
-- [ ] Screenshots: console, blocked diff, Arabic phone view, CAP XML, eval chart
-- [ ] Devpost text: project name, short description, detailed description (problem, why it matters, how it works), technologies used
-- [ ] README with setup, architecture diagram, eval numbers, limitations
+- [x] Screenshots: console, blocked diff, Arabic phone view, CAP XML, eval chart
+- [x] Devpost text: project name, short description, detailed description (problem, why it matters, how it works), technologies used
+- [x] README with setup, architecture diagram, eval numbers, limitations
 - [ ] Deploy (Vercel + Railway/Render) and add link
 - [ ] Submit by 22:00, then sanity check the public page
 
@@ -79,3 +79,6 @@ Rule: the demo path must work end to end after Phase 2. Everything after that is
 ## Status log
 - 2026-11-08: Idea locked, docs written.
 - 2026-11-08: Phase 0 scaffold done. Web app shows `/health` OK (verified in headless Chrome). Docs live in `docs/`. Open: Adaption API key + cost estimate, Discord link email (manual).
+- 2026-11-08: Phases 1 to 4 done and verified in a browser. 85 tests pass. Offline eval: 1640/1640 injected errors caught, 0/300 false blocks (deterministic path; see caveats).
+- 2026-11-08: Phase 5 code ready (spec, seed_ht.jsonl, adaption_track.py, Responses API renderer). Waiting on ADAPTION_API_KEY for estimate, Invent, AutoScientist.
+- 2026-11-08: Phase 6 docs ready (README, docs/DEVPOST.md, screenshots, sample CAP, Dockerfile, render.yaml). Manual: keys in .env, baseline eval with key, video, deploy, submit.

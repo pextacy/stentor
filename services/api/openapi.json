@@ -319,6 +319,30 @@
      }
     }
    }
+  },
+  "/eval/renderers": {
+   "get": {
+    "summary": "Eval Renderers",
+    "description": "Baseline LLM vs Adaption model, from eval runs with --force-model. Empty until measured.",
+    "operationId": "eval_renderers_eval_renderers_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "additionalProperties": true,
+          "type": "object"
+         },
+         "type": "array",
+         "title": "Response Eval Renderers Eval Renderers Get"
+        }
+       }
+      }
+     }
+    }
+   }
   }
  },
  "components": {

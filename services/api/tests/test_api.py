@@ -21,6 +21,7 @@ def test_intent_compile_cap_public_flow():
     cap = client.post("/export/cap", json={"alert_id": res["alert_id"]})
     assert cap.status_code == 200 and "urn:oasis:names:tc:emergency:cap:1.2" in cap.text
     assert cap.text.count("<info>") == 6  # en + 5
+    assert "⟦" not in cap.text and "Wildfire near Altadena." in cap.text
 
     pub = client.get(f"/public/{res['alert_id']}?lang=ar").json()
     assert pub["selected"]["dir"] == "rtl"
