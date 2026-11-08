@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     stentor_renderer: Literal["adaption", "llm"] = "llm"
     stentor_model_id: str = ""
     stentor_tz: str = "UTC"  # time zone used to turn alert times into CAP datetimes
+    public_base_url: str = "http://localhost:3000"  # where the public alert page lives (CAP <web>)
     cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
 
     @property

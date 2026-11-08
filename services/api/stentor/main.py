@@ -17,6 +17,7 @@ from stentor.examples import EXAMPLES
 from stentor.intent.extract import IntentResult, extract
 from stentor.intent.schema import AlertIntent
 from stentor.lexicon import TARGET_LANGS, available, meta
+from stentor.lexicon import load as load_lexicon
 from stentor.lock import placeholders_in, restore
 from stentor.pipeline import LangResult, compile_all
 from stentor.verify.chaos import CORRUPTIONS, parse_chaos
@@ -63,12 +64,22 @@ class LanguageInfo(BaseModel):
     tts: str
     reviewed_by: str
     approved: bool
+    negation_markers: list[str] = []
+    evacuate_phrase: str = ""
+    sample_prohibition: str = ""
 
 
 class Example(BaseModel):
     id: str
     label: str
     text: str
+
+
+class Phrasebook(BaseModel):
+    """English wording of every approved template, so the intent card can show each
+    instruction as the sentence it will become."""
+    actions: dict[str, dict[str, str]]
+    instructions: dict[str, dict[str, str]]
 
 
 class Meta(BaseModel):
@@ -78,17 +89,34 @@ class Meta(BaseModel):
     corruptions: list[str]
     backparser: str
     extractor: str
+    phrasebook: Phrasebook
+    instruction_count: int
+
+
+def _language_info(lg: str) -> LanguageInfo:
+    lx = load_lexicon(lg)
+    return LanguageInfo(
+        **meta(lg),
+        negation_markers=lx.negation_markers,
+        evacuate_phrase=lx.actions["evacuate_now"]["text"][""],
+        sample_prohibition=lx.instructions["use:elevators"]["text"]["neg"],
+    )
 
 
 @app.get("/meta", response_model=Meta)
 def get_meta() -> Meta:
     return Meta(
-        languages=[LanguageInfo(**meta(lg)) for lg in available() if lg != "en"],
+        languages=[_language_info(lg) for lg in available() if lg != "en"],
         default_langs=TARGET_LANGS,
         examples=[Example(**e) for e in EXAMPLES],
         corruptions=list(CORRUPTIONS),
         backparser=llm.BACKPARSE_MODEL if llm.available() else "lexicon",
         extractor=llm.EXTRACT_MODEL if llm.available() else "lexicon",
+        phrasebook=Phrasebook(
+            actions={a: spec["text"] for a, spec in load_lexicon("en").actions.items()},
+            instructions={k: spec["text"] for k, spec in load_lexicon("en").instructions.items()},
+        ),
+        instruction_count=len(load_lexicon("en").instructions),
     )
 
 
@@ -119,8 +147,11 @@ class CompileResponse(BaseModel):
 
 @app.post("/compile", response_model=CompileResponse)
 def post_compile(req: CompileRequest, chaos: str | None = Query(default=None, description="e.g. drop_negation:ar")) -> CompileResponse:
+    langs = list(dict.fromkeys(req.langs))  # duplicates would mean duplicate CAP <info> blocks
+    if not langs:
+        raise HTTPException(422, "choose at least one language")
     known = set(available())
-    bad = [lg for lg in req.langs if lg not in known or lg == "en"]
+    bad = [lg for lg in langs if lg not in known or lg == "en"]
     if bad:
         raise HTTPException(422, f"unsupported languages: {', '.join(bad)}")
     unknown_ph = [p for p in placeholders_in(req.locked_text) if p not in req.mapping]
@@ -130,13 +161,21 @@ def post_compile(req: CompileRequest, chaos: str | None = Query(default=None, de
         chaos_map = parse_chaos(chaos)
     except ValueError as e:
         raise HTTPException(422, str(e)) from e
-    results = compile_all(req.intent, req.locked_text, req.mapping, req.langs, chaos_map)
-    # Operator markers like ⟦Altadena⟧ are input syntax, never part of the sent English text.
-    source_text = (req.source_text.replace("⟦", "").replace("⟧", "") if req.source_text
-                   else restore(req.locked_text, req.mapping, "en"))
+    stray = [lg for lg in chaos_map if lg != "*" and lg not in langs]
+    if stray:
+        raise HTTPException(422, f"chaos targets a language that is not being compiled: {', '.join(stray)}")
+    results = compile_all(req.intent, req.locked_text, req.mapping, langs, chaos_map)
+    # The English text that is stored, exported to CAP and shown publicly is always the
+    # one that was verified: rebuilt from the locked text, never taken from the client.
+    source_text = restore(req.locked_text, req.mapping, "en")
     alert_id = db.save_alert(source_text, req.locked_text, req.mapping, req.intent.model_dump(mode="json"),
                              [r.model_dump(mode="json") for r in results], chaos)
     return CompileResponse(alert_id=alert_id, source_text=source_text, intent=req.intent, results=results, chaos=chaos)
+
+
+@app.get("/alerts", response_model=list[dict])
+def list_alerts(limit: int = Query(default=10, ge=1, le=50)) -> list[dict]:
+    return db.recent_alerts(limit)
 
 
 class AuditOut(BaseModel):
@@ -185,7 +224,7 @@ class CapRequest(BaseModel):
 def export_cap(req: CapRequest) -> Response:
     a = _load(req.alert_id)
     xml = build_cap(a.id, a.intent, a.mapping, a.source_text, [r.model_dump(mode="json") for r in a.results],
-                    tz=ZoneInfo(settings.stentor_tz))
+                    tz=ZoneInfo(settings.stentor_tz), web=f"{settings.public_base_url.rstrip('/')}/a/{a.id}")
     included = [r.lang for r in a.results if r.status in ("VERIFIED", "FALLBACK")]
     db.audit(a.id, "*", "export_cap", "EXPORTED", f"CAP 1.2 exported with languages: en, {', '.join(included) or 'none'}")
     return Response(xml, media_type="application/xml",
@@ -230,16 +269,22 @@ def public(alert_id: str, lang: str = "en") -> PublicAlert:
 
 
 class EvalRequest(BaseModel):
-    langs: list[str] = Field(default_factory=lambda: list(TARGET_LANGS))
-    suite: str = "all"
+    langs: list[str] = Field(default_factory=lambda: [lg for lg in available() if lg != "en"])
+    suites: list[str] = Field(default_factory=lambda: ["clean", "realistic"])
 
 
 @app.post("/eval/run")
 def eval_run(req: EvalRequest) -> dict:
-    from stentor.evaluation import run_eval
+    from stentor.evaluation import SUITES, run_eval
 
-    summary = run_eval(req.langs, EVAL_RESULTS / "latest.json")
-    return summary["summary"]
+    bad = [lg for lg in req.langs if lg not in available() or lg == "en"] + [s for s in req.suites if s not in SUITES]
+    if bad or not req.langs or not req.suites:
+        raise HTTPException(422, f"unknown languages or suites: {', '.join(bad) or 'none given'}")
+    if llm.available():
+        raise HTTPException(409, "with an API key the eval calls Claude for every case; run eval/run_eval.py from the terminal instead")
+    result = run_eval(req.langs, EVAL_RESULTS / "latest.json", req.suites)
+    s = result["summary"]
+    return {k: v for k, v in s.items() if k != "suites"}
 
 
 @app.get("/eval/latest")

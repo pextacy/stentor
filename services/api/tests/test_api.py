@@ -42,5 +42,27 @@ def test_bad_chaos_rejected():
 
 def test_meta():
     m = client.get("/meta").json()
-    assert {l["lang"] for l in m["languages"]} >= {"vi", "tl", "ko", "ar", "ht"}
+    assert {l["lang"] for l in m["languages"]} >= {"vi", "tl", "ko", "ar", "ht", "es", "tr"}
     assert all(l["reviewed_by"] == "unreviewed" for l in m["languages"])
+
+
+def test_compile_validates_langs_and_chaos():
+    ir = client.post("/intent", json={"text": DEMO}).json()
+    base = {"intent": ir["intent"], "locked_text": ir["locked_text"], "mapping": ir["mapping"]}
+    assert client.post("/compile", json={**base, "langs": []}).status_code == 422
+    dup = client.post("/compile", json={**base, "langs": ["vi", "vi"]}).json()
+    assert [r["lang"] for r in dup["results"]] == ["vi"]
+    assert client.post("/compile?chaos=drop_negation:ar", json={**base, "langs": ["vi"]}).status_code == 422
+
+
+def test_source_text_cannot_be_spoofed():
+    ir = client.post("/intent", json={"text": DEMO}).json()
+    res = client.post("/compile", json={"intent": ir["intent"], "locked_text": ir["locked_text"], "mapping": ir["mapping"],
+                                        "langs": ["vi"], "source_text": "Everything is fine. Stay home."}).json()
+    assert res["source_text"] == "Wildfire near Altadena. EVACUATE NOW via Lake Ave. Do NOT return until 6:00 PM. Info: 211."
+
+
+def test_meta_has_phrasebook_and_all_languages():
+    m = client.get("/meta").json()
+    assert {l["lang"] for l in m["languages"]} == {"vi", "tl", "ko", "ar", "ht", "es", "tr"}
+    assert m["phrasebook"]["instructions"]["use:elevators"]["neg"] == "Do NOT use elevators."

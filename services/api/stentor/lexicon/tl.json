@@ -8,84 +8,452 @@
   "approved": false,
   "fold_diacritics": true,
   "word_boundary": true,
-  "negation_markers": ["huwag", "wag", "hindi"],
+  "negation_markers": [
+    "huwag",
+    "wag",
+    "hindi"
+  ],
+  "list_sep": ", ",
+  "role_markers": {
+    "via": [
+      "sa pamamagitan ng"
+    ],
+    "to": [
+      "papunta sa"
+    ]
+  },
   "headline": "Babala: {name}.",
-  "headline_place": "Babala: {name} sa {P}.",
+  "headline_place": "Babala para sa {P}: {name}.",
+  "headline_distance": "Babala: {name} {N} mula sa {P}.",
+  "headline_all_clear": "Kanselado na ang babala sa {name}.",
+  "headline_all_clear_place": "Kanselado na ang babala sa {name} para sa {P}.",
+  "event_name": "{name} {E}",
+  "time": {
+    "style": "12h",
+    "day_position": "after",
+    "day_joiner": " ",
+    "weekday_joiner": " ng ",
+    "day_words": {
+      "today": "ngayong araw",
+      "tonight": "mamayang gabi",
+      "tomorrow": "bukas"
+    },
+    "weekdays": [
+      "Lunes",
+      "Martes",
+      "Miyerkules",
+      "Huwebes",
+      "Biyernes",
+      "Sabado",
+      "Linggo"
+    ]
+  },
+  "units": {
+    "minute": "minuto",
+    "hour": "oras",
+    "mile": "milya",
+    "km": "kilometro",
+    "foot": "talampakan",
+    "meter": "metro"
+  },
+  "unit_format": "{n} {u}",
   "hazards": {
-    "wildfire": {"name": "sunog sa kagubatan", "terms": ["sunog"]},
-    "flood": {"name": "pagbaha", "terms": ["biglaang pagbaha"]},
-    "earthquake": {"name": "lindol", "terms": []},
-    "tsunami": {"name": "tsunami", "terms": []},
-    "hurricane": {"name": "bagyo", "terms": []},
-    "tornado": {"name": "buhawi", "terms": []},
-    "extreme_heat": {"name": "matinding init", "terms": []},
-    "hazmat": {"name": "mapanganib na kemikal", "terms": ["kemikal", "tagas ng gas"]},
-    "active_threat": {"name": "armadong mamamaril", "terms": ["mamamaril"]},
-    "boil_water": {"name": "kontaminadong tubig", "terms": []},
-    "other": {"name": "emerhensiya", "terms": []}
+    "wildfire": {
+      "name": "sunog sa kagubatan",
+      "terms": [
+        "sunog"
+      ]
+    },
+    "flood": {
+      "name": "pagbaha",
+      "terms": [
+        "biglaang pagbaha",
+        "baha"
+      ]
+    },
+    "earthquake": {
+      "name": "lindol",
+      "terms": []
+    },
+    "tsunami": {
+      "name": "tsunami",
+      "terms": []
+    },
+    "hurricane": {
+      "name": "bagyo",
+      "terms": []
+    },
+    "tornado": {
+      "name": "buhawi",
+      "terms": []
+    },
+    "extreme_heat": {
+      "name": "matinding init",
+      "terms": []
+    },
+    "hazmat": {
+      "name": "mapanganib na kemikal",
+      "terms": [
+        "kemikal",
+        "tagas ng gas"
+      ]
+    },
+    "active_threat": {
+      "name": "armadong mamamaril",
+      "terms": [
+        "mamamaril"
+      ]
+    },
+    "boil_water": {
+      "name": "kontaminadong tubig",
+      "terms": []
+    },
+    "other": {
+      "name": "emerhensiya",
+      "terms": []
+    }
   },
   "actions": {
-    "evacuate_now": {"match": ["lumikas na ngayon"],
-      "text": {"": "Lumikas na ngayon.", "P": "Lumikas na ngayon sa pamamagitan ng {P}.", "T": "Lumikas na ngayon, bago ang {T}."}},
-    "prepare_to_evacuate": {"match": ["maghanda sa paglikas"],
-      "text": {"": "Maghanda sa paglikas.", "P": "Maghanda sa paglikas sa pamamagitan ng {P}.", "T": "Maghanda sa paglikas bago ang {T}."}},
-    "shelter_in_place": {"match": ["sumilong sa kinaroroonan"],
-      "text": {"": "Sumilong sa kinaroroonan ngayon."}},
-    "move_to_higher_ground": {"match": ["lumipat sa mataas na lugar"],
-      "text": {"": "Lumipat sa mataas na lugar ngayon."}},
-    "stay_indoors": {"match": ["manatili sa loob ng bahay"],
-      "text": {"": "Manatili sa loob ng bahay.", "T": "Manatili sa loob ng bahay hanggang {T}."}},
-    "avoid_area": {"match": ["iwasan"],
-      "text": {"": "Iwasan ang lugar na ito.", "P": "Iwasan ang {P}."}},
-    "boil_water": {"match": ["pakuluan ang tubig"],
-      "text": {"": "Pakuluan ang tubig bago inumin.", "N": "Pakuluan ang tubig nang {N} minuto bago inumin."}},
-    "monitor": {"match": ["maging alerto"],
-      "text": {"": "Maging alerto sa mga update."}},
-    "all_clear": {"match": ["wala nang panganib"],
-      "text": {"": "Wala nang panganib."}}
+    "evacuate_now": {
+      "match": [
+        "lumikas na ngayon"
+      ],
+      "text": {
+        "": "Lumikas na ngayon.",
+        "P": "Lumikas na ngayon sa pamamagitan ng {P}.",
+        "P:to": "Lumikas na ngayon papunta sa {P}.",
+        "T": "Lumikas na ngayon, bago ang {T}."
+      }
+    },
+    "prepare_to_evacuate": {
+      "match": [
+        "maghanda sa paglikas"
+      ],
+      "text": {
+        "": "Maghanda sa paglikas.",
+        "P": "Maghanda sa paglikas sa pamamagitan ng {P}.",
+        "P:to": "Maghanda sa paglikas papunta sa {P}.",
+        "T": "Maghanda sa paglikas bago ang {T}."
+      }
+    },
+    "shelter_in_place": {
+      "match": [
+        "sumilong sa kinaroroonan"
+      ],
+      "text": {
+        "": "Sumilong sa kinaroroonan ngayon."
+      }
+    },
+    "move_to_higher_ground": {
+      "match": [
+        "lumipat sa mataas na lugar"
+      ],
+      "text": {
+        "": "Lumipat sa mataas na lugar ngayon."
+      }
+    },
+    "stay_indoors": {
+      "match": [
+        "manatili sa loob ng bahay"
+      ],
+      "text": {
+        "": "Manatili sa loob ng bahay.",
+        "T": "Manatili sa loob ng bahay hanggang {T}.",
+        "TT": "Manatili sa loob ng bahay mula {T} hanggang {T}."
+      }
+    },
+    "avoid_area": {
+      "match": [
+        "iwasan"
+      ],
+      "text": {
+        "": "Iwasan ang lugar na ito.",
+        "P": "Iwasan ang {P}."
+      }
+    },
+    "boil_water": {
+      "match": [
+        "pakuluan ang tubig"
+      ],
+      "text": {
+        "": "Pakuluan ang tubig bago inumin.",
+        "N": "Pakuluan ang tubig nang {N} bago inumin."
+      }
+    },
+    "monitor": {
+      "match": [
+        "maging alerto"
+      ],
+      "text": {
+        "": "Maging alerto sa mga update."
+      }
+    },
+    "all_clear": {
+      "match": [
+        "wala nang panganib"
+      ],
+      "text": {
+        "": "Wala nang panganib."
+      }
+    }
   },
   "instructions": {
-    "return": {"match": ["bumalik"],
-      "text": {"neg": "Huwag bumalik.", "neg|T": "Huwag bumalik hanggang {T}.", "pos": "Maaari nang bumalik."}},
-    "use:elevators": {"match": ["elevator"],
-      "text": {"neg": "Huwag gumamit ng elevator."}},
-    "drive:flood_water": {"match": ["magmaneho"],
-      "text": {"neg": "Huwag magmaneho sa tubig-baha."}},
-    "drink:tap_water": {"match": ["tubig mula sa gripo"],
-      "text": {"neg": "Huwag uminom ng tubig mula sa gripo."}},
-    "go:outside": {"match": ["lumabas"],
-      "text": {"neg": "Huwag lumabas.", "neg|T": "Huwag lumabas hanggang {T}."}},
-    "light:fires": {"match": ["magsindi ng apoy"],
-      "text": {"neg": "Huwag magsindi ng apoy."}},
-    "touch:power_lines": {"match": ["kawad ng kuryente"],
-      "text": {"neg": "Huwag hawakan ang mga putol na kawad ng kuryente."}},
-    "open:door": {"match": ["buksan ang pinto"],
-      "text": {"neg": "Huwag buksan ang pinto."}},
-    "turn_off:gas": {"match": ["patayin ang gas"],
-      "text": {"pos": "Patayin ang gas."}},
-    "close:windows": {"match": ["isara ang lahat ng bintana"],
-      "text": {"pos": "Isara ang lahat ng bintana at pinto."}},
-    "lock:doors": {"match": ["ikandado"],
-      "text": {"pos": "Ikandado ang lahat ng pinto."}},
-    "drop:cover": {"match": ["yumuko"],
-      "text": {"pos": "Yumuko, magtago at kumapit."}},
-    "check:neighbors": {"match": ["kapitbahay"],
-      "text": {"pos": "Kumustahin ang inyong mga kapitbahay."}},
-    "drink:water": {"match": ["uminom ng maraming tubig"],
-      "text": {"pos": "Uminom ng maraming tubig."}},
-    "follow:officials": {"match": ["sundin"],
-      "text": {"pos": "Sundin ang mga tagubilin ng mga opisyal."}},
-    "go:cooling_center": {"match": ["cooling center"],
-      "text": {"pos|P": "Pumunta sa cooling center sa {P}."}},
-    "go:shelter": {"match": ["silungan"],
-      "text": {"pos|P": "Pumunta sa silungan sa {P}."}},
-    "take:essentials": {"match": ["gamot"],
-      "text": {"pos": "Dalhin ang gamot at mahahalagang dokumento."}},
-    "take:pets": {"match": ["alagang hayop"],
-      "text": {"pos": "Dalhin ang inyong mga alagang hayop."}},
-    "call": {"match": ["tumawag"],
-      "text": {"pos|U": "Tumawag sa {U}."}}
+    "return:until_cleared": {
+      "match": [
+        "hanggang ideklara"
+      ],
+      "text": {
+        "neg": "HUWAG bumalik hanggang ideklara ng mga opisyal na ligtas na."
+      }
+    },
+    "return": {
+      "match": [
+        "bumalik"
+      ],
+      "text": {
+        "neg": "HUWAG bumalik.",
+        "neg|T": "HUWAG bumalik hanggang {T}.",
+        "pos": "Maaari nang bumalik sa bahay."
+      }
+    },
+    "use:elevators": {
+      "match": [
+        "elevator"
+      ],
+      "text": {
+        "neg": "HUWAG gumamit ng elevator."
+      }
+    },
+    "drive:flood_water": {
+      "match": [
+        "magmaneho"
+      ],
+      "text": {
+        "neg": "HUWAG magmaneho sa tubig-baha."
+      }
+    },
+    "drink:tap_water": {
+      "match": [
+        "tubig mula sa gripo"
+      ],
+      "text": {
+        "neg": "HUWAG uminom ng tubig mula sa gripo."
+      }
+    },
+    "go:outside": {
+      "match": [
+        "lumabas"
+      ],
+      "text": {
+        "neg": "HUWAG lumabas ng bahay.",
+        "neg|T": "HUWAG lumabas ng bahay hanggang {T}."
+      }
+    },
+    "go:beach": {
+      "match": [
+        "dalampasigan"
+      ],
+      "text": {
+        "neg": "HUWAG pumunta sa dalampasigan o baybayin.",
+        "neg|T": "HUWAG pumunta sa dalampasigan o baybayin hanggang {T}."
+      }
+    },
+    "enter:damaged_buildings": {
+      "match": [
+        "nasirang gusali"
+      ],
+      "text": {
+        "neg": "HUWAG pumasok sa mga nasirang gusali."
+      }
+    },
+    "light:fires": {
+      "match": [
+        "magsindi ng apoy"
+      ],
+      "text": {
+        "neg": "HUWAG magsindi ng apoy."
+      }
+    },
+    "touch:power_lines": {
+      "match": [
+        "kawad ng kuryente"
+      ],
+      "text": {
+        "neg": "HUWAG hawakan ang mga putol na kawad ng kuryente."
+      }
+    },
+    "open:door": {
+      "match": [
+        "buksan ang pinto"
+      ],
+      "text": {
+        "neg": "HUWAG buksan ang pinto."
+      }
+    },
+    "wait": {
+      "match": [
+        "maghintay"
+      ],
+      "text": {
+        "neg": "HUWAG nang maghintay."
+      }
+    },
+    "turn_off:gas": {
+      "match": [
+        "patayin ang gas"
+      ],
+      "text": {
+        "pos": "Patayin ang gas."
+      }
+    },
+    "turn_off:ventilation": {
+      "match": [
+        "aircon"
+      ],
+      "text": {
+        "pos": "Patayin ang aircon at bentilador."
+      }
+    },
+    "go_near:windows": {
+      "match": [
+        "lumapit sa mga bintana"
+      ],
+      "text": {
+        "neg": "HUWAG lumapit sa mga bintana."
+      }
+    },
+    "close:windows": {
+      "match": [
+        "isara ang lahat ng bintana"
+      ],
+      "text": {
+        "pos": "Isara ang lahat ng bintana at pinto."
+      }
+    },
+    "lock:doors": {
+      "match": [
+        "ikandado"
+      ],
+      "text": {
+        "pos": "Ikandado ang lahat ng pinto."
+      }
+    },
+    "be:quiet": {
+      "match": [
+        "manatiling tahimik"
+      ],
+      "text": {
+        "pos": "Manatiling tahimik."
+      }
+    },
+    "drop:cover": {
+      "match": [
+        "yumuko"
+      ],
+      "text": {
+        "pos": "Yumuko, magtago at kumapit."
+      }
+    },
+    "expect:aftershocks": {
+      "match": [
+        "aftershock"
+      ],
+      "text": {
+        "pos": "Asahan ang mga aftershock."
+      }
+    },
+    "go:basement": {
+      "match": [
+        "basement"
+      ],
+      "text": {
+        "pos": "Pumunta sa basement o sa kuwarto sa loob ng bahay sa pinakamababang palapag."
+      }
+    },
+    "check:neighbors": {
+      "match": [
+        "kapitbahay"
+      ],
+      "text": {
+        "pos": "Kumustahin ang inyong mga kapitbahay."
+      }
+    },
+    "drink:water": {
+      "match": [
+        "uminom ng maraming tubig"
+      ],
+      "text": {
+        "pos": "Uminom ng maraming tubig."
+      }
+    },
+    "follow:officials": {
+      "match": [
+        "sundin"
+      ],
+      "text": {
+        "pos": "Sundin ang mga tagubilin ng mga opisyal."
+      }
+    },
+    "go:cooling_center": {
+      "match": [
+        "cooling center"
+      ],
+      "text": {
+        "pos|P": "Pumunta sa cooling center sa {P}."
+      }
+    },
+    "go:shelter": {
+      "match": [
+        "evacuation center"
+      ],
+      "text": {
+        "pos": "Pumunta sa pinakamalapit na evacuation center.",
+        "pos|P": "Pumunta sa evacuation center sa {P}."
+      }
+    },
+    "take:essentials": {
+      "match": [
+        "gamot"
+      ],
+      "text": {
+        "pos": "Dalhin ang gamot at mahahalagang dokumento."
+      }
+    },
+    "take:pets": {
+      "match": [
+        "alagang hayop"
+      ],
+      "text": {
+        "pos": "Dalhin ang inyong mga alagang hayop."
+      }
+    },
+    "use:route": {
+      "match": [
+        "dumaan sa"
+      ],
+      "text": {
+        "pos|P": "Dumaan sa {P}."
+      }
+    },
+    "call": {
+      "match": [
+        "tumawag"
+      ],
+      "text": {
+        "pos|U": "Tumawag sa {U}."
+      }
+    }
   },
-  "info": {"match": ["impormasyon"], "text": "Impormasyon: {U}."},
-  "expires": {"match": ["may bisa"], "text": "May bisa ang babalang ito hanggang {T}."}
+  "info": {
+    "match": [
+      "impormasyon"
+    ],
+    "text": "Impormasyon: {U}."
+  },
+  "expires": {
+    "match": [
+      "may bisa"
+    ],
+    "text": "May bisa ang babalang ito hanggang {T}."
+  }
 }

@@ -10,6 +10,8 @@ export type Meta = S["Meta"];
 export type PublicAlert = S["PublicAlert"];
 export type Health = S["Health"];
 export type Status = LangResult["status"];
+export type AlertOut = S["AlertOut"];
+export type RecentAlert = { id: string; created_at: string; source_text: string; chaos: string | null; statuses: Record<string, Status> };
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -35,13 +37,15 @@ export const getMeta = () => req<Meta>("/meta");
 export const postIntent = (text: string) =>
   req<IntentResult>("/intent", { method: "POST", body: JSON.stringify({ text }) });
 export const postCompile = (
-  body: { intent: AlertIntent; locked_text: string; mapping: Record<string, string>; langs: string[]; source_text: string },
+  body: { intent: AlertIntent; locked_text: string; mapping: Record<string, string>; langs: string[] },
   chaos?: string,
 ) =>
   req<CompileResponse>(`/compile${chaos ? `?chaos=${encodeURIComponent(chaos)}` : ""}`, {
     method: "POST",
     body: JSON.stringify(body),
   });
+export const getAlert = (id: string) => req<AlertOut>(`/alerts/${id}`);
+export const getRecent = (limit = 6) => req<RecentAlert[]>(`/alerts?limit=${limit}`);
 export const getPublic = (id: string, lang: string) => req<PublicAlert>(`/public/${id}?lang=${lang}`);
 export const getEvalRenderers = () => req<any[]>("/eval/renderers"); // eslint-disable-line @typescript-eslint/no-explicit-any
 export const getEval = () => req<Record<string, any>>("/eval/latest"); // eslint-disable-line @typescript-eslint/no-explicit-any

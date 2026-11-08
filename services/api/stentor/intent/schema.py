@@ -45,6 +45,10 @@ ACTION_VERB: dict[Action, str] = {
     Action.ALL_CLEAR: "all_clear",
 }
 
+VERB_ACTION: dict[str, Action] = {v: a for a, v in ACTION_VERB.items()}
+# Actions whose place placeholder is a route ("via") or a destination ("to").
+ROUTE_ACTIONS = {Action.EVACUATE_NOW, Action.PREPARE_TO_EVACUATE}
+
 # Actions that are a dangerous softening of the key action.
 WEAKER_THAN: dict[Action, list[Action]] = {
     Action.EVACUATE_NOW: [Action.PREPARE_TO_EVACUATE, Action.MONITOR],
@@ -85,6 +89,8 @@ class AlertIntent(BaseModel):
     expires: str | None = None  # placeholder id
     instructions: list[Instruction] = []
     info_refs: list[str] = []  # phone / URL placeholders
+    number_refs: list[str] = []  # quantities, e.g. the distance in "⟦N1⟧ from ⟦P1⟧"
+    event_refs: list[str] = []  # named events, e.g. the storm name in "Hurricane ⟦E1⟧"
     source: str | None = None  # non critical
     extra_info: str | None = None  # non critical
 
@@ -97,5 +103,7 @@ CRITICAL_SLOTS = (
     "expires",
     "instructions",
     "info_refs",
+    "number_refs",
+    "event_refs",
 )
 NONCRITICAL_SLOTS = ("urgency", "source", "extra_info")

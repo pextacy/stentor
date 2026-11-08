@@ -70,12 +70,16 @@ def test_uncovered_alert_is_not_auto_verified():
     assert r.status.value == "REVIEW"
 
 
-def test_alert_without_action_sentence_is_not_blocked():
-    """Regression (eval c17): 'Drop, cover and hold on' has no action sentence; the
-    implied action must be made explicit, not counted as a mismatch."""
+def test_alert_without_action_sentence_goes_to_review_not_block():
+    """Regression (eval c17): 'Drop, cover and hold on' has no action sentence. The
+    implied action is made explicit, never counted as a mismatch (no block), and since
+    STENTOR assumed it, a person must confirm it (review, not auto-send)."""
     from stentor.intent.extract import extract
 
     ir = extract("Earthquake warning for Hatay. Drop, cover and hold on. Do not use elevators. Info: 112.")
     assert ir.intent.instructions[0].verb == "monitor"
+    assert any("assumed" in w for w in ir.warnings)
     for lang in LANGS:
-        assert compile_lang(ir.intent, ir.locked_text, ir.mapping, lang).status.value == "VERIFIED"
+        r = compile_lang(ir.intent, ir.locked_text, ir.mapping, lang)
+        assert r.status.value == "REVIEW", (lang, r.reasons)
+        assert all(d.match for d in r.diff if d.critical)

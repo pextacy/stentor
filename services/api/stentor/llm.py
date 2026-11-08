@@ -65,11 +65,13 @@ INTENT_SCHEMA = {
         "expires": {"type": ["string", "null"]},
         "instructions": {"type": "array", "items": INSTRUCTION_SCHEMA},
         "info_refs": {"type": "array", "items": {"type": "string"}},
+        "number_refs": {"type": "array", "items": {"type": "string"}},
+        "event_refs": {"type": "array", "items": {"type": "string"}},
         "source": {"type": ["string", "null"]},
         "extra_info": {"type": ["string", "null"]},
     },
     "required": ["hazard", "action", "urgency", "area_refs", "time_refs", "expires",
-                 "instructions", "info_refs", "source", "extra_info"],
+                 "instructions", "info_refs", "number_refs", "event_refs", "source", "extra_info"],
     "additionalProperties": False,
 }
 
@@ -124,15 +126,19 @@ def detect_places(text: str) -> list[str]:
 def _extract_system(verbs: list[str]) -> str:
     return (
         "You convert an English emergency alert into a structured Alert Intent.\n"
-        "The text contains locked placeholders like ⟦P1⟧ (place), ⟦T1⟧ (time), ⟦N1⟧ (number), "
-        "⟦U1⟧ (phone or URL). Refer to literals only by these placeholder ids, never by value.\n"
+        "The text contains locked placeholders like ⟦P1⟧ (place), ⟦T1⟧ (time or day), ⟦N1⟧ (number "
+        "or quantity), ⟦U1⟧ (phone or URL), ⟦E1⟧ (event name such as a storm name). Refer to "
+        "literals only by these placeholder ids, never by value.\n"
         "Rules:\n"
         "- hazard and action use the enum values. action is the single most important protective action.\n"
         "- instructions: one entry per imperative sentence, in order, including the main action sentence. "
         "negated is true for 'do not', 'don't', 'never'. placeholders lists the ids in that sentence.\n"
         f"- verb/object: prefer these normalized keys when they fit (verb:object): {', '.join(verbs)}. "
-        "For the main action sentence use the verb evacuate, prepare, shelter, move, stay, avoid, boil, monitor or all_clear.\n"
-        "- area_refs: every P placeholder. time_refs: every T placeholder. info_refs: every U placeholder.\n"
+        "For action sentences use the verb evacuate, prepare, shelter, move, stay, avoid, boil, monitor or all_clear. "
+        "For evacuate/prepare with a place: object is 'via' when the place is a route, 'to' when it is a "
+        "destination; if the place is only the affected area, leave it out of the instruction and object null.\n"
+        "- A phrase like 'stay out of damaged buildings' is a negated instruction (enter:damaged_buildings, negated true).\n"
+        "- area_refs: every P. time_refs: every T. info_refs: every U. number_refs: every N. event_refs: every E.\n"
         "- expires: the T placeholder for when the alert itself ends, or null.\n"
         "- Do not infer anything that is not stated."
     )

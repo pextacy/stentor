@@ -29,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <span className="hidden text-sm text-slate-rule sm:inline">Every warning, in every language, verified before it is sent.</span>
             <nav aria-label="Main" className="ml-auto flex gap-5 text-sm font-medium">
               <Link href="/" className="hover:underline">Console</Link>
+              <Link href="/how" className="hover:underline">How it works</Link>
               <Link href="/eval" className="hover:underline">Eval</Link>
             </nav>
           </div>

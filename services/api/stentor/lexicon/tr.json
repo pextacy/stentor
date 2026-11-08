@@ -1,0 +1,472 @@
+{
+  "lang": "tr",
+  "name": "Türkçe",
+  "english_name": "Turkish",
+  "dir": "ltr",
+  "tts": "tr-TR",
+  "reviewed_by": "unreviewed",
+  "approved": false,
+  "fold_diacritics": true,
+  "word_boundary": false,
+  "negation_markers": [
+    "mayın",
+    "meyin"
+  ],
+  "negation_drop": [
+    [
+      "mayın",
+      "ın"
+    ],
+    [
+      "meyin",
+      "in"
+    ]
+  ],
+  "list_sep": ", ",
+  "role_markers": {
+    "via": [
+      "üzerinden"
+    ],
+    "to": [
+      "yönünde"
+    ]
+  },
+  "headline": "{name} uyarısı.",
+  "headline_place": "{P} için {name} uyarısı.",
+  "headline_distance": "{name}, {P} bölgesine {N} uzaklıkta.",
+  "headline_all_clear": "{name} uyarısı kaldırıldı.",
+  "headline_all_clear_place": "{P} için {name} uyarısı kaldırıldı.",
+  "event_name": "{E} adlı {name}",
+  "time": {
+    "style": "24h",
+    "day_position": "before",
+    "day_joiner": " ",
+    "weekday_joiner": " ",
+    "day_words": {
+      "today": "bugün",
+      "tonight": "bu gece",
+      "tomorrow": "yarın"
+    },
+    "weekdays": [
+      "Pazartesi",
+      "Salı",
+      "Çarşamba",
+      "Perşembe",
+      "Cuma",
+      "Cumartesi",
+      "Pazar"
+    ]
+  },
+  "units": {
+    "minute": "dakika",
+    "hour": "saat",
+    "mile": "mil",
+    "km": "km",
+    "foot": "fit",
+    "meter": "metre"
+  },
+  "unit_format": "{n} {u}",
+  "hazards": {
+    "wildfire": {
+      "name": "orman yangını",
+      "terms": [
+        "yangın"
+      ]
+    },
+    "flood": {
+      "name": "sel",
+      "terms": [
+        "su baskını"
+      ]
+    },
+    "earthquake": {
+      "name": "deprem",
+      "terms": []
+    },
+    "tsunami": {
+      "name": "tsunami",
+      "terms": []
+    },
+    "hurricane": {
+      "name": "kasırga",
+      "terms": [
+        "tropik fırtına"
+      ]
+    },
+    "tornado": {
+      "name": "hortum",
+      "terms": []
+    },
+    "extreme_heat": {
+      "name": "aşırı sıcak",
+      "terms": [
+        "sıcak hava dalgası"
+      ]
+    },
+    "hazmat": {
+      "name": "kimyasal tehlike",
+      "terms": [
+        "kimyasal",
+        "gaz kaçağı"
+      ]
+    },
+    "active_threat": {
+      "name": "silahlı saldırgan",
+      "terms": [
+        "silahlı saldırı"
+      ]
+    },
+    "boil_water": {
+      "name": "su kirliliği",
+      "terms": []
+    },
+    "other": {
+      "name": "acil durum",
+      "terms": []
+    }
+  },
+  "actions": {
+    "evacuate_now": {
+      "match": [
+        "hemen tahliye olun"
+      ],
+      "text": {
+        "": "Hemen tahliye olun.",
+        "P": "{P} üzerinden hemen tahliye olun.",
+        "P:to": "{P} yönünde hemen tahliye olun.",
+        "T": "{T} öncesinde hemen tahliye olun."
+      }
+    },
+    "prepare_to_evacuate": {
+      "match": [
+        "tahliyeye hazırlanın"
+      ],
+      "text": {
+        "": "Tahliyeye hazırlanın.",
+        "P": "{P} üzerinden tahliyeye hazırlanın.",
+        "P:to": "{P} yönünde tahliyeye hazırlanın.",
+        "T": "{T} öncesinde tahliyeye hazırlanın."
+      }
+    },
+    "shelter_in_place": {
+      "match": [
+        "bulunduğunuz yerde"
+      ],
+      "text": {
+        "": "Bulunduğunuz yerde hemen korunun."
+      }
+    },
+    "move_to_higher_ground": {
+      "match": [
+        "yüksek bir yere"
+      ],
+      "text": {
+        "": "Hemen yüksek bir yere çıkın."
+      }
+    },
+    "stay_indoors": {
+      "match": [
+        "evde kalın"
+      ],
+      "text": {
+        "": "Evde kalın.",
+        "T": "{T} olana kadar evde kalın.",
+        "TT": "{T} ile {T} arasında evde kalın."
+      }
+    },
+    "avoid_area": {
+      "match": [
+        "uzak durun"
+      ],
+      "text": {
+        "": "Bölgeden uzak durun.",
+        "P": "{P} bölgesinden uzak durun."
+      }
+    },
+    "boil_water": {
+      "match": [
+        "suyu kaynatın"
+      ],
+      "text": {
+        "": "İçmeden önce suyu kaynatın.",
+        "N": "İçmeden önce {N} boyunca suyu kaynatın."
+      }
+    },
+    "monitor": {
+      "match": [
+        "güncel bilgileri takip"
+      ],
+      "text": {
+        "": "Güncel bilgileri takip edin."
+      }
+    },
+    "all_clear": {
+      "match": [
+        "tehlike geçti"
+      ],
+      "text": {
+        "": "Tehlike geçti."
+      }
+    }
+  },
+  "instructions": {
+    "return:until_cleared": {
+      "match": [
+        "yetkililer güvenli"
+      ],
+      "text": {
+        "neg": "Yetkililer güvenli olduğunu açıklayana kadar geri dönmeyin."
+      }
+    },
+    "return": {
+      "match": [
+        "geri dön"
+      ],
+      "text": {
+        "neg": "Geri dönmeyin.",
+        "neg|T": "{T} öncesinde geri dönmeyin.",
+        "pos": "Evinize geri dönebilirsiniz."
+      }
+    },
+    "use:elevators": {
+      "match": [
+        "asansör"
+      ],
+      "text": {
+        "neg": "Asansör kullanmayın."
+      }
+    },
+    "drive:flood_water": {
+      "match": [
+        "araçla girmeyin",
+        "araçla gir"
+      ],
+      "text": {
+        "neg": "Sel suyuna araçla girmeyin."
+      }
+    },
+    "drink:tap_water": {
+      "match": [
+        "musluk suyu"
+      ],
+      "text": {
+        "neg": "Musluk suyu içmeyin."
+      }
+    },
+    "go:outside": {
+      "match": [
+        "dışarı çık"
+      ],
+      "text": {
+        "neg": "Dışarı çıkmayın.",
+        "neg|T": "{T} öncesinde dışarı çıkmayın."
+      }
+    },
+    "go:beach": {
+      "match": [
+        "sahile"
+      ],
+      "text": {
+        "neg": "Sahile ve kıyıya gitmeyin.",
+        "neg|T": "{T} öncesinde sahile ve kıyıya gitmeyin."
+      }
+    },
+    "enter:damaged_buildings": {
+      "match": [
+        "hasarlı binalara"
+      ],
+      "text": {
+        "neg": "Hasarlı binalara girmeyin."
+      }
+    },
+    "light:fires": {
+      "match": [
+        "ateş yak"
+      ],
+      "text": {
+        "neg": "Ateş yakmayın."
+      }
+    },
+    "touch:power_lines": {
+      "match": [
+        "elektrik tellerine"
+      ],
+      "text": {
+        "neg": "Kopmuş elektrik tellerine dokunmayın."
+      }
+    },
+    "open:door": {
+      "match": [
+        "kapıyı aç"
+      ],
+      "text": {
+        "neg": "Kapıyı açmayın."
+      }
+    },
+    "wait": {
+      "match": [
+        "bekle"
+      ],
+      "text": {
+        "neg": "Beklemeyin."
+      }
+    },
+    "turn_off:gas": {
+      "match": [
+        "gazı kapat"
+      ],
+      "text": {
+        "pos": "Gazı kapatın."
+      }
+    },
+    "turn_off:ventilation": {
+      "match": [
+        "klimayı"
+      ],
+      "text": {
+        "pos": "Klimayı ve havalandırmayı kapatın."
+      }
+    },
+    "go_near:windows": {
+      "match": [
+        "pencerelere yaklaş"
+      ],
+      "text": {
+        "neg": "Pencerelere yaklaşmayın."
+      }
+    },
+    "close:windows": {
+      "match": [
+        "pencereleri"
+      ],
+      "text": {
+        "pos": "Tüm pencereleri ve kapıları kapatın."
+      }
+    },
+    "lock:doors": {
+      "match": [
+        "kilitleyin"
+      ],
+      "text": {
+        "pos": "Tüm kapıları kilitleyin."
+      }
+    },
+    "be:quiet": {
+      "match": [
+        "sessiz kal"
+      ],
+      "text": {
+        "pos": "Sessiz kalın."
+      }
+    },
+    "drop:cover": {
+      "match": [
+        "çök, kapan"
+      ],
+      "text": {
+        "pos": "Çök, kapan, tutun."
+      }
+    },
+    "expect:aftershocks": {
+      "match": [
+        "artçı"
+      ],
+      "text": {
+        "pos": "Artçı depremlere hazırlıklı olun."
+      }
+    },
+    "go:basement": {
+      "match": [
+        "bodrum"
+      ],
+      "text": {
+        "pos": "Bodrum kata veya en alt kattaki iç odalardan birine geçin."
+      }
+    },
+    "check:neighbors": {
+      "match": [
+        "komşu"
+      ],
+      "text": {
+        "pos": "Komşularınızı kontrol edin."
+      }
+    },
+    "drink:water": {
+      "match": [
+        "bol su için"
+      ],
+      "text": {
+        "pos": "Bol su için."
+      }
+    },
+    "follow:officials": {
+      "match": [
+        "yetkililerin talimat"
+      ],
+      "text": {
+        "pos": "Yetkililerin talimatlarına uyun."
+      }
+    },
+    "go:cooling_center": {
+      "match": [
+        "serinleme merkez"
+      ],
+      "text": {
+        "pos|P": "{P} serinleme merkezine gidin."
+      }
+    },
+    "go:shelter": {
+      "match": [
+        "toplanma alanı"
+      ],
+      "text": {
+        "pos": "En yakın toplanma alanına gidin.",
+        "pos|P": "{P} toplanma alanına gidin."
+      }
+    },
+    "take:essentials": {
+      "match": [
+        "ilaçlar"
+      ],
+      "text": {
+        "pos": "İlaçlarınızı ve önemli belgelerinizi yanınıza alın."
+      }
+    },
+    "take:pets": {
+      "match": [
+        "evcil hayvan"
+      ],
+      "text": {
+        "pos": "Evcil hayvanlarınızı yanınıza alın."
+      }
+    },
+    "use:route": {
+      "match": [
+        "yolunu kullan"
+      ],
+      "text": {
+        "pos|P": "{P} yolunu kullanın."
+      }
+    },
+    "call": {
+      "match": [
+        "arayın"
+      ],
+      "text": {
+        "pos|U": "{U} numarasını arayın."
+      }
+    }
+  },
+  "info": {
+    "match": [
+      "bilgi"
+    ],
+    "text": "Bilgi: {U}."
+  },
+  "expires": {
+    "match": [
+      "kadar geçerli"
+    ],
+    "text": "Bu uyarı {T} olana kadar geçerlidir."
+  }
+}

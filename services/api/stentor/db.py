@@ -82,3 +82,19 @@ def get_alert(alert_id: str) -> tuple[Alert, list[AuditRecord]] | None:
         recs = list(s.exec(select(AuditRecord).where(AuditRecord.alert_id == alert_id).order_by(AuditRecord.id)))
         s.expunge_all()
         return a, recs
+
+
+def recent_alerts(limit: int = 10) -> list[dict]:
+    with Session(engine()) as s:
+        rows = list(s.exec(select(Alert).order_by(Alert.created_at.desc()).limit(limit)))
+        out = []
+        for a in rows:
+            results = json.loads(a.results_json)
+            out.append({
+                "id": a.id,
+                "created_at": a.created_at.isoformat(),
+                "source_text": a.source_text,
+                "chaos": a.chaos,
+                "statuses": {r["lang"]: r["status"] for r in results},
+            })
+        return out

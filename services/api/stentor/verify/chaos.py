@@ -36,20 +36,28 @@ def _find_phrase(lx, text: str, phrase: str) -> tuple[int, int] | None:
 
 
 def drop_negation(text: str, intent: AlertIntent, lang: str) -> str | None:
+    """Remove the negation from the first negated sentence, the way a model does when it
+    'simplifies' an instruction. Uses the lexicon's drop rules for languages where the
+    negation is a suffix (Korean, Turkish); otherwise removes the marker word."""
     lx = load(lang)
-    for sent in split_sentences(text):
+    rules = lx.opt("negation_drop", [])
+    for sent in split_sentences(text, lx):
         if lx.negation_hits(sent) == 0:
             continue
         new = sent
-        for mk in sorted(lx.negation_markers, key=len, reverse=True):
-            if lx.word_boundary:
+        if rules:
+            for old_s, new_s in rules:
+                new = new.replace(old_s, new_s)
+        else:
+            for mk in sorted(lx.negation_markers, key=len, reverse=True):
                 new = re.sub(rf"(?<![\w']){re.escape(mk)}(?![\w'])\s*", "", new, flags=re.I)
-            else:
-                # Korean: "-지 마십시오" -> "-십시오" style positive imperative
-                new = new.replace("지 " + mk, "십시오").replace(mk, "")
+            new = re.sub(r"\b(Do|do)\s+(?=[a-z])", "", new) if lang == "en" else new
         new = new.strip()
         if new and new != sent:
-            new = new[0].upper() + new[1:]
+            for i, ch in enumerate(new):
+                if ch.isalpha():
+                    new = new[:i] + ch.upper() + new[i + 1:]
+                    break
             return text.replace(sent, new, 1)
     return None
 
@@ -68,11 +76,21 @@ def downgrade_action(text: str, intent: AlertIntent, lang: str) -> str | None:
 
 
 def _swap_or_replace(text: str, kind: str, literal: str) -> str | None:
-    phs = [p for p in placeholders_in(text) if kind_of(p) == kind]
-    uniq = list(dict.fromkeys(phs))
-    if len(uniq) >= 2:
-        a, b = uniq[0], uniq[1]
-        return text.replace(a, "\0").replace(b, a).replace("\0", b)
+    """Swap two placeholders that carry different meaning, else replace one with a
+    literal the model invented. Two places in one headline list ("⟦P1⟧, ⟦P2⟧") are not
+    swapped: their order carries no meaning, so that would not be a real corruption."""
+    sentences = split_sentences(text)
+    where = {}
+    for i, sent in enumerate(sentences):
+        for p in placeholders_in(sent):
+            if kind_of(p) == kind:
+                where.setdefault(p, []).append(i)
+    uniq = list(where)
+    for a in uniq:
+        for b in uniq:
+            same_list = where[a] == where[b] and re.search(re.escape(a) + r"\s*[,،]\s*" + re.escape(b), text)
+            if a < b and not same_list:
+                return text.replace(a, "\0").replace(b, a).replace("\0", b)
     if uniq:
         return text.replace(uniq[0], literal, 1)
     return None

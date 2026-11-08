@@ -54,11 +54,16 @@ text sits next to what will actually be sent.
   the eval. Everything works without an API key.
 - Frontend: Next.js 14, TypeScript, Tailwind. Status is never shown by colour alone, every
   rendered block carries `lang` and `dir`, and it works by keyboard.
-- Adaption: an Invent-a-Dataset spec and a 4,224 pair template seed set for a Haitian
+- Adaption: an Invent-a-Dataset spec and a 6,732 pair template seed set for a Haitian
   Creole alert renderer, plus scripts for cost estimate, generation and an AutoScientist
   run, scored by STENTOR's own verifier.
 
 ## Challenges
+- An independent review of our own code found eleven bugs, several of them dangerous: "Evacuate
+  now from Altadena" was sent as "evacuate via Altadena", "St. Mary School" was split in two,
+  and "Evacuate now and do not use elevators" put the "not" on the evacuation. Each is fixed
+  and is now a test case. The fix that mattered most: places bind by role (route,
+  destination or affected area), and negation belongs to a clause, not a sentence.
 - Getting negation detection right per language: folding diacritics in Vietnamese turns
   "dùng" (use) into a false "đừng" (do not), so negation matching is diacritic sensitive.
 - Our own eval caught a real bug: an alert with no explicit action sentence ("Drop, cover
@@ -68,8 +73,9 @@ text sits next to what will actually be sent.
   was wrapped in a Unicode directional isolate.
 
 ## Accomplishments
-- In our eval (60 alerts × 5 languages, deterministic path), all 1,640 injected critical
-  errors were blocked, with no clean rendering blocked. We publish the limits next to the
+- In our eval (92 alerts × 7 languages, deterministic path), all 3,486 injected critical
+  errors were blocked and no clean translation was wrongly blocked. Every alert landed on
+  exactly the status we expected (Verified or Review). We publish the limits next to the
   numbers: without a key, renderer and checker share a lexicon, so this shows the checks
   fire, not that translations are good.
 - A standards compliant CAP 1.2 file with one info block per language.

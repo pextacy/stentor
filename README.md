@@ -67,49 +67,62 @@ different model, back parses. Claude calls use the server side refusal fallback
 
 ```bash
 cd services/api
-uv run pytest -q                                          # 85 tests
+uv run pytest -q                                          # 146 tests
 uv run python ../../eval/run_eval.py --offline            # eval, writes eval/results/latest.json
 uv run python ../../eval/run_eval.py --force-model llm    # baseline LLM renderer (needs key, costs money)
 pnpm --dir ../../apps/web gen:types                       # TS types from the OpenAPI schema
 ```
 
-Demo script: pick "Wildfire: evacuate (demo)", **Read the alert**, turn on **Chaos mode**
+Languages: Vietnamese, Tagalog, Korean, Arabic (RTL), Haitian Creole (the PRD set), plus
+Spanish and Turkish. 30 instruction types, 11 hazards, 9 actions.
+
+Demo script: pick "Wildfire: evacuate via a route (demo)", **Read the alert**, turn on **Chaos mode**
 (drop negation in Arabic), **Translate and verify**. Arabic turns to safe fallback and the
 slot ledger shows Negations ✕. Then open the citizen preview and download the CAP file
 ([sample](docs/samples/demo.cap.xml)).
 
 ## Eval
 
-From `eval/results/latest.json` (60 alerts written by us, 8+ hazards, 29 with negations,
-× 5 languages; deterministic path, no API key):
+From `eval/results/latest.json`: 92 alerts (two suites) × 7 languages = 644 translations,
+deterministic path, no API key.
 
-| Metric | Result |
-|---|---|
-| Injected critical errors caught | 1640 / 1640 (100%) |
-| False block rate on clean renderings | 0 / 300 (0%) |
-| Placeholder survival | 100% |
-| Intent read correctly (hazard, action, negation count) | 60 / 60 |
+| Metric | Clean suite (60 alerts) | Realistic suite (32 alerts) |
+|---|---|---|
+| Injected critical errors caught | 2296 / 2296 | 1190 / 1190 |
+| Wrongly blocked clean translations | 0% | 0% |
+| Verified / sent to Review | 93.3% / 6.7% | 81.2% / 18.8% |
+| Status exactly as expected | 100% | 100% |
+| Intent read correctly (hazard, action, negation count) | 60 / 60 | 32 / 32 |
 
-Corruptions: dropped negation (145), softened action (240), changed time (55), swapped place,
-wrong hazard, dropped literal, duplicated literal (300 each).
+The realistic suite holds messy wording ("EVACUATION ORDER for Topanga Canyon. Leave now.",
+"Heat wave in Ankara: stay indoors between 11:00 and 16:00", "Stay out of damaged
+buildings") and every bug found in an independent code review: "Evacuate now *from*
+Altadena" read as a route, "St. Mary School" split in two, "3 p.m." swallowing the period, a
+negation applied to the wrong clause, "1-800" numbers split, a time swap that went
+undetected. Each is now a unit test.
+
+Review is not failure: those alerts contain something the approved templates cannot say
+("Call 911 *if safe*", "a room *without windows*") or STENTOR had to assume the action. They
+are shown to the operator and not sent automatically.
 
 **Read these numbers with their limits.** Without a key, the renderer and the back parser
-share one lexicon, so a clean result and a perfect catch rate are expected by construction;
-the eval proves the checks fire on every known failure type, not that translation is good.
-The corruptions are synthetic. The suite and the templates were written by the same team.
-The real test is `--force-model llm` (and `adaption`) with a key, which renders with a model
-and back parses with a second model; those numbers are not in this README because they have
-not been run yet.
+share one lexicon, so a perfect catch rate is expected by construction: the eval shows the
+checks fire on every known failure type, not that translation is good. The corruptions are
+synthetic. The suites and the templates were written by the same team. The real test is
+`--force-model llm` (and `adaption`) with a key: a model translates and a second model reads
+back. Those numbers are not here because they have not been run.
 
 ## Limitations
 
 - **Lexicons are LLM seeded and unreviewed.** Every language card says so. A native speaker
   should check the action phrases and negation markers (short lists in
   `services/api/stentor/lexicon/*.json`).
-- Templates cover a fixed catalog of about 20 instruction types. Anything outside it goes to
-  a model renderer, or to Review when no key is set.
-- Two places swapped inside the same sentence would pass the multiset check; swaps across
-  sentences are caught.
+- Templates cover a fixed catalog of 30 instruction types. Anything outside it goes to a
+  model renderer, or to Review when no key is set.
+- Several places in one headline are rendered as a list ("I-5, Exit 132"); the relation
+  between them ("on I-5 near Exit 132") is not modelled.
+- A place written in lower case cannot be locked; the word is flagged and the alert goes to
+  Review.
 - CAP status is `Exercise`. STENTOR is not certified for production alerting and does not
   connect to IPAWS or carriers.
 - Audio uses the browser's voices; many devices have none for Haitian Creole or Tagalog,
@@ -120,8 +133,8 @@ not been run yet.
 ```
 docs/                 PRD, PLAN, DOCS, PHASES, DEVPOST, screenshots, sample CAP
 services/api/         FastAPI: intent/ lock/ render/ verify/ channels/ lexicon/
-apps/web/             Next.js console (/), public alert page (/a/[id]), eval dashboard (/eval)
-eval/                 suites/clean.jsonl, run_eval.py, results/latest.json
+apps/web/             Next.js console (/), public alert page (/a/[id]), how it works (/how), eval (/eval)
+eval/                 suites/clean.jsonl, suites/realistic.jsonl, run_eval.py, results/latest.json
 data/adaption/        Invent-a-Dataset spec, seed_ht.jsonl, adaption_track.py
 ```
 

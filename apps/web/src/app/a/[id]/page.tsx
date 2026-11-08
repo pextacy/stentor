@@ -6,17 +6,22 @@ import { Pictogram } from "@/components/Pictogram";
 import { type PublicAlert, getPublic } from "@/lib/api";
 
 export default function PublicAlertPage({ params }: { params: { id: string } }) {
-  const [lang, setLang] = useState("en");
+  // null until the URL has been read, so the first request already uses ?lang=
+  const [lang, setLang] = useState<string | null>(null);
   const [data, setData] = useState<PublicAlert | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fromUrl = new URLSearchParams(window.location.search).get("lang");
-    if (fromUrl) setLang(fromUrl);
+    setLang(new URLSearchParams(window.location.search).get("lang") ?? "en");
   }, []);
 
   useEffect(() => {
-    getPublic(params.id, lang).then(setData).catch(() => setError("This alert could not be found. Check the link."));
+    if (lang === null) return;
+    let live = true;
+    getPublic(params.id, lang)
+      .then((d) => { if (live) setData(d); })
+      .catch(() => { if (live) setError("This alert could not be found. Check the link."); });
+    return () => { live = false; };
   }, [params.id, lang]);
 
   if (error) return <main className="mx-auto max-w-2xl p-6"><p role="alert" className="text-lg font-semibold text-blocked">{error}</p></main>;

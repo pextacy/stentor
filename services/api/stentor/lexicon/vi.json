@@ -8,84 +8,460 @@
   "approved": false,
   "fold_diacritics": false,
   "word_boundary": true,
-  "negation_markers": ["không", "đừng", "chớ", "cấm"],
+  "negation_markers": [
+    "không",
+    "đừng",
+    "chớ",
+    "cấm"
+  ],
+  "list_sep": ", ",
+  "role_markers": {
+    "via": [
+      "theo đường"
+    ],
+    "to": [
+      "đến"
+    ]
+  },
   "headline": "Cảnh báo {name}.",
   "headline_place": "Cảnh báo {name} tại {P}.",
+  "headline_distance": "Cảnh báo {name} cách {P} {N}.",
+  "headline_all_clear": "Đã hủy cảnh báo {name}.",
+  "headline_all_clear_place": "Đã hủy cảnh báo {name} tại {P}.",
+  "event_name": "{name} {E}",
+  "time": {
+    "style": "24h",
+    "day_position": "after",
+    "day_joiner": " ",
+    "weekday_joiner": " ",
+    "day_words": {
+      "today": "hôm nay",
+      "tonight": "tối nay",
+      "tomorrow": "ngày mai"
+    },
+    "weekdays": [
+      "thứ Hai",
+      "thứ Ba",
+      "thứ Tư",
+      "thứ Năm",
+      "thứ Sáu",
+      "thứ Bảy",
+      "Chủ nhật"
+    ]
+  },
+  "units": {
+    "minute": "phút",
+    "hour": "giờ",
+    "mile": "dặm",
+    "km": "km",
+    "foot": "feet",
+    "meter": "mét"
+  },
+  "unit_format": "{n} {u}",
   "hazards": {
-    "wildfire": {"name": "cháy rừng", "terms": ["đám cháy"]},
-    "flood": {"name": "lũ lụt", "terms": ["lũ quét", "ngập lụt"]},
-    "earthquake": {"name": "động đất", "terms": ["dư chấn"]},
-    "tsunami": {"name": "sóng thần", "terms": []},
-    "hurricane": {"name": "bão", "terms": []},
-    "tornado": {"name": "lốc xoáy", "terms": ["vòi rồng"]},
-    "extreme_heat": {"name": "nắng nóng gay gắt", "terms": ["nắng nóng"]},
-    "hazmat": {"name": "hóa chất nguy hiểm", "terms": ["hóa chất", "rò rỉ khí"]},
-    "active_threat": {"name": "xả súng", "terms": ["đối tượng có vũ trang"]},
-    "boil_water": {"name": "nguồn nước bị ô nhiễm", "terms": ["nước bị ô nhiễm"]},
-    "other": {"name": "khẩn cấp", "terms": []}
+    "wildfire": {
+      "name": "cháy rừng",
+      "terms": [
+        "đám cháy"
+      ]
+    },
+    "flood": {
+      "name": "lũ lụt",
+      "terms": [
+        "lũ quét",
+        "ngập lụt"
+      ]
+    },
+    "earthquake": {
+      "name": "động đất",
+      "terms": []
+    },
+    "tsunami": {
+      "name": "sóng thần",
+      "terms": []
+    },
+    "hurricane": {
+      "name": "bão",
+      "terms": []
+    },
+    "tornado": {
+      "name": "lốc xoáy",
+      "terms": [
+        "vòi rồng"
+      ]
+    },
+    "extreme_heat": {
+      "name": "nắng nóng gay gắt",
+      "terms": [
+        "nắng nóng"
+      ]
+    },
+    "hazmat": {
+      "name": "hóa chất nguy hiểm",
+      "terms": [
+        "hóa chất",
+        "rò rỉ khí"
+      ]
+    },
+    "active_threat": {
+      "name": "xả súng",
+      "terms": [
+        "đối tượng có vũ trang"
+      ]
+    },
+    "boil_water": {
+      "name": "nguồn nước bị ô nhiễm",
+      "terms": [
+        "nước bị ô nhiễm"
+      ]
+    },
+    "other": {
+      "name": "khẩn cấp",
+      "terms": []
+    }
   },
   "actions": {
-    "evacuate_now": {"match": ["sơ tán ngay"],
-      "text": {"": "Sơ tán ngay.", "P": "Sơ tán ngay theo đường {P}.", "T": "Sơ tán ngay, trước {T}."}},
-    "prepare_to_evacuate": {"match": ["chuẩn bị sơ tán"],
-      "text": {"": "Chuẩn bị sơ tán.", "P": "Chuẩn bị sơ tán theo đường {P}.", "T": "Chuẩn bị sơ tán trước {T}."}},
-    "shelter_in_place": {"match": ["trú ẩn tại chỗ"],
-      "text": {"": "Trú ẩn tại chỗ ngay."}},
-    "move_to_higher_ground": {"match": ["di chuyển lên vùng cao"],
-      "text": {"": "Di chuyển lên vùng cao ngay."}},
-    "stay_indoors": {"match": ["ở trong nhà"],
-      "text": {"": "Ở trong nhà.", "T": "Ở trong nhà cho đến {T}."}},
-    "avoid_area": {"match": ["tránh xa"],
-      "text": {"": "Tránh xa khu vực này.", "P": "Tránh xa {P}."}},
-    "boil_water": {"match": ["đun sôi nước"],
-      "text": {"": "Đun sôi nước trước khi uống.", "N": "Đun sôi nước {N} phút trước khi uống."}},
-    "monitor": {"match": ["theo dõi thông tin"],
-      "text": {"": "Theo dõi thông tin cập nhật."}},
-    "all_clear": {"match": ["đã hết nguy hiểm"],
-      "text": {"": "Đã hết nguy hiểm."}}
+    "evacuate_now": {
+      "match": [
+        "sơ tán ngay"
+      ],
+      "text": {
+        "": "Sơ tán ngay.",
+        "P": "Sơ tán ngay theo đường {P}.",
+        "P:to": "Sơ tán ngay đến {P}.",
+        "T": "Sơ tán ngay, trước {T}."
+      }
+    },
+    "prepare_to_evacuate": {
+      "match": [
+        "chuẩn bị sơ tán"
+      ],
+      "text": {
+        "": "Chuẩn bị sơ tán.",
+        "P": "Chuẩn bị sơ tán theo đường {P}.",
+        "P:to": "Chuẩn bị sơ tán đến {P}.",
+        "T": "Chuẩn bị sơ tán trước {T}."
+      }
+    },
+    "shelter_in_place": {
+      "match": [
+        "trú ẩn tại chỗ"
+      ],
+      "text": {
+        "": "Trú ẩn tại chỗ ngay."
+      }
+    },
+    "move_to_higher_ground": {
+      "match": [
+        "di chuyển lên vùng cao"
+      ],
+      "text": {
+        "": "Di chuyển lên vùng cao ngay."
+      }
+    },
+    "stay_indoors": {
+      "match": [
+        "ở trong nhà"
+      ],
+      "text": {
+        "": "Ở trong nhà.",
+        "T": "Ở trong nhà cho đến {T}.",
+        "TT": "Ở trong nhà từ {T} đến {T}."
+      }
+    },
+    "avoid_area": {
+      "match": [
+        "tránh xa"
+      ],
+      "text": {
+        "": "Tránh xa khu vực này.",
+        "P": "Tránh xa {P}."
+      }
+    },
+    "boil_water": {
+      "match": [
+        "đun sôi nước"
+      ],
+      "text": {
+        "": "Đun sôi nước trước khi uống.",
+        "N": "Đun sôi nước {N} trước khi uống."
+      }
+    },
+    "monitor": {
+      "match": [
+        "theo dõi thông tin"
+      ],
+      "text": {
+        "": "Theo dõi thông tin cập nhật."
+      }
+    },
+    "all_clear": {
+      "match": [
+        "đã hết nguy hiểm"
+      ],
+      "text": {
+        "": "Đã hết nguy hiểm."
+      }
+    }
   },
   "instructions": {
-    "return": {"match": ["quay lại", "trở về"],
-      "text": {"neg": "KHÔNG quay lại.", "neg|T": "KHÔNG quay lại trước {T}.", "pos": "Có thể quay lại."}},
-    "use:elevators": {"match": ["thang máy"],
-      "text": {"neg": "KHÔNG sử dụng thang máy."}},
-    "drive:flood_water": {"match": ["lái xe qua"],
-      "text": {"neg": "KHÔNG lái xe qua vùng nước ngập."}},
-    "drink:tap_water": {"match": ["nước máy"],
-      "text": {"neg": "KHÔNG uống nước máy."}},
-    "go:outside": {"match": ["ra ngoài"],
-      "text": {"neg": "KHÔNG ra ngoài.", "neg|T": "KHÔNG ra ngoài trước {T}."}},
-    "light:fires": {"match": ["đốt lửa"],
-      "text": {"neg": "KHÔNG đốt lửa."}},
-    "touch:power_lines": {"match": ["dây điện"],
-      "text": {"neg": "KHÔNG chạm vào dây điện bị đứt."}},
-    "open:door": {"match": ["mở cửa"],
-      "text": {"neg": "KHÔNG mở cửa."}},
-    "turn_off:gas": {"match": ["khóa gas"],
-      "text": {"pos": "Khóa gas."}},
-    "close:windows": {"match": ["đóng tất cả cửa sổ"],
-      "text": {"pos": "Đóng tất cả cửa sổ và cửa ra vào."}},
-    "lock:doors": {"match": ["khóa tất cả các cửa"],
-      "text": {"pos": "Khóa tất cả các cửa."}},
-    "drop:cover": {"match": ["cúi xuống"],
-      "text": {"pos": "Cúi xuống, che chắn và bám chắc."}},
-    "check:neighbors": {"match": ["hàng xóm"],
-      "text": {"pos": "Hỏi thăm hàng xóm của bạn."}},
-    "drink:water": {"match": ["uống nhiều nước"],
-      "text": {"pos": "Uống nhiều nước."}},
-    "follow:officials": {"match": ["làm theo hướng dẫn"],
-      "text": {"pos": "Làm theo hướng dẫn của chính quyền."}},
-    "go:cooling_center": {"match": ["trung tâm làm mát"],
-      "text": {"pos|P": "Đến trung tâm làm mát tại {P}."}},
-    "go:shelter": {"match": ["nơi trú ẩn"],
-      "text": {"pos|P": "Đến nơi trú ẩn tại {P}."}},
-    "take:essentials": {"match": ["mang theo thuốc"],
-      "text": {"pos": "Mang theo thuốc và giấy tờ quan trọng."}},
-    "take:pets": {"match": ["vật nuôi"],
-      "text": {"pos": "Mang theo vật nuôi."}},
-    "call": {"match": ["gọi"],
-      "text": {"pos|U": "Gọi {U}."}}
+    "return:until_cleared": {
+      "match": [
+        "cho đến khi chính quyền"
+      ],
+      "text": {
+        "neg": "KHÔNG quay lại cho đến khi chính quyền thông báo an toàn."
+      }
+    },
+    "return": {
+      "match": [
+        "quay lại",
+        "trở về"
+      ],
+      "text": {
+        "neg": "KHÔNG quay lại.",
+        "neg|T": "KHÔNG quay lại trước {T}.",
+        "pos": "Có thể trở về nhà."
+      }
+    },
+    "use:elevators": {
+      "match": [
+        "thang máy"
+      ],
+      "text": {
+        "neg": "KHÔNG đi thang máy."
+      }
+    },
+    "drive:flood_water": {
+      "match": [
+        "lái xe qua"
+      ],
+      "text": {
+        "neg": "KHÔNG lái xe qua vùng nước ngập."
+      }
+    },
+    "drink:tap_water": {
+      "match": [
+        "nước máy"
+      ],
+      "text": {
+        "neg": "KHÔNG uống nước máy."
+      }
+    },
+    "go:outside": {
+      "match": [
+        "ra ngoài"
+      ],
+      "text": {
+        "neg": "KHÔNG ra ngoài.",
+        "neg|T": "KHÔNG ra ngoài trước {T}."
+      }
+    },
+    "go:beach": {
+      "match": [
+        "bãi biển"
+      ],
+      "text": {
+        "neg": "KHÔNG đến bãi biển hoặc bờ biển.",
+        "neg|T": "KHÔNG đến bãi biển hoặc bờ biển trước {T}."
+      }
+    },
+    "enter:damaged_buildings": {
+      "match": [
+        "tòa nhà bị hư hại"
+      ],
+      "text": {
+        "neg": "KHÔNG vào các tòa nhà bị hư hại."
+      }
+    },
+    "light:fires": {
+      "match": [
+        "đốt lửa"
+      ],
+      "text": {
+        "neg": "KHÔNG đốt lửa."
+      }
+    },
+    "touch:power_lines": {
+      "match": [
+        "dây điện"
+      ],
+      "text": {
+        "neg": "KHÔNG chạm vào dây điện bị đứt."
+      }
+    },
+    "open:door": {
+      "match": [
+        "mở cửa"
+      ],
+      "text": {
+        "neg": "KHÔNG mở cửa."
+      }
+    },
+    "wait": {
+      "match": [
+        "chờ đợi"
+      ],
+      "text": {
+        "neg": "KHÔNG chờ đợi."
+      }
+    },
+    "turn_off:gas": {
+      "match": [
+        "khóa gas"
+      ],
+      "text": {
+        "pos": "Khóa gas."
+      }
+    },
+    "turn_off:ventilation": {
+      "match": [
+        "máy lạnh"
+      ],
+      "text": {
+        "pos": "Tắt máy lạnh và quạt thông gió."
+      }
+    },
+    "go_near:windows": {
+      "match": [
+        "gần cửa sổ"
+      ],
+      "text": {
+        "neg": "KHÔNG đứng gần cửa sổ."
+      }
+    },
+    "close:windows": {
+      "match": [
+        "đóng tất cả cửa sổ"
+      ],
+      "text": {
+        "pos": "Đóng tất cả cửa sổ và cửa ra vào."
+      }
+    },
+    "lock:doors": {
+      "match": [
+        "khóa tất cả các cửa"
+      ],
+      "text": {
+        "pos": "Khóa tất cả các cửa."
+      }
+    },
+    "be:quiet": {
+      "match": [
+        "giữ im lặng"
+      ],
+      "text": {
+        "pos": "Giữ im lặng."
+      }
+    },
+    "drop:cover": {
+      "match": [
+        "cúi xuống"
+      ],
+      "text": {
+        "pos": "Cúi xuống, che chắn và bám chắc."
+      }
+    },
+    "expect:aftershocks": {
+      "match": [
+        "dư chấn"
+      ],
+      "text": {
+        "pos": "Có thể có dư chấn."
+      }
+    },
+    "go:basement": {
+      "match": [
+        "tầng hầm"
+      ],
+      "text": {
+        "pos": "Xuống tầng hầm hoặc vào phòng bên trong ở tầng thấp nhất."
+      }
+    },
+    "check:neighbors": {
+      "match": [
+        "hàng xóm"
+      ],
+      "text": {
+        "pos": "Hỏi thăm hàng xóm của bạn."
+      }
+    },
+    "drink:water": {
+      "match": [
+        "uống nhiều nước"
+      ],
+      "text": {
+        "pos": "Uống nhiều nước."
+      }
+    },
+    "follow:officials": {
+      "match": [
+        "làm theo hướng dẫn"
+      ],
+      "text": {
+        "pos": "Làm theo hướng dẫn của chính quyền."
+      }
+    },
+    "go:cooling_center": {
+      "match": [
+        "trung tâm làm mát"
+      ],
+      "text": {
+        "pos|P": "Đến trung tâm làm mát tại {P}."
+      }
+    },
+    "go:shelter": {
+      "match": [
+        "nơi trú ẩn"
+      ],
+      "text": {
+        "pos": "Đến nơi trú ẩn gần nhất.",
+        "pos|P": "Đến nơi trú ẩn tại {P}."
+      }
+    },
+    "take:essentials": {
+      "match": [
+        "mang theo thuốc"
+      ],
+      "text": {
+        "pos": "Mang theo thuốc và giấy tờ quan trọng."
+      }
+    },
+    "take:pets": {
+      "match": [
+        "vật nuôi"
+      ],
+      "text": {
+        "pos": "Mang theo vật nuôi."
+      }
+    },
+    "use:route": {
+      "match": [
+        "đi theo đường"
+      ],
+      "text": {
+        "pos|P": "Đi theo đường {P}."
+      }
+    },
+    "call": {
+      "match": [
+        "gọi"
+      ],
+      "text": {
+        "pos|U": "Gọi {U}."
+      }
+    }
   },
-  "info": {"match": ["thông tin"], "text": "Thông tin: {U}."},
-  "expires": {"match": ["có hiệu lực đến"], "text": "Cảnh báo này có hiệu lực đến {T}."}
+  "info": {
+    "match": [
+      "thông tin"
+    ],
+    "text": "Thông tin: {U}."
+  },
+  "expires": {
+    "match": [
+      "có hiệu lực đến"
+    ],
+    "text": "Cảnh báo này có hiệu lực đến {T}."
+  }
 }

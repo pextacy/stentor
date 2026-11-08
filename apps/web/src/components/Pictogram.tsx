@@ -126,6 +126,11 @@ const PROHIBIT: Record<string, JSX.Element> = {
   "light:fires": <path {...S} d="M50 86c-14 0-22-9-22-21 0-12 10-18 12-30 7 6 9 12 9 18 4-4 5-9 5-14 11 7 18 17 18 28 0 11-8 19-22 19z" />,
   "touch:power_lines": <path {...S} d="M56 10L30 54h20L42 90l28-48H50z" />,
   "open:door": <g {...S}><path d="M26 12h48v76H26z" /><circle cx="64" cy="52" r="3" /></g>,
+  "return:until_cleared": <g {...S}><path d="M60 24L34 50l26 26" /><path d="M34 50h44" /></g>,
+  "go:beach": <g {...S}><path d="M10 70c8 0 8-6 16-6s8 6 16 6 8-6 16-6 8 6 16 6 8-6 16-6" /><circle cx="70" cy="30" r="10" /><path d="M10 84h80" /></g>,
+  "enter:damaged_buildings": <g {...S}><path d="M20 88V30l30-18 30 18v58" /><path d="M46 30l8 14-10 10 8 14" /></g>,
+  "go_near:windows": <g {...S}><rect x="22" y="18" width="56" height="64" rx="3" /><path d="M50 18v64M22 50h56" /></g>,
+  wait: <g {...S}><circle cx="50" cy="52" r="32" /><path d="M50 32v20l12 10" /></g>,
 };
 
 function Tile({ children, label, tone = "ink", prohibited = false }: { children: React.ReactNode; label: string; tone?: string; prohibited?: boolean }) {

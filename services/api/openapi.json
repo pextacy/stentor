@@ -138,6 +138,53 @@
     }
    }
   },
+  "/alerts": {
+   "get": {
+    "summary": "List Alerts",
+    "operationId": "list_alerts_alerts_get",
+    "parameters": [
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 50,
+       "minimum": 1,
+       "default": 10,
+       "title": "Limit"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "additionalProperties": true
+         },
+         "title": "Response List Alerts Alerts Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/alerts/{alert_id}": {
    "get": {
     "summary": "Get Alert",
@@ -419,6 +466,22 @@
       "title": "Info Refs",
       "default": []
      },
+     "number_refs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Number Refs",
+      "default": []
+     },
+     "event_refs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Event Refs",
+      "default": []
+     },
      "source": {
       "anyOf": [
        {
@@ -684,10 +747,12 @@
       "type": "array",
       "title": "Langs"
      },
-     "suite": {
-      "type": "string",
-      "title": "Suite",
-      "default": "all"
+     "suites": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Suites"
      }
     },
     "type": "object",
@@ -1056,6 +1121,24 @@
      "approved": {
       "type": "boolean",
       "title": "Approved"
+     },
+     "negation_markers": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Negation Markers",
+      "default": []
+     },
+     "evacuate_phrase": {
+      "type": "string",
+      "title": "Evacuate Phrase",
+      "default": ""
+     },
+     "sample_prohibition": {
+      "type": "string",
+      "title": "Sample Prohibition",
+      "default": ""
      }
     },
     "type": "object",
@@ -1107,6 +1190,13 @@
      "extractor": {
       "type": "string",
       "title": "Extractor"
+     },
+     "phrasebook": {
+      "$ref": "#/components/schemas/Phrasebook"
+     },
+     "instruction_count": {
+      "type": "integer",
+      "title": "Instruction Count"
      }
     },
     "type": "object",
@@ -1116,9 +1206,42 @@
      "examples",
      "corruptions",
      "backparser",
-     "extractor"
+     "extractor",
+     "phrasebook",
+     "instruction_count"
     ],
     "title": "Meta"
+   },
+   "Phrasebook": {
+    "properties": {
+     "actions": {
+      "additionalProperties": {
+       "additionalProperties": {
+        "type": "string"
+       },
+       "type": "object"
+      },
+      "type": "object",
+      "title": "Actions"
+     },
+     "instructions": {
+      "additionalProperties": {
+       "additionalProperties": {
+        "type": "string"
+       },
+       "type": "object"
+      },
+      "type": "object",
+      "title": "Instructions"
+     }
+    },
+    "type": "object",
+    "required": [
+     "actions",
+     "instructions"
+    ],
+    "title": "Phrasebook",
+    "description": "English wording of every approved template, so the intent card can show each\ninstruction as the sentence it will become."
    },
    "PublicAlert": {
     "properties": {

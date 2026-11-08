@@ -7,7 +7,7 @@ import re
 from pydantic import BaseModel
 
 from stentor import llm
-from stentor.intent.schema import ACTION_VERB, AlertIntent, Instruction
+from stentor.intent.schema import ACTION_VERB, Action, AlertIntent, Instruction
 from stentor.lexicon import load
 from stentor.lock import apply
 from stentor.render.template import render
@@ -20,7 +20,8 @@ STOPWORDS = {
     "warning", "alert", "notice", "watch", "advisory", "emergency", "danger", "dangerous",
     "your", "you", "all", "please", "this", "that", "be", "will", "area", "areas", "now",
     "immediately", "issued", "has", "been", "by", "from", "with", "it", "do", "until",
-    "effect", "info", "information", "more", "via", "residents", "s",
+    "effect", "info", "information", "more", "via", "residents", "s", "must", "should",
+    "everyone", "people", "here", "there", "its", "city",
 }
 SYNONYMS = {"don't": "not", "dont": "not", "never": "not", "elevator": "elevators", "minute": "minutes"}
 
@@ -39,18 +40,26 @@ def coverage(source_locked: str, intent: AlertIntent) -> tuple[bool, list[str]]:
     """Does the English template rendering of this intent say everything the source says?
     Returns (covered, words the templates would drop).
 
-    Words of a recognized hazard term ("flash flood", "gas leak") count as covered:
-    the hazard is conveyed by its approved name in every language."""
+    A source word counts as covered if the English rendering contains it, or if it is
+    part of a phrase the lexicon recognized ("take shelter", "flash flood", "turn around,
+    don't drown"): that phrase's meaning is carried by the approved template in every
+    language. Everything else is reported, and the alert goes to Review."""
     en = render(intent, "en")
     if not en.ok:
         return False, en.uncovered
     lx = load("en")
     norm = lx.norm(source_locked)
-    hazard_words: set[str] = set()
+    recognized: set[str] = set()
     for term in lx.hazard_terms(intent.hazard.value):
         if lx.has(term, norm):
-            hazard_words |= _tokens(term)
-    missing = sorted(_tokens(source_locked) - _tokens(en.text) - hazard_words)
+            recognized |= _tokens(term)
+    parsed = parse_lexicon(source_locked, "en")
+    for phrase in parsed.matched_phrases:
+        recognized |= _tokens(phrase)
+    missing = sorted(_tokens(source_locked) - _tokens(en.text) - recognized)
+    if not parsed.action_found and intent.action == Action.MONITOR:
+        # The source states no protective action; "stay alert" was assumed, not said.
+        missing.append("protective action (assumed 'stay alert')")
     return not missing, missing
 
 
@@ -104,6 +113,8 @@ def extract(text: str) -> IntentResult:
         intent = rule.intent
         for s in rule.unmatched:
             warnings.append(f"sentence not understood by rule parser: '{s}'")
+        if not rule.action_found:
+            warnings.append("no protective action phrase found; STENTOR assumed 'monitor'. Set the required action on the intent card.")
 
     intent = ensure_action_instruction(intent)
     covered, missing = coverage(locked, intent)

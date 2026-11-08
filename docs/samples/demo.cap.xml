@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <alert xmlns="urn:oasis:names:tc:emergency:cap:1.2">
-  <identifier>stentor-9bb561103e</identifier>
+  <identifier>stentor-e1c2037690</identifier>
   <sender>stentor-demo@example.org</sender>
-  <sent>2026-11-08T10:40:48-00:00</sent>
+  <sent>2026-11-08T11:22:41-00:00</sent>
   <status>Exercise</status>
   <msgType>Alert</msgType>
   <scope>Public</scope>
@@ -15,9 +15,11 @@
     <urgency>Immediate</urgency>
     <severity>Extreme</severity>
     <certainty>Observed</certainty>
+    <senderName>STENTOR demo operator</senderName>
     <headline>Wildfire near Altadena</headline>
     <description>Wildfire near Altadena. EVACUATE NOW via Lake Ave. Do NOT return until 6:00 PM. Info: 211.</description>
     <instruction>EVACUATE NOW via Lake Ave. Do NOT return until 6:00 PM. Info: 211.</instruction>
+    <web>http://localhost:3000/a/e1c2037690?lang=en</web>
     <parameter>
       <valueName>stentorStatus</valueName>
       <value>SOURCE</value>
@@ -38,9 +40,11 @@
     <urgency>Immediate</urgency>
     <severity>Extreme</severity>
     <certainty>Observed</certainty>
+    <senderName>STENTOR demo operator</senderName>
     <headline>Cảnh báo cháy rừng tại Altadena</headline>
     <description>Cảnh báo cháy rừng tại Altadena. Sơ tán ngay theo đường Lake Ave. KHÔNG quay lại trước 18:00. Thông tin: 211.</description>
     <instruction>Sơ tán ngay theo đường Lake Ave. KHÔNG quay lại trước 18:00. Thông tin: 211.</instruction>
+    <web>http://localhost:3000/a/e1c2037690?lang=vi</web>
     <parameter>
       <valueName>stentorStatus</valueName>
       <value>VERIFIED</value>
@@ -61,9 +65,11 @@
     <urgency>Immediate</urgency>
     <severity>Extreme</severity>
     <certainty>Observed</certainty>
-    <headline>Babala: sunog sa kagubatan sa Altadena</headline>
-    <description>Babala: sunog sa kagubatan sa Altadena. Lumikas na ngayon sa pamamagitan ng Lake Ave. Huwag bumalik hanggang 6:00 PM. Impormasyon: 211.</description>
-    <instruction>Lumikas na ngayon sa pamamagitan ng Lake Ave. Huwag bumalik hanggang 6:00 PM. Impormasyon: 211.</instruction>
+    <senderName>STENTOR demo operator</senderName>
+    <headline>Babala para sa Altadena: sunog sa kagubatan</headline>
+    <description>Babala para sa Altadena: sunog sa kagubatan. Lumikas na ngayon sa pamamagitan ng Lake Ave. HUWAG bumalik hanggang 6:00 PM. Impormasyon: 211.</description>
+    <instruction>Lumikas na ngayon sa pamamagitan ng Lake Ave. HUWAG bumalik hanggang 6:00 PM. Impormasyon: 211.</instruction>
+    <web>http://localhost:3000/a/e1c2037690?lang=tl</web>
     <parameter>
       <valueName>stentorStatus</valueName>
       <value>VERIFIED</value>
@@ -84,9 +90,11 @@
     <urgency>Immediate</urgency>
     <severity>Extreme</severity>
     <certainty>Observed</certainty>
+    <senderName>STENTOR demo operator</senderName>
     <headline>Altadena 지역 산불 경보</headline>
-    <description>Altadena 지역 산불 경보. Lake Ave을(를) 통해 즉시 대피하십시오. 오후 6:00까지 돌아오지 마십시오. 정보: 211.</description>
-    <instruction>Lake Ave을(를) 통해 즉시 대피하십시오. 오후 6:00까지 돌아오지 마십시오. 정보: 211.</instruction>
+    <description>Altadena 지역 산불 경보. Lake Ave 경로로 즉시 대피하십시오. 오후 6:00까지 돌아오지 마십시오. 정보: 211.</description>
+    <instruction>Lake Ave 경로로 즉시 대피하십시오. 오후 6:00까지 돌아오지 마십시오. 정보: 211.</instruction>
+    <web>http://localhost:3000/a/e1c2037690?lang=ko</web>
     <parameter>
       <valueName>stentorStatus</valueName>
       <value>VERIFIED</value>
@@ -107,9 +115,11 @@
     <urgency>Immediate</urgency>
     <severity>Extreme</severity>
     <certainty>Observed</certainty>
+    <senderName>STENTOR demo operator</senderName>
     <headline>تحذير: حريق غابات</headline>
     <description>تحذير: حريق غابات. أخلوا المكان فورًا. معلومات: ⁨211⁩.</description>
     <instruction>أخلوا المكان فورًا. معلومات: ⁨211⁩.</instruction>
+    <web>http://localhost:3000/a/e1c2037690?lang=ar</web>
     <parameter>
       <valueName>stentorStatus</valueName>
       <value>FALLBACK</value>
@@ -130,9 +140,61 @@
     <urgency>Immediate</urgency>
     <severity>Extreme</severity>
     <certainty>Observed</certainty>
-    <headline>Avètisman: dife nan rakbwa nan Altadena</headline>
-    <description>Avètisman: dife nan rakbwa nan Altadena. Evakye kounye a, pran Lake Ave. Pa retounen anvan 6:00 PM. Enfòmasyon: 211.</description>
-    <instruction>Evakye kounye a, pran Lake Ave. Pa retounen anvan 6:00 PM. Enfòmasyon: 211.</instruction>
+    <senderName>STENTOR demo operator</senderName>
+    <headline>Avètisman: dife nan rakbwa pou zòn Altadena</headline>
+    <description>Avètisman: dife nan rakbwa pou zòn Altadena. Evakye kounye a, pran wout Lake Ave. PA retounen anvan 6:00 PM. Enfòmasyon: 211.</description>
+    <instruction>Evakye kounye a, pran wout Lake Ave. PA retounen anvan 6:00 PM. Enfòmasyon: 211.</instruction>
+    <web>http://localhost:3000/a/e1c2037690?lang=ht</web>
+    <parameter>
+      <valueName>stentorStatus</valueName>
+      <value>VERIFIED</value>
+    </parameter>
+    <parameter>
+      <valueName>stentorRenderer</valueName>
+      <value>template</value>
+    </parameter>
+    <area>
+      <areaDesc>Altadena, Lake Ave</areaDesc>
+    </area>
+  </info>
+  <info>
+    <language>es</language>
+    <category>Fire</category>
+    <event>Wildfire</event>
+    <responseType>Evacuate</responseType>
+    <urgency>Immediate</urgency>
+    <severity>Extreme</severity>
+    <certainty>Observed</certainty>
+    <senderName>STENTOR demo operator</senderName>
+    <headline>Alerta de incendio forestal en Altadena</headline>
+    <description>Alerta de incendio forestal en Altadena. Evacúe ahora por Lake Ave. NO regrese antes de las 18:00. Información: 211.</description>
+    <instruction>Evacúe ahora por Lake Ave. NO regrese antes de las 18:00. Información: 211.</instruction>
+    <web>http://localhost:3000/a/e1c2037690?lang=es</web>
+    <parameter>
+      <valueName>stentorStatus</valueName>
+      <value>VERIFIED</value>
+    </parameter>
+    <parameter>
+      <valueName>stentorRenderer</valueName>
+      <value>template</value>
+    </parameter>
+    <area>
+      <areaDesc>Altadena, Lake Ave</areaDesc>
+    </area>
+  </info>
+  <info>
+    <language>tr</language>
+    <category>Fire</category>
+    <event>Wildfire</event>
+    <responseType>Evacuate</responseType>
+    <urgency>Immediate</urgency>
+    <severity>Extreme</severity>
+    <certainty>Observed</certainty>
+    <senderName>STENTOR demo operator</senderName>
+    <headline>Altadena için orman yangını uyarısı</headline>
+    <description>Altadena için orman yangını uyarısı. Lake Ave üzerinden hemen tahliye olun. 18:00 öncesinde geri dönmeyin. Bilgi: 211.</description>
+    <instruction>Lake Ave üzerinden hemen tahliye olun. 18:00 öncesinde geri dönmeyin. Bilgi: 211.</instruction>
+    <web>http://localhost:3000/a/e1c2037690?lang=tr</web>
     <parameter>
       <valueName>stentorStatus</valueName>
       <value>VERIFIED</value>

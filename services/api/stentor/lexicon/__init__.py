@@ -13,7 +13,7 @@ from functools import lru_cache
 from pathlib import Path
 
 LEXICON_DIR = Path(__file__).parent
-TARGET_LANGS = ["vi", "tl", "ko", "ar", "ht"]
+TARGET_LANGS = ["vi", "tl", "ko", "ar", "ht"]  # the PRD demo set; es and tr are also available
 
 
 @dataclass
@@ -37,6 +37,9 @@ class Lexicon:
     expires: dict
     raw: dict = field(repr=False, default_factory=dict)
 
+    def opt(self, key: str, default=None):
+        return self.raw.get(key, default)
+
     # ------------------------------------------------------------ matching
     def norm(self, text: str) -> str:
         """Normalize for phrase matching (case, and diacritics where safe)."""
@@ -47,6 +50,14 @@ class Lexicon:
         t = re.sub(r"⟦[^⟧]*⟧", " ", t)
         t = re.sub(r"[\-‐–—]", " ", t)
         return re.sub(r"\s+", " ", t).strip()
+
+    def find_all(self, phrase: str, text_norm: str) -> list[tuple[int, int]]:
+        """All (start, end) spans of phrase in normalized text."""
+        p = self.norm(phrase)
+        if not p:
+            return []
+        pat = re.escape(p) if not self.word_boundary else rf"(?<!\w){re.escape(p)}(?!\w)"
+        return [m.span() for m in re.finditer(pat, text_norm)]
 
     def find(self, phrase: str, text_norm: str) -> int:
         """Position of phrase in normalized text, -1 if absent."""

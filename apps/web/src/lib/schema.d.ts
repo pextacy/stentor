@@ -72,6 +72,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/alerts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Alerts */
+        get: operations["list_alerts_alerts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/alerts/{alert_id}": {
         parameters: {
             query?: never;
@@ -217,6 +234,16 @@ export interface components {
              * @default []
              */
             info_refs: string[];
+            /**
+             * Number Refs
+             * @default []
+             */
+            number_refs: string[];
+            /**
+             * Event Refs
+             * @default []
+             */
+            event_refs: string[];
             /** Source */
             source?: string | null;
             /** Extra Info */
@@ -303,11 +330,8 @@ export interface components {
         EvalRequest: {
             /** Langs */
             langs?: string[];
-            /**
-             * Suite
-             * @default all
-             */
-            suite: string;
+            /** Suites */
+            suites?: string[];
         };
         /** Example */
         Example: {
@@ -442,6 +466,21 @@ export interface components {
             reviewed_by: string;
             /** Approved */
             approved: boolean;
+            /**
+             * Negation Markers
+             * @default []
+             */
+            negation_markers: string[];
+            /**
+             * Evacuate Phrase
+             * @default
+             */
+            evacuate_phrase: string;
+            /**
+             * Sample Prohibition
+             * @default
+             */
+            sample_prohibition: string;
         };
         /** Meta */
         Meta: {
@@ -457,6 +496,28 @@ export interface components {
             backparser: string;
             /** Extractor */
             extractor: string;
+            phrasebook: components["schemas"]["Phrasebook"];
+            /** Instruction Count */
+            instruction_count: number;
+        };
+        /**
+         * Phrasebook
+         * @description English wording of every approved template, so the intent card can show each
+         *     instruction as the sentence it will become.
+         */
+        Phrasebook: {
+            /** Actions */
+            actions: {
+                [key: string]: {
+                    [key: string]: string;
+                };
+            };
+            /** Instructions */
+            instructions: {
+                [key: string]: {
+                    [key: string]: string;
+                };
+            };
         };
         /** PublicAlert */
         PublicAlert: {
@@ -639,6 +700,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CompileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_alerts_alerts_get: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    }[];
                 };
             };
             /** @description Validation Error */

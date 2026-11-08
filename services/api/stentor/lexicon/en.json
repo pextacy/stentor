@@ -8,84 +8,639 @@
   "approved": false,
   "fold_diacritics": true,
   "word_boundary": true,
-  "negation_markers": ["not", "don't", "dont", "never", "no"],
+  "split_clauses": true,
+  "split_colon": true,
+  "negation_markers": [
+    "not",
+    "don't",
+    "dont",
+    "never",
+    "no"
+  ],
+  "list_sep": ", ",
+  "role_markers": {
+    "via": [
+      "via",
+      "using",
+      "take",
+      "along",
+      "by way of",
+      "on"
+    ],
+    "to": [
+      "to",
+      "toward",
+      "towards"
+    ]
+  },
   "headline": "{name} warning.",
   "headline_place": "{name} warning for {P}.",
+  "headline_distance": "{name} {N} from {P}.",
+  "headline_all_clear": "The {name} warning has been cancelled.",
+  "headline_all_clear_place": "The {name} warning for {P} has been cancelled.",
+  "event_name": "{name} {E}",
+  "time": {
+    "style": "source",
+    "day_position": "after",
+    "day_joiner": " ",
+    "weekday_joiner": " ",
+    "day_words": {
+      "today": "today",
+      "tonight": "tonight",
+      "tomorrow": "tomorrow"
+    },
+    "weekdays": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ]
+  },
+  "units": {},
+  "unit_format": "{n} {u}",
   "hazards": {
-    "wildfire": {"name": "Wildfire", "terms": ["brush fire", "forest fire", "grass fire"]},
-    "flood": {"name": "Flood", "terms": ["flash flood", "flooding"]},
-    "earthquake": {"name": "Earthquake", "terms": ["aftershock"]},
-    "tsunami": {"name": "Tsunami", "terms": []},
-    "hurricane": {"name": "Hurricane", "terms": ["tropical storm", "typhoon"]},
-    "tornado": {"name": "Tornado", "terms": []},
-    "extreme_heat": {"name": "Extreme heat", "terms": ["heat wave", "excessive heat"]},
-    "hazmat": {"name": "Chemical hazard", "terms": ["chemical spill", "chemical", "hazardous material", "gas leak", "toxic"]},
-    "active_threat": {"name": "Active shooter", "terms": ["active threat", "armed person"]},
-    "boil_water": {"name": "Water contamination", "terms": ["boil water notice", "boil water advisory", "contaminated water"]},
-    "other": {"name": "Emergency", "terms": []}
+    "wildfire": {
+      "name": "wildfire",
+      "terms": [
+        "wild fire",
+        "brush fire",
+        "forest fire",
+        "grass fire",
+        "bushfire"
+      ]
+    },
+    "flood": {
+      "name": "flood",
+      "terms": [
+        "flash flood",
+        "flooding",
+        "floods"
+      ]
+    },
+    "earthquake": {
+      "name": "earthquake",
+      "terms": [
+        "quake"
+      ]
+    },
+    "tsunami": {
+      "name": "tsunami",
+      "terms": []
+    },
+    "hurricane": {
+      "name": "hurricane",
+      "terms": [
+        "tropical storm",
+        "typhoon",
+        "cyclone",
+        "storm surge"
+      ]
+    },
+    "tornado": {
+      "name": "tornado",
+      "terms": []
+    },
+    "extreme_heat": {
+      "name": "extreme heat",
+      "terms": [
+        "heat wave",
+        "excessive heat",
+        "heat warning"
+      ]
+    },
+    "hazmat": {
+      "name": "chemical hazard",
+      "terms": [
+        "chemical spill",
+        "chemical",
+        "hazardous material",
+        "hazardous materials",
+        "gas leak",
+        "toxic",
+        "hazmat",
+        "ammonia",
+        "chlorine"
+      ]
+    },
+    "active_threat": {
+      "name": "active shooter",
+      "terms": [
+        "active threat",
+        "armed person",
+        "gunman",
+        "shooting"
+      ]
+    },
+    "boil_water": {
+      "name": "water contamination",
+      "terms": [
+        "boil water notice",
+        "boil water advisory",
+        "contaminated water"
+      ]
+    },
+    "other": {
+      "name": "emergency",
+      "terms": []
+    }
   },
   "actions": {
-    "evacuate_now": {"match": ["evacuate now", "evacuate immediately", "leave now", "evacuation order"],
-      "text": {"": "Evacuate now.", "P": "Evacuate now via {P}.", "T": "Evacuate now, before {T}."}},
-    "prepare_to_evacuate": {"match": ["prepare to evacuate", "be ready to evacuate", "evacuation warning"],
-      "text": {"": "Prepare to evacuate.", "P": "Prepare to evacuate via {P}.", "T": "Prepare to evacuate by {T}."}},
-    "shelter_in_place": {"match": ["shelter in place", "take shelter"],
-      "text": {"": "Shelter in place now."}},
-    "move_to_higher_ground": {"match": ["move to higher ground", "go to higher ground", "get to high ground"],
-      "text": {"": "Move to higher ground now."}},
-    "stay_indoors": {"match": ["stay indoors", "stay inside", "remain indoors"],
-      "text": {"": "Stay indoors.", "T": "Stay indoors until {T}."}},
-    "avoid_area": {"match": ["avoid the area", "stay away from"],
-      "text": {"": "Avoid the area.", "P": "Stay away from {P}."}},
-    "boil_water": {"match": ["boil water", "boil all water", "boil tap water"],
-      "text": {"": "Boil water before drinking.", "N": "Boil water for {N} minutes before drinking."}},
-    "monitor": {"match": ["stay alert", "be alert", "stay informed", "listen for updates"],
-      "text": {"": "Stay alert for updates."}},
-    "all_clear": {"match": ["all clear", "danger has passed", "danger is over"],
-      "text": {"": "All clear: the danger has passed."}}
+    "evacuate_now": {
+      "match": [
+        "evacuate now",
+        "evacuate immediately",
+        "evacuate the area now",
+        "leave now",
+        "leave immediately",
+        "get out now",
+        "evacuate"
+      ],
+      "headline_match": [
+        "evacuation order",
+        "mandatory evacuation"
+      ],
+      "text": {
+        "": "Evacuate now.",
+        "P": "Evacuate now via {P}.",
+        "P:to": "Evacuate now to {P}.",
+        "T": "Evacuate now, before {T}."
+      }
+    },
+    "prepare_to_evacuate": {
+      "match": [
+        "prepare to evacuate",
+        "be ready to evacuate",
+        "get ready to leave",
+        "be ready to leave"
+      ],
+      "headline_match": [
+        "evacuation warning"
+      ],
+      "text": {
+        "": "Prepare to evacuate.",
+        "P": "Prepare to evacuate via {P}.",
+        "P:to": "Prepare to evacuate to {P}.",
+        "T": "Prepare to evacuate by {T}."
+      }
+    },
+    "shelter_in_place": {
+      "match": [
+        "shelter in place",
+        "take shelter",
+        "seek shelter"
+      ],
+      "text": {
+        "": "Shelter in place now."
+      }
+    },
+    "move_to_higher_ground": {
+      "match": [
+        "move to higher ground",
+        "go to higher ground",
+        "get to high ground",
+        "move to high ground",
+        "move inland"
+      ],
+      "text": {
+        "": "Move to higher ground now."
+      }
+    },
+    "stay_indoors": {
+      "match": [
+        "stay indoors",
+        "stay inside",
+        "remain indoors",
+        "stay at home",
+        "stay home"
+      ],
+      "text": {
+        "": "Stay indoors.",
+        "T": "Stay indoors until {T}.",
+        "TT": "Stay indoors between {T} and {T}."
+      }
+    },
+    "avoid_area": {
+      "match": [
+        "avoid the area",
+        "stay away from the area",
+        "stay away from",
+        "avoid"
+      ],
+      "text": {
+        "": "Avoid the area.",
+        "P": "Stay away from {P}."
+      }
+    },
+    "boil_water": {
+      "match": [
+        "boil water",
+        "boil all water",
+        "boil tap water",
+        "boil your water"
+      ],
+      "text": {
+        "": "Boil water before drinking.",
+        "N": "Boil water for {N} before drinking."
+      }
+    },
+    "monitor": {
+      "match": [
+        "stay alert",
+        "be alert",
+        "stay informed",
+        "listen for updates",
+        "watch for updates",
+        "monitor local news"
+      ],
+      "text": {
+        "": "Stay alert for updates."
+      }
+    },
+    "all_clear": {
+      "match": [
+        "all clear",
+        "danger has passed",
+        "danger is over",
+        "it is safe to return"
+      ],
+      "text": {
+        "": "All clear. The danger has passed."
+      }
+    }
   },
   "instructions": {
-    "return": {"match": ["return", "go back", "come back"],
-      "text": {"neg": "Do not return.", "neg|T": "Do not return until {T}.", "pos": "You may return."}},
-    "use:elevators": {"match": ["use elevators", "use the elevators", "use elevator", "take the elevator"],
-      "text": {"neg": "Do not use elevators."}},
-    "drive:flood_water": {"match": ["drive through flood water", "drive through floodwater", "drive into flood water"],
-      "text": {"neg": "Do not drive through flood water."}},
-    "drink:tap_water": {"match": ["drink tap water", "drink the tap water"],
-      "text": {"neg": "Do not drink tap water."}},
-    "go:outside": {"match": ["go outside", "go outdoors"],
-      "text": {"neg": "Do not go outside.", "neg|T": "Do not go outside until {T}."}},
-    "light:fires": {"match": ["light fires", "light a fire", "use open flames"],
-      "text": {"neg": "Do not light fires."}},
-    "touch:power_lines": {"match": ["touch downed power lines", "touch power lines"],
-      "text": {"neg": "Do not touch downed power lines."}},
-    "open:door": {"match": ["open the door", "open doors"],
-      "text": {"neg": "Do not open the door."}},
-    "turn_off:gas": {"match": ["turn off the gas", "turn off gas", "shut off gas"],
-      "text": {"pos": "Turn off the gas."}},
-    "close:windows": {"match": ["close all windows", "close windows", "shut windows"],
-      "text": {"pos": "Close all windows and doors."}},
-    "lock:doors": {"match": ["lock all doors", "lock doors", "lock the doors"],
-      "text": {"pos": "Lock all doors."}},
-    "drop:cover": {"match": ["drop, cover", "drop cover"],
-      "text": {"pos": "Drop, cover and hold on."}},
-    "check:neighbors": {"match": ["check on your neighbors", "check on neighbors"],
-      "text": {"pos": "Check on your neighbors."}},
-    "drink:water": {"match": ["drink plenty of water", "stay hydrated"],
-      "text": {"pos": "Drink plenty of water."}},
-    "follow:officials": {"match": ["follow instructions", "follow official"],
-      "text": {"pos": "Follow instructions from officials."}},
-    "go:cooling_center": {"match": ["cooling center"],
-      "text": {"pos|P": "Go to the cooling center at {P}."}},
-    "go:shelter": {"match": ["go to the shelter", "go to a shelter", "evacuation center"],
-      "text": {"pos|P": "Go to the shelter at {P}."}},
-    "take:essentials": {"match": ["take medicine", "take medicines", "bring medicine", "important documents"],
-      "text": {"pos": "Take medicine and important documents."}},
-    "take:pets": {"match": ["take your pets", "bring your pets", "take pets"],
-      "text": {"pos": "Take your pets with you."}},
-    "call": {"match": ["call", "dial"],
-      "text": {"pos|U": "Call {U}."}}
+    "return:until_cleared": {
+      "match": [
+        "return until officials say it is safe",
+        "return until it is safe",
+        "return until further notice",
+        "come back until officials say"
+      ],
+      "text": {
+        "neg": "Do NOT return until officials say it is safe."
+      }
+    },
+    "return": {
+      "match": [
+        "return",
+        "go back",
+        "come back"
+      ],
+      "text": {
+        "neg": "Do NOT return.",
+        "neg|T": "Do NOT return until {T}.",
+        "pos": "You may return home."
+      }
+    },
+    "use:elevators": {
+      "match": [
+        "use elevators",
+        "use the elevators",
+        "use elevator",
+        "take the elevator",
+        "take elevators"
+      ],
+      "text": {
+        "neg": "Do NOT use elevators."
+      }
+    },
+    "drive:flood_water": {
+      "match": [
+        "drive through flood water",
+        "drive through floodwater",
+        "drive into flood water",
+        "drive through flooded roads",
+        "drive on flooded roads",
+        "drive into flooded roads",
+        "drive through water",
+        "turn around, don't drown",
+        "turn around don't drown"
+      ],
+      "text": {
+        "neg": "Do NOT drive through flood water."
+      }
+    },
+    "drink:tap_water": {
+      "match": [
+        "drink tap water",
+        "drink the tap water",
+        "drink water from the tap"
+      ],
+      "text": {
+        "neg": "Do NOT drink tap water."
+      }
+    },
+    "go:outside": {
+      "match": [
+        "go outside",
+        "go outdoors",
+        "go out"
+      ],
+      "text": {
+        "neg": "Do NOT go outside.",
+        "neg|T": "Do NOT go outside until {T}."
+      }
+    },
+    "go:beach": {
+      "match": [
+        "go to the beach",
+        "go near the beach",
+        "go to the coast",
+        "go near the water",
+        "stay away from the beach",
+        "stay off the beach",
+        "stay away from the coast",
+        "stay away from the shore"
+      ],
+      "implied_neg": [
+        "stay away from the beach",
+        "stay off the beach",
+        "stay away from the coast",
+        "stay away from the shore"
+      ],
+      "text": {
+        "neg": "Do NOT go to the beach or the coast.",
+        "neg|T": "Do NOT go to the beach or the coast until {T}."
+      }
+    },
+    "enter:damaged_buildings": {
+      "match": [
+        "enter damaged buildings",
+        "go into damaged buildings",
+        "stay out of damaged buildings"
+      ],
+      "implied_neg": [
+        "stay out of damaged buildings"
+      ],
+      "text": {
+        "neg": "Do NOT enter damaged buildings."
+      }
+    },
+    "light:fires": {
+      "match": [
+        "light fires",
+        "light a fire",
+        "use open flames",
+        "use candles"
+      ],
+      "text": {
+        "neg": "Do NOT light fires."
+      }
+    },
+    "touch:power_lines": {
+      "match": [
+        "touch downed power lines",
+        "touch power lines",
+        "touch fallen power lines",
+        "go near power lines",
+        "stay away from downed power lines",
+        "stay away from power lines"
+      ],
+      "implied_neg": [
+        "stay away from downed power lines",
+        "stay away from power lines"
+      ],
+      "text": {
+        "neg": "Do NOT touch downed power lines."
+      }
+    },
+    "open:door": {
+      "match": [
+        "open the door",
+        "open doors"
+      ],
+      "text": {
+        "neg": "Do NOT open the door."
+      }
+    },
+    "wait": {
+      "match": [
+        "wait"
+      ],
+      "text": {
+        "neg": "Do NOT wait."
+      }
+    },
+    "turn_off:gas": {
+      "match": [
+        "turn off the gas",
+        "turn off gas",
+        "shut off gas",
+        "shut off the gas"
+      ],
+      "text": {
+        "pos": "Turn off the gas."
+      }
+    },
+    "turn_off:ventilation": {
+      "match": [
+        "turn off air conditioning",
+        "turn off the air conditioning",
+        "turn off ventilation",
+        "turn off fans",
+        "shut off air conditioning"
+      ],
+      "text": {
+        "pos": "Turn off air conditioning and ventilation."
+      }
+    },
+    "go_near:windows": {
+      "match": [
+        "stay away from windows",
+        "stay away from glass",
+        "go near windows",
+        "stand near windows"
+      ],
+      "text": {
+        "neg": "Do NOT stand near windows."
+      },
+      "implied_neg": [
+        "stay away from windows",
+        "stay away from glass"
+      ]
+    },
+    "close:windows": {
+      "match": [
+        "close all windows",
+        "close windows",
+        "close the windows",
+        "shut windows"
+      ],
+      "text": {
+        "pos": "Close all windows and doors."
+      }
+    },
+    "lock:doors": {
+      "match": [
+        "lock all doors",
+        "lock doors",
+        "lock the doors",
+        "lock the door"
+      ],
+      "text": {
+        "pos": "Lock all doors."
+      }
+    },
+    "be:quiet": {
+      "match": [
+        "stay quiet",
+        "be quiet",
+        "keep quiet",
+        "silence your phone"
+      ],
+      "text": {
+        "pos": "Stay quiet."
+      }
+    },
+    "drop:cover": {
+      "match": [
+        "drop, cover",
+        "drop cover"
+      ],
+      "text": {
+        "pos": "Drop, cover and hold on."
+      }
+    },
+    "expect:aftershocks": {
+      "match": [
+        "expect aftershocks",
+        "aftershocks are possible",
+        "aftershocks may"
+      ],
+      "text": {
+        "pos": "Expect aftershocks."
+      }
+    },
+    "go:basement": {
+      "match": [
+        "basement",
+        "interior room",
+        "inside room",
+        "lowest floor"
+      ],
+      "text": {
+        "pos": "Go to a basement or an inside room on the lowest floor."
+      }
+    },
+    "check:neighbors": {
+      "match": [
+        "check on your neighbors",
+        "check on neighbors",
+        "check on your neighbours"
+      ],
+      "text": {
+        "pos": "Check on your neighbors."
+      }
+    },
+    "drink:water": {
+      "match": [
+        "drink plenty of water",
+        "drink lots of water",
+        "stay hydrated"
+      ],
+      "text": {
+        "pos": "Drink plenty of water."
+      }
+    },
+    "follow:officials": {
+      "match": [
+        "follow instructions",
+        "follow official",
+        "follow directions"
+      ],
+      "text": {
+        "pos": "Follow instructions from officials."
+      }
+    },
+    "go:cooling_center": {
+      "match": [
+        "cooling center",
+        "cooling centre"
+      ],
+      "text": {
+        "pos|P": "Go to the cooling center at {P}."
+      }
+    },
+    "go:shelter": {
+      "match": [
+        "go to the shelter",
+        "go to a shelter",
+        "nearest shelter",
+        "evacuation center",
+        "evacuation centre"
+      ],
+      "text": {
+        "pos": "Go to the nearest shelter.",
+        "pos|P": "Go to the shelter at {P}."
+      }
+    },
+    "take:essentials": {
+      "match": [
+        "take medicine",
+        "take medicines",
+        "take your medicine",
+        "take your medications",
+        "medications",
+        "medication",
+        "medicine",
+        "important documents"
+      ],
+      "text": {
+        "pos": "Take medicine and important documents."
+      }
+    },
+    "take:pets": {
+      "match": [
+        "take your pets",
+        "bring your pets",
+        "take pets",
+        "pets"
+      ],
+      "text": {
+        "pos": "Take your pets with you."
+      }
+    },
+    "use:route": {
+      "match": [
+        "use",
+        "take",
+        "follow"
+      ],
+      "needs": "P",
+      "text": {
+        "pos|P": "Use {P}."
+      }
+    },
+    "call": {
+      "match": [
+        "call",
+        "dial"
+      ],
+      "text": {
+        "pos|U": "Call {U}."
+      }
+    }
   },
-  "info": {"match": ["info", "information", "more info", "details"], "text": "Info: {U}."},
-  "expires": {"match": ["in effect until", "valid until", "expires", "until"], "text": "This alert is in effect until {T}."}
+  "info": {
+    "match": [
+      "info",
+      "information",
+      "more info",
+      "details",
+      "updates"
+    ],
+    "text": "Info: {U}."
+  },
+  "expires": {
+    "match": [
+      "in effect until",
+      "valid until",
+      "expires",
+      "until"
+    ],
+    "text": "This alert is in effect until {T}."
+  }
 }

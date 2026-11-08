@@ -37,15 +37,22 @@ def _iso(dt: datetime) -> str:
 
 
 def _expires(intent: AlertIntent, mapping: dict[str, str], sent: datetime) -> str | None:
+    """Turn the expiry literal into a CAP dateTime in the alert's time zone.
+    A clock time already past today means tomorrow; a weekday alone means the end of
+    that day. Unparseable expiry ("further notice") is left out rather than guessed."""
     if not intent.expires:
         return None
     p = parse_time(mapping.get(intent.expires, ""))
     if p is None:
         return None
-    day, h, mi = p
+    h, mi = (p.hour, p.minute) if p.hour is not None else (23, 59)
     exp = sent.replace(hour=h, minute=mi, second=0, microsecond=0)
-    if day == "tomorrow" or exp <= sent:
+    if p.weekday is not None:
+        exp += timedelta(days=(p.weekday - sent.weekday()) % 7)
+    elif p.day == "tomorrow":
         exp += timedelta(days=1)
+    if exp <= sent:
+        exp += timedelta(days=7 if p.weekday is not None else 1)
     return _iso(exp)
 
 
@@ -57,7 +64,7 @@ def _sub(parent: ET.Element, tag: str, text: str) -> ET.Element:
 
 def build_cap(alert_id: str, intent: AlertIntent, mapping: dict[str, str], source_text: str, results: list[dict],
               sent: datetime | None = None, sender: str = "stentor-demo@example.org", status: str = "Exercise",
-              tz: timezone | None = None) -> str:
+              tz: timezone | None = None, sender_name: str = "STENTOR demo operator", web: str | None = None) -> str:
     """status defaults to Exercise: STENTOR is not certified for production alerting."""
     sent = (sent or datetime.now(tz or timezone.utc)).astimezone(tz or timezone.utc)
     ET.register_namespace("", NS)
@@ -88,10 +95,13 @@ def build_cap(alert_id: str, intent: AlertIntent, mapping: dict[str, str], sourc
         if expires:
             _sub(info, "expires", expires)
         sentences = [s for s in b["text"].replace("\n", " ").split(". ") if s]
+        _sub(info, "senderName", sender_name)
         _sub(info, "headline", sentences[0].rstrip(".")[:160])
         _sub(info, "description", b["text"])
         if len(sentences) > 1:
             _sub(info, "instruction", ". ".join(sentences[1:]))
+        if web:
+            _sub(info, "web", f"{web}?lang={b['lang']}")
         for name, value in (("stentorStatus", b["status"]), ("stentorRenderer", b.get("renderer", ""))):
             param = ET.SubElement(info, f"{{{NS}}}parameter")
             _sub(param, "valueName", name)

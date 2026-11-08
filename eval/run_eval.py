@@ -20,9 +20,9 @@ sys.path.insert(0, str(ROOT / "services" / "api"))
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--langs", default="vi,tl,ko,ar,ht")
+    ap.add_argument("--langs", default="vi,tl,ko,ar,ht,es,tr")
     ap.add_argument("--out", default=str(ROOT / "eval" / "results" / "latest.json"))
-    ap.add_argument("--suite", default="clean")
+    ap.add_argument("--suites", default="clean,realistic")
     ap.add_argument("--offline", action="store_true", help="ignore API keys; deterministic path only")
     ap.add_argument("--force-model", choices=["llm", "adaption"],
                     help="skip templates and measure one model renderer; writes eval/results/renderer-<name>.json")
@@ -38,8 +38,16 @@ def main() -> None:
 
     from stentor.evaluation import run_eval
 
-    res = run_eval([x for x in args.langs.split(",") if x], Path(args.out), args.suite)
-    print(json.dumps(res["summary"], ensure_ascii=False, indent=1))
+    res = run_eval([x for x in args.langs.split(",") if x], Path(args.out), [x for x in args.suites.split(",") if x])
+    s = {k: v for k, v in res["summary"].items() if k not in ("by_lang", "catch_by_corruption", "suites")}
+    print(json.dumps(s, ensure_ascii=False, indent=1))
+    for name, suite in res["summary"]["suites"].items():
+        print(name, json.dumps(suite, ensure_ascii=False))
+    off = [r for r in res["clean"] if r["expected_status"] and r["status"] != r["expected_status"]]
+    if off:
+        print(f"\nSTATUS DIFFERS FROM EXPECTED ({len(off)}):")
+        for r in off[:30]:
+            print(" ", r["suite"], r["id"], r["lang"], r["status"], "expected", r["expected_status"], r["reasons"][:2])
     missed = [r for r in res["adversarial"] if not r["caught"]]
     if missed:
         print(f"\nMISSED {len(missed)} corruptions:")

@@ -4,7 +4,7 @@ Goal: a small model that renders English emergency alerts into Haitian Creole (`
 without ever changing meaning. Backup language: Tagalog (`tl`).
 
 Success is measured by STENTOR's own verifier (`eval/run_eval.py --force-model adaption`):
-slot match rate and placeholder survival on the 60 alert clean suite, compared with the
+slot match rate and placeholder survival on the clean (60) and realistic (32) suites, compared with the
 baseline LLM (`--force-model llm`). Nothing is claimed until both runs exist.
 
 Coverage plan (~1,000 rows): 8 hazards (wildfire, flood, earthquake, tsunami, hurricane,

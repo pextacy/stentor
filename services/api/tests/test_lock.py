@@ -23,7 +23,7 @@ def test_each_placeholder_unique():
 
 def test_numbers_and_urls():
     locked, mapping = apply("Boil water for 3 minutes. Info: www.oakhills.gov/water")
-    assert mapping == {"⟦N1⟧": "3", "⟦U1⟧": "www.oakhills.gov/water"}
+    assert mapping == {"⟦N1⟧": "3 minutes", "⟦U1⟧": "www.oakhills.gov/water"}
     assert locked.endswith("Info: ⟦U1⟧")
 
 

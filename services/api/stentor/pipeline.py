@@ -9,6 +9,7 @@ from stentor.intent.extract import coverage, ensure_action_instruction, instruct
 from stentor.intent.schema import AlertIntent
 from stentor.lexicon import load, meta
 from stentor.lock import placeholders_in, restore
+from stentor.lock.locker import finalize
 from stentor.render.router import route
 from stentor.render.template import render_generic
 from stentor.verify.backparse import parse_lexicon
@@ -106,7 +107,7 @@ def compile_lang(intent: AlertIntent, locked_text: str, mapping: dict[str, str],
                 notes.append(f"could not compress over-length alert: {e}")
 
     if ver is not None and ver.status != Status.BLOCKED:
-        text = restore(rendered, mapping, lang)
+        text = finalize(restore(rendered, mapping, lang), lang)
         return LangResult(**m, status=ver.status, text=text, locked_text=rendered, renderer=r.renderer,
                           backparser=ver.backparser, checks=ver.checks, diff=ver.diff, reasons=ver.reasons,
                           notes=notes, chaos=chaos, sms=sms_info(text))
@@ -115,18 +116,18 @@ def compile_lang(intent: AlertIntent, locked_text: str, mapping: dict[str, str],
     generic_locked, reduced = render_generic(intent, lang)
     gen_source = " ".join(reduced.info_refs)
     fver = verify(reduced, gen_source, generic_locked, mapping, lang)
-    reasons = (ver.reasons if ver else ["no renderer could express this alert"])
-    attempt = restore(rendered, mapping, lang) if rendered else None
+    reasons = (ver.reasons if ver else ["No renderer could express this alert"])
+    attempt = finalize(restore(rendered, mapping, lang), lang) if rendered else None
     if fver.status == Status.BLOCKED:
         return LangResult(**m, status=Status.BLOCKED, text=None, locked_text=None, renderer=r.renderer,
                           backparser=fver.backparser, checks=(ver.checks if ver else []) + fver.checks,
-                          diff=ver.diff if ver else [], reasons=reasons + ["safe fallback also failed verification"],
+                          diff=ver.diff if ver else [], reasons=reasons + ["The safe fallback also failed its checks, so nothing is sent"],
                           notes=notes, chaos=chaos, blocked_attempt=attempt)
-    text = restore(generic_locked, mapping, lang)
+    text = finalize(restore(generic_locked, mapping, lang), lang)
     return LangResult(**m, status=Status.FALLBACK, text=text, locked_text=generic_locked, renderer="safe_template",
                       backparser=fver.backparser, checks=ver.checks if ver else fver.checks,
                       diff=ver.diff if ver else fver.diff,
-                      reasons=reasons + ["sent the pre-approved generic safe template for this hazard instead"],
+                      reasons=reasons + ["Sent the pre-approved generic warning for this hazard instead"],
                       notes=notes, chaos=chaos, fallback_used=True, blocked_attempt=attempt, sms=sms_info(text))
 
 

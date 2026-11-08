@@ -1,159 +1,259 @@
 # DOCS: STENTOR technical reference
 
-## 1. Core schema
+This describes the system as built. Code paths are relative to `services/api/stentor/`.
+
+## 1. Core schema (`intent/schema.py`)
 
 ```python
-from enum import Enum
-from pydantic import BaseModel, Field
-
-class Hazard(str, Enum):
-    WILDFIRE="wildfire"; FLOOD="flood"; EARTHQUAKE="earthquake"; TSUNAMI="tsunami"
-    HURRICANE="hurricane"; TORNADO="tornado"; EXTREME_HEAT="extreme_heat"
-    HAZMAT="hazmat"; SHOOTER="active_threat"; BOIL_WATER="boil_water"; OTHER="other"
-
-class Action(str, Enum):           # ordered by strength within a family
-    EVACUATE_NOW="evacuate_now"
-    PREPARE_TO_EVACUATE="prepare_to_evacuate"
-    SHELTER_IN_PLACE="shelter_in_place"
-    MOVE_TO_HIGHER_GROUND="move_to_higher_ground"
-    STAY_INDOORS="stay_indoors"
-    AVOID_AREA="avoid_area"
-    BOIL_WATER="boil_water"
-    MONITOR="monitor"
-    ALL_CLEAR="all_clear"
+class Hazard(str, Enum):  wildfire flood earthquake tsunami hurricane tornado extreme_heat
+                          hazmat active_threat boil_water other
+class Action(str, Enum):  evacuate_now prepare_to_evacuate shelter_in_place move_to_higher_ground
+                          stay_indoors avoid_area boil_water monitor all_clear
 
 class Instruction(BaseModel):
-    verb: str                     # normalized English verb, e.g. "use", "return"
-    object: str | None            # "elevators", "the area"
-    negated: bool                 # True for "do NOT ..."
-    placeholders: list[str] = []  # e.g. ["⟦T1⟧"]
+    verb: str               # normalized English verb: "return", "use", or an action verb
+    object: str | None      # "elevators", "until_cleared"; for evacuate/prepare: "via" | "to"
+    negated: bool           # True for "do NOT ..." and for implied prohibitions
+    placeholders: list[str] # ids bound to this instruction, in text order
 
 class AlertIntent(BaseModel):
     hazard: Hazard
-    action: Action
-    urgency: str = Field(pattern="^(immediate|expected|future)$")
-    area_refs: list[str]          # placeholder ids only
-    time_refs: list[str]          # placeholder ids only
-    expires: str | None           # placeholder id
+    action: Action                # the main protective action
+    urgency: str                  # immediate | expected | future   (non critical)
+    area_refs: list[str]          # every ⟦P⟧
+    time_refs: list[str]          # every ⟦T⟧
+    expires: str | None           # the ⟦T⟧ for when the alert itself ends
     instructions: list[Instruction]
-    info_refs: list[str] = []     # phone / URL placeholders
-    source: str | None = None     # non critical
-    extra_info: str | None = None # non critical
+    info_refs: list[str]          # every ⟦U⟧
+    number_refs: list[str]        # every ⟦N⟧
+    event_refs: list[str]         # every ⟦E⟧ (storm names)
+    source: str | None            # non critical
+    extra_info: str | None        # non critical
 ```
 
-Critical slots: `hazard`, `action`, `area_refs`, `time_refs`, `expires`, `instructions[*].negated`, `instructions[*].verb` (normalized), `info_refs`.
+Action verbs: evacuate, prepare, shelter, move, stay, avoid, boil, monitor, all_clear.
+`WEAKER_THAN` lists dangerous softenings (evacuate_now -> prepare_to_evacuate, monitor; ...).
 
-## 2. Placeholder locking
+**Critical slots:** hazard, action, area_refs, time_refs, info_refs, number_refs, event_refs,
+expires, negations (the negated instructions), instructions.
 
-| Type | Prefix | Detects |
+**Every alert states its action.** If the source has no action sentence ("Drop, cover and
+hold on."), `ensure_action_instruction` adds the implied action to the intent card so the
+operator sees it, and the alert goes to Review because the action was assumed.
+
+## 2. Placeholder locking (`lock/locker.py`)
+
+| Kind | Token | Detects |
 |---|---|---|
-| Time / date | `T` | `6:00 PM`, `18:00`, `tomorrow 8am` (dateparser + regex) |
-| Place / street | `P` | proper nouns from intent extraction + gazetteer list |
-| Number | `N` | counts, distances, wind speed |
-| Phone / URL | `U` | `211`, `911`, URLs |
+| Time / day | `⟦T1⟧` | `6:00 PM`, `18:00`, `3 p.m.`, `3 pm tomorrow`, `tomorrow 8am`, `7 PM tonight`, `5 PM Friday`, `Friday`, `noon` |
+| Place | `⟦P1⟧` | operator markers `⟦Altadena⟧`; names after near/in/at/for/from/via/to...; streets (`Lake Ave`, `5th Street`, `St. Mary School`, `Mt. Wilson`); routes (`I-5`, `Highway 101`, `Exit 132`) |
+| Quantity | `⟦N1⟧` | `2 miles`, `one minute`, `3 minutes`, bare numbers |
+| Phone / link | `⟦U1⟧` | `211`, `911`, `112` and other short codes, `(602) 555-0134`, `1-800-555-1234`, URLs and domains |
+| Event name | `⟦E1⟧` | `Milton` in `Hurricane Milton` |
 
-Format: `⟦T1⟧`. `lock.apply(text) -> (locked_text, mapping)`, `lock.restore(text, mapping, lang) -> text` (localizes time format per language, never the value).
+Priority on overlap: U > T > E > P > N, then the longer span. Each occurrence gets its own
+token. Abbreviation dots (`St.`, `Mt.`) are kept inside places, and `p.m.` at the end of a
+sentence leaves the sentence period in place.
 
-Verification rule: `Counter(placeholders_in(rendered)) == Counter(mapping.keys())`.
+`restore(text, mapping, lang)` puts values back and localizes only the format:
 
-## 3. Rendering
+| | vi | tl | ko | ar | ht | es | tr |
+|---|---|---|---|---|---|---|---|
+| `6:00 PM` | 18:00 | 6:00 PM | 오후 6:00 | 6:00 م | 6:00 PM | las 18:00 | 18:00 |
+| `3 pm tomorrow` | 15:00 ngày mai | 3:00 PM bukas | 내일 오후 3:00 | غدًا 3:00 م | 3:00 PM demen | las 15:00 de mañana | yarın 15:00 |
+| `Friday` | thứ Sáu | Biyernes | 금요일 | الجمعة | vandredi | el viernes | Cuma |
+| `2 miles` | 2 dặm | 2 milya | 2마일 | 2 ميلان | 2 mil | 2 millas | 2 mil |
+
+In right-to-left languages each literal is wrapped in Unicode isolates (U+2068 ... U+2069) so
+`211.` cannot be reordered. `finalize()` capitalizes sentence starts after restoring
+(Turkish `i` -> `İ`); it runs after verification and only changes letter case.
+
+Verification rule: `Counter(placeholders_in(rendered)) == Counter(placeholders_in(source))`,
+and after restore every localized literal must appear as often as its token did.
+
+## 3. Rendering (`render/router.py`, `render/template.py`)
 
 Router order:
-1. **Template**: `lexicon/templates/{hazard}.{action}.{lang}.txt` exists → fill placeholders. Status starts as VERIFIED if template is marked `approved: true`.
-2. **Adaption model**: `STENTOR_RENDERER=adaption` and language is supported by the trained model.
-3. **LLM**: system prompt requires short imperative sentences, keep every `⟦…⟧` exactly once, never soften the action, keep every negation, reading level about grade 6.
+1. **Templates** when they express the whole alert (`coverage()` below).
+2. **Adaption model** when `STENTOR_RENDERER=adaption` and a trained model supports the language.
+3. **Claude** (`claude-opus-5-5`) with a strict prompt: short imperative sentences, keep every
+   token once, never soften the action, use the lexicon's action phrase and negation words.
+4. No model available: templates anyway, but the language goes to **Review** with the words
+   the templates drop listed.
 
-Rendered output is always verified, including templates (cheap sanity check).
+The template renderer composes, in order: headline, expiry, the action sentence (if no
+instruction carries it), each instruction, then an info line for each phone/link not used by
+an instruction. Headline variants: plain, with places (several are joined with the language's
+list separator), with a distance (`Wildfire ⟦N1⟧ from ⟦P1⟧`), with an event name
+(`Hurricane ⟦E1⟧`), and a cancelled form for all-clear messages. Action variants are keyed by
+placeholder kinds and role: `""`, `P` (route), `P:to` (destination), `T`, `TT`, `N`.
+Instruction variants: `neg`, `pos`, `neg|T`, `pos|P`, `pos|U`.
 
-## 4. Action lexicon
+**Coverage.** The English rendering of the intent must say everything the source says. A
+source word counts as covered if the English rendering contains it or it belongs to a
+phrase the lexicon recognized ("take shelter", "flash flood", "turn around, don't drown").
+Anything else ("if safe", "without windows", a lower case place name) is listed and the
+alert goes to Review.
 
-`stentor/lexicon/{lang}.json`
+**Safe fallback.** `render_generic()` = hazard headline + action sentence + info lines. It
+drops places, times and names on purpose so it is always expressible, and it is verified
+against the reduced intent it expresses.
 
-```json
+## 4. Lexicon format (`lexicon/{lang}.json`)
+
+```jsonc
 {
-  "lang": "tl",
-  "actions": {
-    "evacuate_now": ["lumikas na ngayon", "lumikas kaagad"],
-    "prepare_to_evacuate": ["maghanda sa paglikas"],
-    "shelter_in_place": ["manatili sa loob"]
-  },
-  "weaker_than": {
-    "evacuate_now": ["prepare_to_evacuate", "monitor"]
-  },
-  "negation_markers": ["huwag", "hindi"],
-  "reviewed_by": "native speaker name or 'unreviewed'"
+  "lang": "vi", "name": "Tiếng Việt", "english_name": "Vietnamese", "dir": "ltr", "tts": "vi-VN",
+  "reviewed_by": "unreviewed",            // a native speaker's name once checked
+  "fold_diacritics": false,               // Vietnamese: diacritics change meaning
+  "word_boundary": true,                  // false for Korean and Turkish (suffixes)
+  "negation_markers": ["không", "đừng", "chớ", "cấm"],
+  "negation_drop": [["지 마십시오", "십시오"]],   // optional: how chaos removes a suffix negation
+  "split_clauses": false, "split_colon": false,   // English only
+  "list_sep": ", ",
+  "role_markers": {"via": ["theo đường"], "to": ["đến"]},
+  "headline": "Cảnh báo {name}.", "headline_place": "Cảnh báo {name} tại {P}.",
+  "headline_distance": "...", "headline_all_clear": "...", "headline_all_clear_place": "...",
+  "event_name": "{name} {E}",
+  "time": {"style": "24h", "day_position": "after", "day_words": {...}, "weekdays": [...]},
+  "units": {"minute": "phút", ...}, "unit_format": "{n} {u}",
+  "hazards": {"wildfire": {"name": "cháy rừng", "terms": ["đám cháy"]}, ...},
+  "actions": {"evacuate_now": {"match": ["sơ tán ngay"],
+                               "text": {"": "Sơ tán ngay.", "P": "Sơ tán ngay theo đường {P}.", "P:to": "...", "T": "..."}}, ...},
+  "instructions": {"use:elevators": {"match": ["thang máy"], "text": {"neg": "KHÔNG đi thang máy."}},
+                   "go:beach": {"match": [...], "implied_neg": ["stay away from the beach"], "text": {...}},
+                   "use:route": {"match": [...], "needs": "P", "text": {"pos|P": "..."}}, ...},
+  "info": {"match": ["thông tin"], "text": "Thông tin: {U}."},
+  "expires": {"match": ["có hiệu lực đến"], "text": "Cảnh báo này có hiệu lực đến {T}."}
 }
 ```
 
-Mark every lexicon file with `reviewed_by`. Unreviewed lexicons are shown as such in the UI. Seed them with an LLM, then ask native speakers from Discord / friends to review the action phrases only (short list, fast to check).
+Eight lexicons ship: en (source), vi, tl, ko, ar, ht (the PRD set), es, tr. Each has 11
+hazards, 9 actions and 30 instruction types. File order of `instructions` is priority.
+Where the script has case and the negation is a separate word, it is written in capitals
+(NOT, KHÔNG, HUWAG, PA, NO).
 
-Lexicon checks:
-- `action_present`: some phrase for `intent.action` appears (case and diacritic insensitive).
-- `no_weaker_action`: no phrase from a weaker action appears without the correct one.
-- `negation_count`: number of negation markers ≥ number of negated instructions.
+`tests/test_lexicon.py` enforces, for every language: all keys and variants present; every
+template reads back to exactly the intent it was rendered from (over 1,000 combinations per
+language); negation markers only in negated templates; and the role word next to a place
+tells route from destination.
 
-## 5. Back parse prompt (model B)
+## 5. Parsing and back parsing (`verify/backparse.py`)
 
-Input: rendered text in language L, language code, list of valid placeholders. The model is **not** shown the English source. Output: `AlertIntent` via tool use with the same JSON schema. Temperature 0.
+The same deterministic parser reads the English source (no key) and the translations (lexicon
+back parser). It is never shown the English when reading a translation.
 
-## 6. Slot diff and status
+1. **Sentences.** Split on `. ! ? ؟`, protecting abbreviation dots. English also splits
+   `Heat wave in ⟦P1⟧: stay indoors` at the colon, but keeps `Info: ⟦U1⟧` together.
+2. **Clauses.** An English sentence with more than one instruction is split on commas, `;`
+   and `and`, so in "Evacuate now and do not use elevators" the "not" belongs to the second
+   clause only.
+3. **Matches.** All action and instruction phrases are found. On overlap the longer phrase
+   wins ("stay away from the beach" beats the action "stay away from"). Hazard terms are
+   blanked before action matching, so "boil water notice" is not the boil action. In one
+   clause a specific key beats the generic key of the same verb (`return:until_cleared` over
+   `return`); different objects are both kept ("medications and pets").
+4. **Negation** is per clause: a marker in the clause, or an `implied_neg` phrase.
+5. **Binding.** Instructions take the placeholders of their clause that their templates can
+   hold. For evacuate/prepare a place is a route only next to a via-word, a destination only
+   next to a to-word; otherwise it is the affected area ("Evacuate now from Altadena",
+   "residents of ⟦P1⟧ must evacuate").
+6. **Main action** = the earliest action phrase, including headline forms ("EVACUATION
+   ORDER"). Other action phrases become instructions with their own verbs. Exact duplicate
+   instructions are dropped ("Evacuation order. Leave now.").
+
+With a Claude key, back parsing uses `claude-sonnet-5-5` (a different model from the
+renderer) with the same JSON schema, told the language and the valid tokens only. If that
+call fails, the language is blocked.
+
+## 6. Checks, slot diff and status (`verify/checks.py`, `verify/diff.py`)
+
+Checks on the rendered (locked) text, all critical except length and coverage:
+
+| Check | Fails when |
+|---|---|
+| placeholders | any token missing, extra or duplicated |
+| action_present | no approved phrase for the main action |
+| no_weaker_action | a weaker action's phrase appears without the right one |
+| negation_count | fewer negation markers than negated instructions |
+| literals_restored | a localized literal is missing after restore |
+| length (non critical) | over 360 characters; with a key, a compressed version is requested and verified again |
+| template_coverage (non critical) | templates were used although they drop source words |
+
+Slot diff: enums exact; placeholder lists as multisets; instructions as multisets of
+`(verb, object, negated, placeholders)` where placeholders keep their order within a kind
+("between ⟦T1⟧ and ⟦T2⟧" is not "between ⟦T2⟧ and ⟦T1⟧").
 
 ```python
-def status(src: AlertIntent, back: AlertIntent, checks: list[Check]) -> Status:
-    if any(c.critical and not c.ok for c in checks): return BLOCKED
-    if critical_diff(src, back): return BLOCKED
-    if noncritical_diff(src, back): return REVIEW
-    return VERIFIED
+if any critical check fails or any critical slot differs: BLOCKED -> try safe fallback -> FALLBACK
+elif any non critical check fails or slot differs:        REVIEW (not sent automatically)
+else:                                                       VERIFIED
 ```
 
-`critical_diff` compares enums exactly, placeholder lists as multisets, and instructions matched by normalized verb with `negated` equal.
+Reasons are written in plain language, shown on the card and stored in the audit log.
 
-On BLOCKED: render the hazard's generic safe template for L (`{hazard}.generic.{lang}`), verify it, mark language as `FALLBACK`.
-
-## 7. API
+## 7. API (`main.py`)
 
 | Method | Path | Body | Returns |
 |---|---|---|---|
-| POST | `/intent` | `{text}` | `{intent, locked_text, mapping}` |
-| POST | `/compile` | `{intent, locked_text, mapping, langs[]}` | `{results: [{lang, text, status, checks[], diff, renderer}]}` |
-| POST | `/export/cap` | `{alert_id}` | CAP XML |
-| GET | `/alerts/{id}` | | full alert + audit |
-| POST | `/eval/run` | `{langs[], suite}` | eval summary |
-| GET | `/public/{id}?lang=` | | citizen page data |
+| GET | `/health` | | status, version, which keys are configured (never values) |
+| GET | `/meta` | | languages with lexicon summary, examples, corruption types, English phrasebook |
+| POST | `/intent` | `{text}` | `{intent, locked_text, mapping, method, warnings, template_coverage, uncovered}` |
+| POST | `/compile?chaos=drop_negation:ar` | `{intent, locked_text, mapping, langs[]}` | `{alert_id, source_text, intent, results[]}` |
+| GET | `/alerts?limit=` | | recent alerts with per language status |
+| GET | `/alerts/{id}` | | full alert + audit log |
+| POST | `/export/cap` | `{alert_id}` | CAP 1.2 XML |
+| GET | `/public/{id}?lang=` | | citizen page data, sendable languages only |
+| POST | `/eval/run` | `{langs[], suites[]}` | eval summary (only without an API key) |
+| GET | `/eval/latest`, `/eval/renderers` | | latest eval file; model renderer comparison |
 
-## 8. Channels
+`/compile` de-duplicates languages, rejects an empty list, rejects chaos aimed at a language
+that is not compiled, and rebuilds the English source text from the locked text, so the
+stored, exported and public English is always the text that was verified.
 
-**CAP 1.2**: one `<alert>`, one `<info>` per language with `<language>` (e.g. `vi`), `<category>`, `<event>`, `<urgency>`, `<severity>`, `<certainty>`, `<headline>`, `<description>`, `<instruction>`, `<expires>`, `<area><areaDesc>`. Only VERIFIED and FALLBACK languages are included. Add `<parameter>` `stentorStatus` and `stentorRenderer` per info block.
+## 8. Channels (`channels/`)
 
-**SMS**: detect GSM-7 vs UCS-2; segment size 160 / 70 (153 / 67 when concatenated). Show segment count per language.
+**CAP 1.2:** one `<alert>` (status `Exercise`), one `<info>` for English plus one per
+VERIFIED or FALLBACK language, with language, category, event, responseType, urgency,
+severity, certainty, expires (clock time today, tomorrow if already past, weekday = end of that
+day; left out if unparseable), senderName, headline, description, instruction, web (the
+public page in that language), parameters `stentorStatus` and `stentorRenderer`, and area.
+Datetimes use an explicit offset (`-00:00` for UTC).
 
-**Short alert budget**: configurable limit (default 360 chars) for wireless alert style text; if over, ask renderer for a compressed version and re-verify.
+**SMS:** GSM-7 vs UCS-2, 160/70 characters for one segment, 153/67 per segment after that.
 
-**Audio**: Web Speech API in browser with `lang` set; fall back to "audio not available for this language".
+**Audio:** Web Speech API with the language's voice; the UI says so when a device has none.
 
-**Pictogram card**: SVG composed from hazard icon + action icon + time/place chips. Language independent, so it is the last resort for anyone.
+**Pictogram:** SVG from hazard icon + action icon + one tile per prohibition with an icon
+(elevators, flood water, return, outside, tap water, fires, power lines, door, beach, damaged
+buildings, windows, waiting) + place and time chips.
 
-## 9. Eval
+## 9. Eval (`evaluation.py`, `eval/run_eval.py`)
 
-`eval/suites/clean.jsonl`: 60 alerts (8 hazards, varied actions, 30% with negations).
-`eval/suites/adversarial.jsonl`: each clean alert + one injected corruption of the rendered text:
-`drop_negation`, `downgrade_action`, `shift_time`, `swap_place`, `swap_hazard`, `drop_placeholder`, `duplicate_placeholder`.
+Suites:
+- `eval/suites/clean.jsonl`: 60 alerts in template wording, 8+ hazards, 29 with negations.
+- `eval/suites/realistic.jsonl`: 32 alerts with messy wording and every bug found in review,
+  each with a note. These are also unit tests (`tests/test_realistic.py`).
 
-Metrics:
-- Catch rate on adversarial (target 100% for critical)
-- False block rate on clean
-- Placeholder survival rate
-- Slot match rate per renderer (baseline LLM vs Adaption model)
+Each alert has an expected hazard, action, negation count and status. Every rendering is then
+corrupted in each applicable way: `drop_negation`, `downgrade_action`, `shift_time` (swap two
+times or invent one), `swap_place` (swap places with different roles or invent one),
+`swap_hazard`, `drop_placeholder`, `duplicate_placeholder`.
 
-`eval/run_eval.py` writes `eval/results/*.json`; the dashboard reads the latest file. Only these numbers appear in the pitch.
+Metrics: catch rate, wrongly blocked rate on clean renderings, status as expected, review
+rate, literal survival, intent read accuracy, per language, per suite, per corruption.
+`--force-model llm|adaption` switches templates off to measure a model renderer
+(`eval/results/renderer-*.json`). Only these numbers appear in the pitch.
 
-## 10. Chaos mode (demo)
+## 10. Chaos mode
 
-`POST /compile?chaos=drop_negation:ar` applies a corruption to one language after rendering and before verification. Used live to show the catch. Clearly labeled in the UI.
+`POST /compile?chaos=drop_negation:ar` applies one corruption to one language after rendering
+and before verification. Clearly labelled in the UI; the chaos language always follows the
+selected languages.
 
-## 11. Accessibility checklist
+## 11. Accessibility
 
-- All controls keyboard reachable, visible focus
-- `lang` and `dir` attributes on every rendered alert block
-- Status never shown by color only (icon + word)
-- Minimum 16px text, AA contrast, reduced motion respected
+- All controls keyboard reachable, visible focus ring (3px ink + tape yellow halo)
+- `lang` and `dir` on every rendered alert block; literals isolated in RTL text
+- Status never by colour alone: icon + word everywhere, slot ledger cells carry ✓/✕ + label
+- 16px base text, AA contrast palette, reduced motion respected, no horizontal scroll at 390px

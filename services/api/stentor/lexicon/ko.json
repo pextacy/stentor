@@ -8,84 +8,462 @@
   "approved": false,
   "fold_diacritics": false,
   "word_boundary": false,
-  "negation_markers": ["마십시오", "마세요", "않"],
+  "negation_markers": [
+    "마십시오",
+    "마세요",
+    "않"
+  ],
+  "negation_drop": [
+    [
+      "지 마십시오",
+      "십시오"
+    ],
+    [
+      "지 마세요",
+      "세요"
+    ]
+  ],
+  "list_sep": ", ",
+  "role_markers": {
+    "via": [
+      "경로로"
+    ],
+    "to": [
+      "방면으로"
+    ]
+  },
   "headline": "{name} 경보.",
   "headline_place": "{P} 지역 {name} 경보.",
+  "headline_distance": "{P}에서 {N} 떨어진 곳에 {name} 발생.",
+  "headline_all_clear": "{name} 경보가 해제되었습니다.",
+  "headline_all_clear_place": "{P} 지역 {name} 경보가 해제되었습니다.",
+  "event_name": "{name} {E}",
+  "time": {
+    "style": "ko",
+    "day_position": "before",
+    "day_joiner": " ",
+    "weekday_joiner": " ",
+    "day_words": {
+      "today": "오늘",
+      "tonight": "오늘 밤",
+      "tomorrow": "내일"
+    },
+    "weekdays": [
+      "월요일",
+      "화요일",
+      "수요일",
+      "목요일",
+      "금요일",
+      "토요일",
+      "일요일"
+    ]
+  },
+  "units": {
+    "minute": "분",
+    "hour": "시간",
+    "mile": "마일",
+    "km": "킬로미터",
+    "foot": "피트",
+    "meter": "미터"
+  },
+  "unit_format": "{n}{u}",
   "hazards": {
-    "wildfire": {"name": "산불", "terms": []},
-    "flood": {"name": "홍수", "terms": ["침수"]},
-    "earthquake": {"name": "지진", "terms": ["여진"]},
-    "tsunami": {"name": "쓰나미", "terms": []},
-    "hurricane": {"name": "태풍", "terms": ["허리케인"]},
-    "tornado": {"name": "토네이도", "terms": []},
-    "extreme_heat": {"name": "폭염", "terms": []},
-    "hazmat": {"name": "유해 화학물질", "terms": ["화학물질", "가스 누출"]},
-    "active_threat": {"name": "총격 사건", "terms": ["총격"]},
-    "boil_water": {"name": "수질 오염", "terms": []},
-    "other": {"name": "비상 상황", "terms": []}
+    "wildfire": {
+      "name": "산불",
+      "terms": []
+    },
+    "flood": {
+      "name": "홍수",
+      "terms": [
+        "침수"
+      ]
+    },
+    "earthquake": {
+      "name": "지진",
+      "terms": []
+    },
+    "tsunami": {
+      "name": "쓰나미",
+      "terms": []
+    },
+    "hurricane": {
+      "name": "태풍",
+      "terms": [
+        "허리케인"
+      ]
+    },
+    "tornado": {
+      "name": "토네이도",
+      "terms": []
+    },
+    "extreme_heat": {
+      "name": "폭염",
+      "terms": []
+    },
+    "hazmat": {
+      "name": "유해 화학물질",
+      "terms": [
+        "화학물질",
+        "가스 누출"
+      ]
+    },
+    "active_threat": {
+      "name": "총격 사건",
+      "terms": [
+        "총격"
+      ]
+    },
+    "boil_water": {
+      "name": "수질 오염",
+      "terms": []
+    },
+    "other": {
+      "name": "비상 상황",
+      "terms": []
+    }
   },
   "actions": {
-    "evacuate_now": {"match": ["즉시 대피"],
-      "text": {"": "즉시 대피하십시오.", "P": "{P}을(를) 통해 즉시 대피하십시오.", "T": "{T} 전에 즉시 대피하십시오."}},
-    "prepare_to_evacuate": {"match": ["대피를 준비"],
-      "text": {"": "대피를 준비하십시오.", "P": "{P}을(를) 통한 대피를 준비하십시오.", "T": "{T}까지 대피를 준비하십시오."}},
-    "shelter_in_place": {"match": ["현재 위치에 머물"],
-      "text": {"": "현재 위치에 머물며 몸을 보호하십시오."}},
-    "move_to_higher_ground": {"match": ["높은 곳으로"],
-      "text": {"": "지금 높은 곳으로 이동하십시오."}},
-    "stay_indoors": {"match": ["실내에 머무르"],
-      "text": {"": "실내에 머무르십시오.", "T": "{T}까지 실내에 머무르십시오."}},
-    "avoid_area": {"match": ["우회"],
-      "text": {"": "이 지역을 우회하십시오.", "P": "{P}을(를) 우회하십시오."}},
-    "boil_water": {"match": ["물을 끓여"],
-      "text": {"": "물을 끓여서 드십시오.", "N": "{N}분 동안 물을 끓여서 드십시오."}},
-    "monitor": {"match": ["최신 정보"],
-      "text": {"": "최신 정보를 계속 확인하십시오."}},
-    "all_clear": {"match": ["위험이 해제"],
-      "text": {"": "위험이 해제되었습니다."}}
+    "evacuate_now": {
+      "match": [
+        "즉시 대피"
+      ],
+      "text": {
+        "": "즉시 대피하십시오.",
+        "P": "{P} 경로로 즉시 대피하십시오.",
+        "P:to": "{P} 방면으로 즉시 대피하십시오.",
+        "T": "{T} 전에 즉시 대피하십시오."
+      }
+    },
+    "prepare_to_evacuate": {
+      "match": [
+        "대피를 준비"
+      ],
+      "text": {
+        "": "대피를 준비하십시오.",
+        "P": "{P} 경로로 대피를 준비하십시오.",
+        "P:to": "{P} 방면으로 대피를 준비하십시오.",
+        "T": "{T}까지 대피를 준비하십시오."
+      }
+    },
+    "shelter_in_place": {
+      "match": [
+        "현재 위치에 머물"
+      ],
+      "text": {
+        "": "현재 위치에 머물며 몸을 보호하십시오."
+      }
+    },
+    "move_to_higher_ground": {
+      "match": [
+        "높은 곳으로"
+      ],
+      "text": {
+        "": "지금 높은 곳으로 이동하십시오."
+      }
+    },
+    "stay_indoors": {
+      "match": [
+        "실내에 머무르"
+      ],
+      "text": {
+        "": "실내에 머무르십시오.",
+        "T": "{T}까지 실내에 머무르십시오.",
+        "TT": "{T}부터 {T}까지 실내에 머무르십시오."
+      }
+    },
+    "avoid_area": {
+      "match": [
+        "우회"
+      ],
+      "text": {
+        "": "이 지역을 우회하십시오.",
+        "P": "{P} 지역을 우회하십시오."
+      }
+    },
+    "boil_water": {
+      "match": [
+        "물을 끓여"
+      ],
+      "text": {
+        "": "물을 끓여서 드십시오.",
+        "N": "{N} 동안 물을 끓여서 드십시오."
+      }
+    },
+    "monitor": {
+      "match": [
+        "최신 정보"
+      ],
+      "text": {
+        "": "최신 정보를 계속 확인하십시오."
+      }
+    },
+    "all_clear": {
+      "match": [
+        "위험이 해제"
+      ],
+      "text": {
+        "": "위험이 해제되었습니다."
+      }
+    }
   },
   "instructions": {
-    "return": {"match": ["돌아오"],
-      "text": {"neg": "돌아오지 마십시오.", "neg|T": "{T}까지 돌아오지 마십시오.", "pos": "돌아오셔도 됩니다."}},
-    "use:elevators": {"match": ["엘리베이터"],
-      "text": {"neg": "엘리베이터를 사용하지 마십시오."}},
-    "drive:flood_water": {"match": ["침수된 도로"],
-      "text": {"neg": "침수된 도로를 운전하지 마십시오."}},
-    "drink:tap_water": {"match": ["수돗물"],
-      "text": {"neg": "수돗물을 마시지 마십시오."}},
-    "go:outside": {"match": ["외출"],
-      "text": {"neg": "외출하지 마십시오.", "neg|T": "{T}까지 외출하지 마십시오."}},
-    "light:fires": {"match": ["불을 피우"],
-      "text": {"neg": "불을 피우지 마십시오."}},
-    "touch:power_lines": {"match": ["전선"],
-      "text": {"neg": "끊어진 전선을 만지지 마십시오."}},
-    "open:door": {"match": ["문을 열"],
-      "text": {"neg": "문을 열지 마십시오."}},
-    "turn_off:gas": {"match": ["가스를 잠그"],
-      "text": {"pos": "가스를 잠그십시오."}},
-    "close:windows": {"match": ["창문"],
-      "text": {"pos": "모든 창문과 문을 닫으십시오."}},
-    "lock:doors": {"match": ["문을 잠그"],
-      "text": {"pos": "모든 문을 잠그십시오."}},
-    "drop:cover": {"match": ["엎드리"],
-      "text": {"pos": "엎드리고, 몸을 가리고, 붙잡으십시오."}},
-    "check:neighbors": {"match": ["이웃"],
-      "text": {"pos": "이웃의 안부를 확인하십시오."}},
-    "drink:water": {"match": ["물을 충분히"],
-      "text": {"pos": "물을 충분히 드십시오."}},
-    "follow:officials": {"match": ["당국의 지시"],
-      "text": {"pos": "당국의 지시에 따르십시오."}},
-    "go:cooling_center": {"match": ["무더위 쉼터"],
-      "text": {"pos|P": "{P} 무더위 쉼터로 가십시오."}},
-    "go:shelter": {"match": ["대피소"],
-      "text": {"pos|P": "{P} 대피소로 가십시오."}},
-    "take:essentials": {"match": ["약과 중요한 서류"],
-      "text": {"pos": "약과 중요한 서류를 챙기십시오."}},
-    "take:pets": {"match": ["반려동물"],
-      "text": {"pos": "반려동물을 데려가십시오."}},
-    "call": {"match": ["전화"],
-      "text": {"pos|U": "{U}에 전화하십시오."}}
+    "return:until_cleared": {
+      "match": [
+        "안전하다고 발표할 때까지"
+      ],
+      "text": {
+        "neg": "당국이 안전하다고 발표할 때까지 돌아오지 마십시오."
+      }
+    },
+    "return": {
+      "match": [
+        "돌아오",
+        "돌아가"
+      ],
+      "text": {
+        "neg": "돌아오지 마십시오.",
+        "neg|T": "{T}까지 돌아오지 마십시오.",
+        "pos": "집으로 돌아가셔도 됩니다."
+      }
+    },
+    "use:elevators": {
+      "match": [
+        "엘리베이터"
+      ],
+      "text": {
+        "neg": "엘리베이터를 사용하지 마십시오."
+      }
+    },
+    "drive:flood_water": {
+      "match": [
+        "침수된 도로"
+      ],
+      "text": {
+        "neg": "침수된 도로를 운전하지 마십시오."
+      }
+    },
+    "drink:tap_water": {
+      "match": [
+        "수돗물"
+      ],
+      "text": {
+        "neg": "수돗물을 마시지 마십시오."
+      }
+    },
+    "go:outside": {
+      "match": [
+        "외출"
+      ],
+      "text": {
+        "neg": "외출하지 마십시오.",
+        "neg|T": "{T}까지 외출하지 마십시오."
+      }
+    },
+    "go:beach": {
+      "match": [
+        "해변"
+      ],
+      "text": {
+        "neg": "해변이나 해안에 가지 마십시오.",
+        "neg|T": "{T}까지 해변이나 해안에 가지 마십시오."
+      }
+    },
+    "enter:damaged_buildings": {
+      "match": [
+        "파손된 건물"
+      ],
+      "text": {
+        "neg": "파손된 건물에 들어가지 마십시오."
+      }
+    },
+    "light:fires": {
+      "match": [
+        "불을 피우"
+      ],
+      "text": {
+        "neg": "불을 피우지 마십시오."
+      }
+    },
+    "touch:power_lines": {
+      "match": [
+        "전선"
+      ],
+      "text": {
+        "neg": "끊어진 전선을 만지지 마십시오."
+      }
+    },
+    "open:door": {
+      "match": [
+        "문을 열"
+      ],
+      "text": {
+        "neg": "문을 열지 마십시오."
+      }
+    },
+    "wait": {
+      "match": [
+        "기다리"
+      ],
+      "text": {
+        "neg": "기다리지 마십시오."
+      }
+    },
+    "turn_off:gas": {
+      "match": [
+        "가스를 잠그"
+      ],
+      "text": {
+        "pos": "가스를 잠그십시오."
+      }
+    },
+    "turn_off:ventilation": {
+      "match": [
+        "에어컨"
+      ],
+      "text": {
+        "pos": "에어컨과 환기 장치를 끄십시오."
+      }
+    },
+    "go_near:windows": {
+      "match": [
+        "창문 가까이"
+      ],
+      "text": {
+        "neg": "창문 가까이 가지 마십시오."
+      }
+    },
+    "close:windows": {
+      "match": [
+        "창문"
+      ],
+      "text": {
+        "pos": "모든 창문과 문을 닫으십시오."
+      }
+    },
+    "lock:doors": {
+      "match": [
+        "문을 잠그"
+      ],
+      "text": {
+        "pos": "모든 문을 잠그십시오."
+      }
+    },
+    "be:quiet": {
+      "match": [
+        "조용히"
+      ],
+      "text": {
+        "pos": "조용히 하십시오."
+      }
+    },
+    "drop:cover": {
+      "match": [
+        "엎드리"
+      ],
+      "text": {
+        "pos": "엎드리고, 몸을 가리고, 붙잡으십시오."
+      }
+    },
+    "expect:aftershocks": {
+      "match": [
+        "여진"
+      ],
+      "text": {
+        "pos": "여진에 대비하십시오."
+      }
+    },
+    "go:basement": {
+      "match": [
+        "지하실"
+      ],
+      "text": {
+        "pos": "지하실이나 가장 낮은 층의 안쪽 방으로 가십시오."
+      }
+    },
+    "check:neighbors": {
+      "match": [
+        "이웃"
+      ],
+      "text": {
+        "pos": "이웃의 안부를 확인하십시오."
+      }
+    },
+    "drink:water": {
+      "match": [
+        "물을 충분히"
+      ],
+      "text": {
+        "pos": "물을 충분히 드십시오."
+      }
+    },
+    "follow:officials": {
+      "match": [
+        "당국의 지시"
+      ],
+      "text": {
+        "pos": "당국의 지시에 따르십시오."
+      }
+    },
+    "go:cooling_center": {
+      "match": [
+        "무더위 쉼터"
+      ],
+      "text": {
+        "pos|P": "{P} 무더위 쉼터로 가십시오."
+      }
+    },
+    "go:shelter": {
+      "match": [
+        "대피소"
+      ],
+      "text": {
+        "pos": "가장 가까운 대피소로 가십시오.",
+        "pos|P": "{P} 대피소로 가십시오."
+      }
+    },
+    "take:essentials": {
+      "match": [
+        "약과 중요한 서류"
+      ],
+      "text": {
+        "pos": "약과 중요한 서류를 챙기십시오."
+      }
+    },
+    "take:pets": {
+      "match": [
+        "반려동물"
+      ],
+      "text": {
+        "pos": "반려동물을 데려가십시오."
+      }
+    },
+    "use:route": {
+      "match": [
+        "도로를 이용"
+      ],
+      "text": {
+        "pos|P": "{P} 도로를 이용하십시오."
+      }
+    },
+    "call": {
+      "match": [
+        "전화"
+      ],
+      "text": {
+        "pos|U": "{U}에 전화하십시오."
+      }
+    }
   },
-  "info": {"match": ["정보"], "text": "정보: {U}."},
-  "expires": {"match": ["까지 유효"], "text": "이 경보는 {T}까지 유효합니다."}
+  "info": {
+    "match": [
+      "정보"
+    ],
+    "text": "정보: {U}."
+  },
+  "expires": {
+    "match": [
+      "까지 유효"
+    ],
+    "text": "이 경보는 {T}까지 유효합니다."
+  }
 }

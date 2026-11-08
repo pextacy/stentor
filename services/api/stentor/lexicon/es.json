@@ -1,0 +1,481 @@
+{
+  "lang": "es",
+  "name": "Español",
+  "english_name": "Spanish",
+  "dir": "ltr",
+  "tts": "es-US",
+  "reviewed_by": "unreviewed",
+  "approved": false,
+  "fold_diacritics": true,
+  "word_boundary": true,
+  "negation_markers": [
+    "no",
+    "nunca",
+    "jamás"
+  ],
+  "list_sep": ", ",
+  "role_markers": {
+    "via": [
+      "por"
+    ],
+    "to": [
+      "hacia"
+    ]
+  },
+  "headline": "Alerta de {name}.",
+  "headline_place": "Alerta de {name} en {P}.",
+  "headline_distance": "Alerta de {name} a {N} de {P}.",
+  "headline_all_clear": "Se canceló la alerta de {name}.",
+  "headline_all_clear_place": "Se canceló la alerta de {name} en {P}.",
+  "event_name": "{name} {E}",
+  "time": {
+    "style": "es",
+    "day_position": "after",
+    "day_joiner": " de ",
+    "weekday_joiner": " del ",
+    "day_words": {
+      "today": "hoy",
+      "tonight": "esta noche",
+      "tomorrow": "mañana"
+    },
+    "weekdays": [
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+      "domingo"
+    ],
+    "weekday_article": "el "
+  },
+  "units": {
+    "minute": {
+      "one": "minuto",
+      "other": "minutos"
+    },
+    "hour": {
+      "one": "hora",
+      "other": "horas"
+    },
+    "mile": {
+      "one": "milla",
+      "other": "millas"
+    },
+    "km": "km",
+    "foot": {
+      "one": "pie",
+      "other": "pies"
+    },
+    "meter": {
+      "one": "metro",
+      "other": "metros"
+    }
+  },
+  "unit_format": "{n} {u}",
+  "hazards": {
+    "wildfire": {
+      "name": "incendio forestal",
+      "terms": [
+        "incendio"
+      ]
+    },
+    "flood": {
+      "name": "inundación",
+      "terms": [
+        "inundaciones",
+        "crecida"
+      ]
+    },
+    "earthquake": {
+      "name": "terremoto",
+      "terms": [
+        "sismo"
+      ]
+    },
+    "tsunami": {
+      "name": "tsunami",
+      "terms": []
+    },
+    "hurricane": {
+      "name": "huracán",
+      "terms": [
+        "tormenta tropical"
+      ]
+    },
+    "tornado": {
+      "name": "tornado",
+      "terms": []
+    },
+    "extreme_heat": {
+      "name": "calor extremo",
+      "terms": [
+        "ola de calor"
+      ]
+    },
+    "hazmat": {
+      "name": "peligro químico",
+      "terms": [
+        "sustancia química",
+        "fuga de gas"
+      ]
+    },
+    "active_threat": {
+      "name": "tirador activo",
+      "terms": []
+    },
+    "boil_water": {
+      "name": "agua contaminada",
+      "terms": []
+    },
+    "other": {
+      "name": "emergencia",
+      "terms": []
+    }
+  },
+  "actions": {
+    "evacuate_now": {
+      "match": [
+        "evacúe ahora"
+      ],
+      "text": {
+        "": "Evacúe ahora.",
+        "P": "Evacúe ahora por {P}.",
+        "P:to": "Evacúe ahora hacia {P}.",
+        "T": "Evacúe ahora, antes de {T}."
+      }
+    },
+    "prepare_to_evacuate": {
+      "match": [
+        "prepárese para evacuar"
+      ],
+      "text": {
+        "": "Prepárese para evacuar.",
+        "P": "Prepárese para evacuar por {P}.",
+        "P:to": "Prepárese para evacuar hacia {P}.",
+        "T": "Prepárese para evacuar antes de {T}."
+      }
+    },
+    "shelter_in_place": {
+      "match": [
+        "refúgiese donde está"
+      ],
+      "text": {
+        "": "Refúgiese donde está ahora."
+      }
+    },
+    "move_to_higher_ground": {
+      "match": [
+        "suba a un lugar alto"
+      ],
+      "text": {
+        "": "Suba a un lugar alto ahora."
+      }
+    },
+    "stay_indoors": {
+      "match": [
+        "quédese en casa"
+      ],
+      "text": {
+        "": "Quédese en casa.",
+        "T": "Quédese en casa hasta {T}.",
+        "TT": "Quédese en casa entre {T} y {T}."
+      }
+    },
+    "avoid_area": {
+      "match": [
+        "evite"
+      ],
+      "text": {
+        "": "Evite la zona.",
+        "P": "Evite {P}."
+      }
+    },
+    "boil_water": {
+      "match": [
+        "hierva el agua"
+      ],
+      "text": {
+        "": "Hierva el agua antes de beberla.",
+        "N": "Hierva el agua durante {N} antes de beberla."
+      }
+    },
+    "monitor": {
+      "match": [
+        "manténgase atento"
+      ],
+      "text": {
+        "": "Manténgase atento a las actualizaciones."
+      }
+    },
+    "all_clear": {
+      "match": [
+        "el peligro ha pasado"
+      ],
+      "text": {
+        "": "El peligro ha pasado."
+      }
+    }
+  },
+  "instructions": {
+    "return:until_cleared": {
+      "match": [
+        "hasta que las autoridades"
+      ],
+      "text": {
+        "neg": "NO regrese hasta que las autoridades digan que es seguro."
+      }
+    },
+    "return": {
+      "match": [
+        "regrese",
+        "regresar",
+        "vuelva"
+      ],
+      "text": {
+        "neg": "NO regrese.",
+        "neg|T": "NO regrese antes de {T}.",
+        "pos": "Puede regresar a su casa."
+      }
+    },
+    "use:elevators": {
+      "match": [
+        "ascensores"
+      ],
+      "text": {
+        "neg": "NO use los ascensores."
+      }
+    },
+    "drive:flood_water": {
+      "match": [
+        "conduzca"
+      ],
+      "text": {
+        "neg": "NO conduzca por agua de inundación."
+      }
+    },
+    "drink:tap_water": {
+      "match": [
+        "agua del grifo"
+      ],
+      "text": {
+        "neg": "NO beba agua del grifo."
+      }
+    },
+    "go:outside": {
+      "match": [
+        "salga"
+      ],
+      "text": {
+        "neg": "NO salga de casa.",
+        "neg|T": "NO salga de casa antes de {T}."
+      }
+    },
+    "go:beach": {
+      "match": [
+        "playa"
+      ],
+      "text": {
+        "neg": "NO vaya a la playa ni a la costa.",
+        "neg|T": "NO vaya a la playa ni a la costa antes de {T}."
+      }
+    },
+    "enter:damaged_buildings": {
+      "match": [
+        "edificios dañados"
+      ],
+      "text": {
+        "neg": "NO entre en edificios dañados."
+      }
+    },
+    "light:fires": {
+      "match": [
+        "encienda fuego"
+      ],
+      "text": {
+        "neg": "NO encienda fuego."
+      }
+    },
+    "touch:power_lines": {
+      "match": [
+        "cables eléctricos"
+      ],
+      "text": {
+        "neg": "NO toque cables eléctricos caídos."
+      }
+    },
+    "open:door": {
+      "match": [
+        "abra la puerta"
+      ],
+      "text": {
+        "neg": "NO abra la puerta."
+      }
+    },
+    "wait": {
+      "match": [
+        "espere"
+      ],
+      "text": {
+        "neg": "NO espere."
+      }
+    },
+    "turn_off:gas": {
+      "match": [
+        "cierre el gas"
+      ],
+      "text": {
+        "pos": "Cierre el gas."
+      }
+    },
+    "turn_off:ventilation": {
+      "match": [
+        "aire acondicionado"
+      ],
+      "text": {
+        "pos": "Apague el aire acondicionado y la ventilación."
+      }
+    },
+    "go_near:windows": {
+      "match": [
+        "se acerque a las ventanas"
+      ],
+      "text": {
+        "neg": "NO se acerque a las ventanas."
+      }
+    },
+    "close:windows": {
+      "match": [
+        "cierre todas las ventanas"
+      ],
+      "text": {
+        "pos": "Cierre todas las ventanas y puertas."
+      }
+    },
+    "lock:doors": {
+      "match": [
+        "cierre con llave"
+      ],
+      "text": {
+        "pos": "Cierre con llave todas las puertas."
+      }
+    },
+    "be:quiet": {
+      "match": [
+        "guarde silencio"
+      ],
+      "text": {
+        "pos": "Guarde silencio."
+      }
+    },
+    "drop:cover": {
+      "match": [
+        "agáchese"
+      ],
+      "text": {
+        "pos": "Agáchese, cúbrase y sujétese."
+      }
+    },
+    "expect:aftershocks": {
+      "match": [
+        "réplicas"
+      ],
+      "text": {
+        "pos": "Puede haber réplicas."
+      }
+    },
+    "go:basement": {
+      "match": [
+        "sótano"
+      ],
+      "text": {
+        "pos": "Vaya a un sótano o a un cuarto interior del piso más bajo."
+      }
+    },
+    "check:neighbors": {
+      "match": [
+        "vecinos"
+      ],
+      "text": {
+        "pos": "Verifique cómo están sus vecinos."
+      }
+    },
+    "drink:water": {
+      "match": [
+        "beba mucha agua"
+      ],
+      "text": {
+        "pos": "Beba mucha agua."
+      }
+    },
+    "follow:officials": {
+      "match": [
+        "siga las instrucciones"
+      ],
+      "text": {
+        "pos": "Siga las instrucciones de las autoridades."
+      }
+    },
+    "go:cooling_center": {
+      "match": [
+        "centro de enfriamiento"
+      ],
+      "text": {
+        "pos|P": "Vaya al centro de enfriamiento en {P}."
+      }
+    },
+    "go:shelter": {
+      "match": [
+        "refugio"
+      ],
+      "text": {
+        "pos": "Vaya al refugio más cercano.",
+        "pos|P": "Vaya al refugio en {P}."
+      }
+    },
+    "take:essentials": {
+      "match": [
+        "medicamentos"
+      ],
+      "text": {
+        "pos": "Lleve sus medicamentos y documentos importantes."
+      }
+    },
+    "take:pets": {
+      "match": [
+        "mascotas"
+      ],
+      "text": {
+        "pos": "Lleve a sus mascotas."
+      }
+    },
+    "use:route": {
+      "match": [
+        "use la ruta"
+      ],
+      "text": {
+        "pos|P": "Use la ruta {P}."
+      }
+    },
+    "call": {
+      "match": [
+        "llame"
+      ],
+      "text": {
+        "pos|U": "Llame al {U}."
+      }
+    }
+  },
+  "info": {
+    "match": [
+      "información"
+    ],
+    "text": "Información: {U}."
+  },
+  "expires": {
+    "match": [
+      "vigente hasta"
+    ],
+    "text": "Esta alerta está vigente hasta {T}."
+  }
+}
