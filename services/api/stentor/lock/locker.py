@@ -209,5 +209,12 @@ def localized_value(ph: str, value: str, lang: str) -> str:
     return format_time(value, lang) if kind_of(ph) == "T" else value
 
 
+RTL_LANGS = {"ar", "he", "fa", "ur"}
+FSI, PDI = "\u2068", "\u2069"  # Unicode first strong isolate / pop directional isolate
+
+
 def restore(text: str, mapping: dict[str, str], lang: str = "en") -> str:
-    return PH_RE.sub(lambda m: localized_value(m.group(0), mapping.get(m.group(0), m.group(0)), lang), text)
+    """Put literals back. In right-to-left languages each literal is wrapped in a
+    directional isolate so "211." or "Lake Ave" cannot be reordered by the bidi algorithm."""
+    wrap = (lambda v: f"{FSI}{v}{PDI}") if lang in RTL_LANGS else (lambda v: v)
+    return PH_RE.sub(lambda m: wrap(localized_value(m.group(0), mapping.get(m.group(0), m.group(0)), lang)), text)

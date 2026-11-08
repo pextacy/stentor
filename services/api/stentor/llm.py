@@ -173,3 +173,14 @@ def backparse(rendered: str, lang_name: str, placeholders: list[str], verbs: lis
     )
     data = _json_call(BACKPARSE_MODEL, system, rendered, INTENT_SCHEMA, effort="low")
     return AlertIntent.model_validate(data)
+
+
+def compress(locked_rendered: str, lang_name: str, limit: int) -> str:
+    system = (
+        f"You shorten an emergency alert written in {lang_name} to at most {limit} characters "
+        "(placeholders count as their token length). Keep the hazard, the main action, every negation "
+        "and every placeholder like ⟦P1⟧ exactly once. Drop only courtesy words and repetition. "
+        "Answer in the same language."
+    )
+    schema = {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"], "additionalProperties": False}
+    return _json_call(RENDER_MODEL, system, locked_rendered, schema, effort="medium")["text"]

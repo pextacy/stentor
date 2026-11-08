@@ -12,4 +12,5 @@ node_modules/
 *.sqlite
 .DS_Store
 eval/results/*.json
+!eval/results/latest.json
 !eval/results/.gitkeep

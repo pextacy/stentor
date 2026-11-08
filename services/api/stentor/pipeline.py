@@ -13,7 +13,7 @@ from stentor.render.router import route
 from stentor.render.template import render_generic
 from stentor.verify.backparse import parse_lexicon
 from stentor.verify.chaos import CORRUPTIONS
-from stentor.verify.checks import Check, run_all
+from stentor.verify.checks import SHORT_ALERT_BUDGET, Check, run_all
 from stentor.verify.diff import SlotDiff, Status, decide, diff
 
 
@@ -91,6 +91,19 @@ def compile_lang(intent: AlertIntent, locked_text: str, mapping: dict[str, str],
             extra.append(Check(name="template_coverage", ok=False, critical=False,
                                detail="approved templates do not express every word of the source; operator review needed"))
         ver = verify(intent, locked_text, rendered, mapping, lang, extra)
+        too_long = next((c for c in ver.checks if c.name == "length" and not c.ok), None)
+        if too_long and ver.status != Status.BLOCKED and llm.available():
+            # Short alert budget: ask for a compressed version, then verify it from scratch.
+            try:
+                short = llm.compress(rendered, load(lang).english_name, SHORT_ALERT_BUDGET)
+                sver = verify(intent, locked_text, short, mapping, lang, extra)
+                if sver.status in (Status.VERIFIED, Status.REVIEW):
+                    rendered, ver = short, sver
+                    notes.append("compressed to fit the short alert budget and verified again")
+                else:
+                    notes.append("compressed version failed verification; kept the longer verified text")
+            except llm.LLMUnavailable as e:
+                notes.append(f"could not compress over-length alert: {e}")
 
     if ver is not None and ver.status != Status.BLOCKED:
         text = restore(rendered, mapping, lang)

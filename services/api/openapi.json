@@ -1,0 +1,1308 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "STENTOR API",
+  "description": "Verified multilingual emergency alert compiler",
+  "version": "0.1.0"
+ },
+ "paths": {
+  "/health": {
+   "get": {
+    "summary": "Health",
+    "operationId": "health_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Health"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/meta": {
+   "get": {
+    "summary": "Get Meta",
+    "operationId": "get_meta_meta_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Meta"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/intent": {
+   "post": {
+    "summary": "Post Intent",
+    "operationId": "post_intent_intent_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/IntentRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/IntentResult"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/compile": {
+   "post": {
+    "summary": "Post Compile",
+    "operationId": "post_compile_compile_post",
+    "parameters": [
+     {
+      "name": "chaos",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "e.g. drop_negation:ar",
+       "title": "Chaos"
+      },
+      "description": "e.g. drop_negation:ar"
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CompileRequest"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CompileResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/alerts/{alert_id}": {
+   "get": {
+    "summary": "Get Alert",
+    "operationId": "get_alert_alerts__alert_id__get",
+    "parameters": [
+     {
+      "name": "alert_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Alert Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/AlertOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/export/cap": {
+   "post": {
+    "summary": "Export Cap",
+    "operationId": "export_cap_export_cap_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CapRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/xml": {}
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/public/{alert_id}": {
+   "get": {
+    "summary": "Public",
+    "operationId": "public_public__alert_id__get",
+    "parameters": [
+     {
+      "name": "alert_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Alert Id"
+      }
+     },
+     {
+      "name": "lang",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "default": "en",
+       "title": "Lang"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PublicAlert"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/eval/run": {
+   "post": {
+    "summary": "Eval Run",
+    "operationId": "eval_run_eval_run_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/EvalRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "type": "object",
+         "title": "Response Eval Run Eval Run Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/eval/latest": {
+   "get": {
+    "summary": "Eval Latest",
+    "operationId": "eval_latest_eval_latest_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": true,
+         "type": "object",
+         "title": "Response Eval Latest Eval Latest Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "Action": {
+    "type": "string",
+    "enum": [
+     "evacuate_now",
+     "prepare_to_evacuate",
+     "shelter_in_place",
+     "move_to_higher_ground",
+     "stay_indoors",
+     "avoid_area",
+     "boil_water",
+     "monitor",
+     "all_clear"
+    ],
+    "title": "Action"
+   },
+   "AlertIntent": {
+    "properties": {
+     "hazard": {
+      "$ref": "#/components/schemas/Hazard"
+     },
+     "action": {
+      "$ref": "#/components/schemas/Action"
+     },
+     "urgency": {
+      "type": "string",
+      "pattern": "^(immediate|expected|future)$",
+      "title": "Urgency",
+      "default": "immediate"
+     },
+     "area_refs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Area Refs",
+      "default": []
+     },
+     "time_refs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Time Refs",
+      "default": []
+     },
+     "expires": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Expires"
+     },
+     "instructions": {
+      "items": {
+       "$ref": "#/components/schemas/Instruction"
+      },
+      "type": "array",
+      "title": "Instructions",
+      "default": []
+     },
+     "info_refs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Info Refs",
+      "default": []
+     },
+     "source": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Source"
+     },
+     "extra_info": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Extra Info"
+     }
+    },
+    "type": "object",
+    "required": [
+     "hazard",
+     "action"
+    ],
+    "title": "AlertIntent"
+   },
+   "AlertOut": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "created_at": {
+      "type": "string",
+      "title": "Created At"
+     },
+     "source_text": {
+      "type": "string",
+      "title": "Source Text"
+     },
+     "locked_text": {
+      "type": "string",
+      "title": "Locked Text"
+     },
+     "mapping": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Mapping"
+     },
+     "intent": {
+      "$ref": "#/components/schemas/AlertIntent"
+     },
+     "results": {
+      "items": {
+       "$ref": "#/components/schemas/LangResult"
+      },
+      "type": "array",
+      "title": "Results"
+     },
+     "chaos": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Chaos"
+     },
+     "audit": {
+      "items": {
+       "$ref": "#/components/schemas/AuditOut"
+      },
+      "type": "array",
+      "title": "Audit"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "created_at",
+     "source_text",
+     "locked_text",
+     "mapping",
+     "intent",
+     "results",
+     "chaos",
+     "audit"
+    ],
+    "title": "AlertOut"
+   },
+   "AuditOut": {
+    "properties": {
+     "created_at": {
+      "type": "string",
+      "title": "Created At"
+     },
+     "lang": {
+      "type": "string",
+      "title": "Lang"
+     },
+     "event": {
+      "type": "string",
+      "title": "Event"
+     },
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "reason": {
+      "type": "string",
+      "title": "Reason"
+     }
+    },
+    "type": "object",
+    "required": [
+     "created_at",
+     "lang",
+     "event",
+     "status",
+     "reason"
+    ],
+    "title": "AuditOut"
+   },
+   "CapRequest": {
+    "properties": {
+     "alert_id": {
+      "type": "string",
+      "title": "Alert Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "alert_id"
+    ],
+    "title": "CapRequest"
+   },
+   "Check": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "ok": {
+      "type": "boolean",
+      "title": "Ok"
+     },
+     "critical": {
+      "type": "boolean",
+      "title": "Critical"
+     },
+     "detail": {
+      "type": "string",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "ok",
+     "critical",
+     "detail"
+    ],
+    "title": "Check"
+   },
+   "CompileRequest": {
+    "properties": {
+     "intent": {
+      "$ref": "#/components/schemas/AlertIntent"
+     },
+     "locked_text": {
+      "type": "string",
+      "title": "Locked Text"
+     },
+     "mapping": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Mapping"
+     },
+     "langs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Langs"
+     },
+     "source_text": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Source Text"
+     }
+    },
+    "type": "object",
+    "required": [
+     "intent",
+     "locked_text",
+     "mapping"
+    ],
+    "title": "CompileRequest"
+   },
+   "CompileResponse": {
+    "properties": {
+     "alert_id": {
+      "type": "string",
+      "title": "Alert Id"
+     },
+     "source_text": {
+      "type": "string",
+      "title": "Source Text"
+     },
+     "intent": {
+      "$ref": "#/components/schemas/AlertIntent"
+     },
+     "results": {
+      "items": {
+       "$ref": "#/components/schemas/LangResult"
+      },
+      "type": "array",
+      "title": "Results"
+     },
+     "chaos": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Chaos"
+     }
+    },
+    "type": "object",
+    "required": [
+     "alert_id",
+     "source_text",
+     "intent",
+     "results"
+    ],
+    "title": "CompileResponse"
+   },
+   "EvalRequest": {
+    "properties": {
+     "langs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Langs"
+     },
+     "suite": {
+      "type": "string",
+      "title": "Suite",
+      "default": "all"
+     }
+    },
+    "type": "object",
+    "title": "EvalRequest"
+   },
+   "Example": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "label": {
+      "type": "string",
+      "title": "Label"
+     },
+     "text": {
+      "type": "string",
+      "title": "Text"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "label",
+     "text"
+    ],
+    "title": "Example"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "Hazard": {
+    "type": "string",
+    "enum": [
+     "wildfire",
+     "flood",
+     "earthquake",
+     "tsunami",
+     "hurricane",
+     "tornado",
+     "extreme_heat",
+     "hazmat",
+     "active_threat",
+     "boil_water",
+     "other"
+    ],
+    "title": "Hazard"
+   },
+   "Health": {
+    "properties": {
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "version": {
+      "type": "string",
+      "title": "Version"
+     },
+     "renderer": {
+      "type": "string",
+      "title": "Renderer"
+     },
+     "anthropic_configured": {
+      "type": "boolean",
+      "title": "Anthropic Configured"
+     },
+     "adaption_configured": {
+      "type": "boolean",
+      "title": "Adaption Configured"
+     }
+    },
+    "type": "object",
+    "required": [
+     "status",
+     "version",
+     "renderer",
+     "anthropic_configured",
+     "adaption_configured"
+    ],
+    "title": "Health"
+   },
+   "Instruction": {
+    "properties": {
+     "verb": {
+      "type": "string",
+      "title": "Verb"
+     },
+     "object": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Object"
+     },
+     "negated": {
+      "type": "boolean",
+      "title": "Negated"
+     },
+     "placeholders": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Placeholders",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "verb",
+     "negated"
+    ],
+    "title": "Instruction"
+   },
+   "IntentRequest": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Text"
+     }
+    },
+    "type": "object",
+    "required": [
+     "text"
+    ],
+    "title": "IntentRequest"
+   },
+   "IntentResult": {
+    "properties": {
+     "intent": {
+      "$ref": "#/components/schemas/AlertIntent"
+     },
+     "locked_text": {
+      "type": "string",
+      "title": "Locked Text"
+     },
+     "mapping": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Mapping"
+     },
+     "method": {
+      "type": "string",
+      "title": "Method"
+     },
+     "warnings": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Warnings",
+      "default": []
+     },
+     "template_coverage": {
+      "type": "boolean",
+      "title": "Template Coverage"
+     },
+     "uncovered": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Uncovered",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "intent",
+     "locked_text",
+     "mapping",
+     "method",
+     "template_coverage"
+    ],
+    "title": "IntentResult"
+   },
+   "LangResult": {
+    "properties": {
+     "lang": {
+      "type": "string",
+      "title": "Lang"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "english_name": {
+      "type": "string",
+      "title": "English Name"
+     },
+     "dir": {
+      "type": "string",
+      "title": "Dir"
+     },
+     "tts": {
+      "type": "string",
+      "title": "Tts"
+     },
+     "reviewed_by": {
+      "type": "string",
+      "title": "Reviewed By"
+     },
+     "status": {
+      "$ref": "#/components/schemas/Status"
+     },
+     "text": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Text"
+     },
+     "locked_text": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Locked Text"
+     },
+     "renderer": {
+      "type": "string",
+      "title": "Renderer"
+     },
+     "backparser": {
+      "type": "string",
+      "title": "Backparser"
+     },
+     "checks": {
+      "items": {
+       "$ref": "#/components/schemas/Check"
+      },
+      "type": "array",
+      "title": "Checks"
+     },
+     "diff": {
+      "items": {
+       "$ref": "#/components/schemas/SlotDiff"
+      },
+      "type": "array",
+      "title": "Diff"
+     },
+     "reasons": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Reasons"
+     },
+     "notes": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Notes"
+     },
+     "chaos": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Chaos"
+     },
+     "fallback_used": {
+      "type": "boolean",
+      "title": "Fallback Used",
+      "default": false
+     },
+     "blocked_attempt": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Blocked Attempt"
+     },
+     "sms": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/SmsInfo"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "type": "object",
+    "required": [
+     "lang",
+     "name",
+     "english_name",
+     "dir",
+     "tts",
+     "reviewed_by",
+     "status",
+     "text",
+     "locked_text",
+     "renderer",
+     "backparser",
+     "checks",
+     "diff",
+     "reasons",
+     "notes"
+    ],
+    "title": "LangResult"
+   },
+   "LanguageInfo": {
+    "properties": {
+     "lang": {
+      "type": "string",
+      "title": "Lang"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "english_name": {
+      "type": "string",
+      "title": "English Name"
+     },
+     "dir": {
+      "type": "string",
+      "title": "Dir"
+     },
+     "tts": {
+      "type": "string",
+      "title": "Tts"
+     },
+     "reviewed_by": {
+      "type": "string",
+      "title": "Reviewed By"
+     },
+     "approved": {
+      "type": "boolean",
+      "title": "Approved"
+     }
+    },
+    "type": "object",
+    "required": [
+     "lang",
+     "name",
+     "english_name",
+     "dir",
+     "tts",
+     "reviewed_by",
+     "approved"
+    ],
+    "title": "LanguageInfo"
+   },
+   "Meta": {
+    "properties": {
+     "languages": {
+      "items": {
+       "$ref": "#/components/schemas/LanguageInfo"
+      },
+      "type": "array",
+      "title": "Languages"
+     },
+     "default_langs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Default Langs"
+     },
+     "examples": {
+      "items": {
+       "$ref": "#/components/schemas/Example"
+      },
+      "type": "array",
+      "title": "Examples"
+     },
+     "corruptions": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Corruptions"
+     },
+     "backparser": {
+      "type": "string",
+      "title": "Backparser"
+     },
+     "extractor": {
+      "type": "string",
+      "title": "Extractor"
+     }
+    },
+    "type": "object",
+    "required": [
+     "languages",
+     "default_langs",
+     "examples",
+     "corruptions",
+     "backparser",
+     "extractor"
+    ],
+    "title": "Meta"
+   },
+   "PublicAlert": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "created_at": {
+      "type": "string",
+      "title": "Created At"
+     },
+     "hazard": {
+      "type": "string",
+      "title": "Hazard"
+     },
+     "action": {
+      "type": "string",
+      "title": "Action"
+     },
+     "intent": {
+      "$ref": "#/components/schemas/AlertIntent"
+     },
+     "places": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Places"
+     },
+     "times": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Times"
+     },
+     "languages": {
+      "items": {
+       "$ref": "#/components/schemas/PublicLang"
+      },
+      "type": "array",
+      "title": "Languages"
+     },
+     "selected": {
+      "$ref": "#/components/schemas/PublicLang"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "created_at",
+     "hazard",
+     "action",
+     "intent",
+     "places",
+     "times",
+     "languages",
+     "selected"
+    ],
+    "title": "PublicAlert"
+   },
+   "PublicLang": {
+    "properties": {
+     "lang": {
+      "type": "string",
+      "title": "Lang"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "dir": {
+      "type": "string",
+      "title": "Dir"
+     },
+     "tts": {
+      "type": "string",
+      "title": "Tts"
+     },
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "text": {
+      "type": "string",
+      "title": "Text"
+     }
+    },
+    "type": "object",
+    "required": [
+     "lang",
+     "name",
+     "dir",
+     "tts",
+     "status",
+     "text"
+    ],
+    "title": "PublicLang"
+   },
+   "SlotDiff": {
+    "properties": {
+     "slot": {
+      "type": "string",
+      "title": "Slot"
+     },
+     "critical": {
+      "type": "boolean",
+      "title": "Critical"
+     },
+     "match": {
+      "type": "boolean",
+      "title": "Match"
+     },
+     "source": {
+      "title": "Source"
+     },
+     "back": {
+      "title": "Back"
+     }
+    },
+    "type": "object",
+    "required": [
+     "slot",
+     "critical",
+     "match",
+     "source",
+     "back"
+    ],
+    "title": "SlotDiff"
+   },
+   "SmsInfo": {
+    "properties": {
+     "encoding": {
+      "type": "string",
+      "title": "Encoding"
+     },
+     "units": {
+      "type": "integer",
+      "title": "Units"
+     },
+     "segments": {
+      "type": "integer",
+      "title": "Segments"
+     },
+     "per_segment": {
+      "type": "integer",
+      "title": "Per Segment"
+     }
+    },
+    "type": "object",
+    "required": [
+     "encoding",
+     "units",
+     "segments",
+     "per_segment"
+    ],
+    "title": "SmsInfo"
+   },
+   "Status": {
+    "type": "string",
+    "enum": [
+     "VERIFIED",
+     "REVIEW",
+     "BLOCKED",
+     "FALLBACK"
+    ],
+    "title": "Status"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ }
+}

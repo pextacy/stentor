@@ -68,3 +68,14 @@ def test_uncovered_alert_is_not_auto_verified():
     assert not ir.template_coverage
     r = compile_lang(ir.intent, ir.locked_text, ir.mapping, "vi")
     assert r.status.value == "REVIEW"
+
+
+def test_alert_without_action_sentence_is_not_blocked():
+    """Regression (eval c17): 'Drop, cover and hold on' has no action sentence; the
+    implied action must be made explicit, not counted as a mismatch."""
+    from stentor.intent.extract import extract
+
+    ir = extract("Earthquake warning for Hatay. Drop, cover and hold on. Do not use elevators. Info: 112.")
+    assert ir.intent.instructions[0].verb == "monitor"
+    for lang in LANGS:
+        assert compile_lang(ir.intent, ir.locked_text, ir.mapping, lang).status.value == "VERIFIED"

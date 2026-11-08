@@ -33,3 +33,9 @@ def test_time_format_localized_value_kept():
     assert format_time("6:00 PM", "ar") == "6:00 م"
     assert format_time("tomorrow 8am", "tl") == "8:00 AM bukas"
     assert format_time("around dusk", "vi") == "around dusk"  # unparseable: untouched
+
+
+def test_rtl_literals_isolated():
+    out = restore("معلومات: ⟦U1⟧.", {"⟦U1⟧": "211"}, "ar")
+    assert out == "معلومات: ⁨211⁩."
+    assert restore("Info: ⟦U1⟧.", {"⟦U1⟧": "211"}, "vi") == "Info: 211."

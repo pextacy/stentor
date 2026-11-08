@@ -204,6 +204,7 @@ class PublicAlert(BaseModel):
     created_at: str
     hazard: str
     action: str
+    intent: AlertIntent
     places: list[str]
     times: list[str]
     languages: list[PublicLang]
@@ -219,7 +220,7 @@ def public(alert_id: str, lang: str = "en") -> PublicAlert:
               for r in a.results if r.status.value in ("VERIFIED", "FALLBACK") and r.text]
     selected = next((x for x in langs if x.lang == lang), langs[0])
     return PublicAlert(
-        id=a.id, created_at=a.created_at, hazard=a.intent.hazard.value, action=a.intent.action.value,
+        id=a.id, created_at=a.created_at, hazard=a.intent.hazard.value, action=a.intent.action.value, intent=a.intent,
         places=[a.mapping[p] for p in dict.fromkeys(a.intent.area_refs) if p in a.mapping],
         times=[a.mapping[p] for p in dict.fromkeys(a.intent.time_refs) if p in a.mapping],
         languages=langs, selected=selected,

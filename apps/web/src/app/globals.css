@@ -2,23 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  font-size: 16px;
-}
+html { font-size: 16px; }
+body { background: #F1F4F7; }
 
 :focus-visible {
-  outline: 3px solid #1d4ed8;
+  outline: 3px solid #13212E;
   outline-offset: 2px;
+  box-shadow: 0 0 0 6px #F2C230;
+}
+
+/* Placeholders read as locked metal tags */
+.ph {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.85em;
+  background: #13212E;
+  color: #fff;
+  border-radius: 3px;
+  padding: 0 0.3em;
+  white-space: nowrap;
+}
+
+.tape {
+  background: repeating-linear-gradient(-45deg, #F2C230 0 14px, #13212E 14px 28px);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
