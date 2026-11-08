@@ -1,0 +1,15 @@
+.env
+.env.local
+.env.*.local
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+.next/
+*.db
+*.sqlite
+.DS_Store
+eval/results/*.json
+!eval/results/.gitkeep

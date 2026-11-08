@@ -1,0 +1,1 @@
+"""STENTOR lexicon module."""
