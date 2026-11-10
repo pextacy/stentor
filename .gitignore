@@ -14,3 +14,10 @@ node_modules/
 eval/results/*.json
 !eval/results/latest.json
 !eval/results/.gitkeep
+
+# local UI screenshots for design work
+ui/
+# demo video build output (upload to YouTube; too large for git)
+video/
+.vercel
+.env.local

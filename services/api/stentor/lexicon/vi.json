@@ -407,7 +407,8 @@
         "trung tâm làm mát"
       ],
       "text": {
-        "pos|P": "Đến trung tâm làm mát tại {P}."
+        "pos|P": "Đến trung tâm làm mát tại {P}.",
+        "pos|PT": "Đến trung tâm làm mát tại {P}, hoạt động đến {T}."
       }
     },
     "go:shelter": {
@@ -449,6 +450,46 @@
       ],
       "text": {
         "pos|U": "Gọi {U}."
+      }
+    },
+    "stay_out:sun": {
+      "match": [
+        "tránh ánh nắng"
+      ],
+      "text": {
+        "pos": "Tránh ánh nắng mặt trời."
+      }
+    },
+    "use:generators": {
+      "match": [
+        "máy phát điện"
+      ],
+      "text": {
+        "neg": "KHÔNG dùng máy phát điện trong nhà."
+      }
+    },
+    "use:bottled_water": {
+      "match": [
+        "nước đóng chai"
+      ],
+      "text": {
+        "pos": "Chỉ dùng nước đóng chai."
+      }
+    },
+    "run:hide_fight": {
+      "match": [
+        "chạy, trốn"
+      ],
+      "text": {
+        "pos": "Chạy, trốn, chống trả."
+      }
+    },
+    "leave:hiding_place": {
+      "match": [
+        "chỗ trốn"
+      ],
+      "text": {
+        "neg": "KHÔNG rời khỏi chỗ trốn cho đến khi cảnh sát tới."
       }
     }
   },

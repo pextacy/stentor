@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-11-08T11:23:06+00:00",
+  "generated_at": "2026-11-09T07:11:32+00:00",
   "stentor_version": "0.1.0",
   "python": "3.11.14",
   "extractor": "lexicon rules",
@@ -18,16 +18,16 @@
  },
  "summary": {
   "catch_rate_pct": 100.0,
-  "adversarial_cases": 3486,
+  "adversarial_cases": 3682,
   "missed": 0,
-  "false_block_rate_pct": 0.0,
-  "review_rate_pct": 10.9,
-  "verified_rate_pct": 89.1,
+  "false_block_rate_pct": 2.0,
+  "review_rate_pct": 15.2,
+  "verified_rate_pct": 82.8,
   "status_as_expected_pct": 100.0,
-  "clean_cases": 644,
+  "clean_cases": 693,
   "placeholder_survival_pct": 100.0,
   "extraction_accuracy_pct": 100.0,
-  "alerts": 92,
+  "alerts": 99,
   "langs": [
    "vi",
    "tl",
@@ -55,122 +55,125 @@
     "catch_rate_pct": 100.0
    },
    "realistic": {
-    "alerts": 32,
-    "cases": 224,
+    "alerts": 39,
+    "cases": 273,
     "status_counts": {
      "VERIFIED": 182,
-     "REVIEW": 42
+     "REVIEW": 77,
+     "FALLBACK": 14
     },
-    "verified_pct": 81.2,
-    "review_pct": 18.8,
-    "false_block_pct": 0.0,
+    "verified_pct": 66.7,
+    "review_pct": 28.2,
+    "false_block_pct": 5.1,
     "status_as_expected_pct": 100.0,
     "placeholder_survival_pct": 100.0,
     "extraction_accuracy_pct": 100.0,
-    "adversarial_cases": 1190,
+    "adversarial_cases": 1386,
     "catch_rate_pct": 100.0
    }
   },
   "catch_by_corruption": {
    "drop_negation": {
-    "cases": 322,
-    "caught": 322,
+    "cases": 343,
+    "caught": 343,
     "catch_pct": 100.0
    },
    "downgrade_action": {
-    "cases": 525,
-    "caught": 525,
+    "cases": 532,
+    "caught": 532,
     "catch_pct": 100.0
    },
    "shift_time": {
-    "cases": 140,
-    "caught": 140,
+    "cases": 147,
+    "caught": 147,
     "catch_pct": 100.0
    },
    "swap_place": {
-    "cases": 609,
-    "caught": 609,
-    "catch_pct": 100.0
-   },
-   "swap_hazard": {
     "cases": 644,
     "caught": 644,
     "catch_pct": 100.0
    },
+   "swap_hazard": {
+    "cases": 686,
+    "caught": 686,
+    "catch_pct": 100.0
+   },
    "drop_placeholder": {
-    "cases": 623,
-    "caught": 623,
+    "cases": 665,
+    "caught": 665,
     "catch_pct": 100.0
    },
    "duplicate_placeholder": {
-    "cases": 623,
-    "caught": 623,
+    "cases": 665,
+    "caught": 665,
     "catch_pct": 100.0
    }
   },
   "by_lang": {
    "vi": {
-    "cases": 92,
-    "verified_pct": 89.1,
-    "false_block_pct": 0.0,
+    "cases": 99,
+    "verified_pct": 82.8,
+    "false_block_pct": 2.0,
     "status_as_expected_pct": 100.0,
     "catch_pct": 100.0,
-    "adversarial": 498
+    "adversarial": 526
    },
    "tl": {
-    "cases": 92,
-    "verified_pct": 89.1,
-    "false_block_pct": 0.0,
+    "cases": 99,
+    "verified_pct": 82.8,
+    "false_block_pct": 2.0,
     "status_as_expected_pct": 100.0,
     "catch_pct": 100.0,
-    "adversarial": 498
+    "adversarial": 526
    },
    "ko": {
-    "cases": 92,
-    "verified_pct": 89.1,
-    "false_block_pct": 0.0,
+    "cases": 99,
+    "verified_pct": 82.8,
+    "false_block_pct": 2.0,
     "status_as_expected_pct": 100.0,
     "catch_pct": 100.0,
-    "adversarial": 498
+    "adversarial": 526
    },
    "ar": {
-    "cases": 92,
-    "verified_pct": 89.1,
-    "false_block_pct": 0.0,
+    "cases": 99,
+    "verified_pct": 82.8,
+    "false_block_pct": 2.0,
     "status_as_expected_pct": 100.0,
     "catch_pct": 100.0,
-    "adversarial": 498
+    "adversarial": 526
    },
    "ht": {
-    "cases": 92,
-    "verified_pct": 89.1,
-    "false_block_pct": 0.0,
+    "cases": 99,
+    "verified_pct": 82.8,
+    "false_block_pct": 2.0,
     "status_as_expected_pct": 100.0,
     "catch_pct": 100.0,
-    "adversarial": 498
+    "adversarial": 526
    },
    "es": {
-    "cases": 92,
-    "verified_pct": 89.1,
-    "false_block_pct": 0.0,
+    "cases": 99,
+    "verified_pct": 82.8,
+    "false_block_pct": 2.0,
     "status_as_expected_pct": 100.0,
     "catch_pct": 100.0,
-    "adversarial": 498
+    "adversarial": 526
    },
    "tr": {
-    "cases": 92,
-    "verified_pct": 89.1,
-    "false_block_pct": 0.0,
+    "cases": 99,
+    "verified_pct": 82.8,
+    "false_block_pct": 2.0,
     "status_as_expected_pct": 100.0,
     "catch_pct": 100.0,
-    "adversarial": 498
+    "adversarial": 526
    }
   },
   "renderers": {
-   "template": 644
+   "template": 679,
+   "safe_template": 14
   },
   "slot_match_by_renderer_pct": {
-   "template": 100.0
+   "template": 100.0,
+   "safe_template": 100.0
   }
  },
  "extraction": {
@@ -1763,6 +1766,149 @@
     ],
     "text": "wildfire near altadena. evacuate now. do not return.",
     "note": "lowercase place cannot be locked; flagged, not sent"
+   },
+   {
+    "id": "r33",
+    "ok": true,
+    "hazard": "other",
+    "action": "shelter_in_place",
+    "negated": 1,
+    "expect": {
+     "hazard": "other",
+     "action": "shelter_in_place",
+     "negated": 1,
+     "status": "FALLBACK"
+    },
+    "template_coverage": false,
+    "uncovered": [
+     "negated action evacuate_now"
+    ],
+    "text": "Shelter in place. Do not evacuate. Stay indoors.",
+    "note": "a forbidden action is never the required action"
+   },
+   {
+    "id": "r34",
+    "ok": true,
+    "hazard": "boil_water",
+    "action": "monitor",
+    "negated": 1,
+    "expect": {
+     "hazard": "boil_water",
+     "action": "monitor",
+     "negated": 1,
+     "status": "REVIEW"
+    },
+    "template_coverage": false,
+    "uncovered": [
+     "help",
+     "protective action (assumed 'stay alert')"
+    ],
+    "text": "Do not drink tap water in Flint. Use bottled water only. Call 810-555-0100 for help.",
+    "note": "tap water names the hazard; bottled water instruction; action assumed"
+   },
+   {
+    "id": "r35",
+    "ok": true,
+    "hazard": "active_threat",
+    "action": "monitor",
+    "negated": 1,
+    "expect": {
+     "hazard": "active_threat",
+     "action": "monitor",
+     "negated": 1,
+     "status": "REVIEW"
+    },
+    "template_coverage": false,
+    "uncovered": [
+     "protective action (assumed 'stay alert')"
+    ],
+    "text": "Active shooter at Lincoln High School. Run, hide, fight. Do not leave your hiding place until police arrive.",
+    "note": "run hide fight; negated hiding place must survive"
+   },
+   {
+    "id": "r36",
+    "ok": true,
+    "hazard": "other",
+    "action": "monitor",
+    "negated": 0,
+    "expect": {
+     "hazard": "other",
+     "action": "monitor",
+     "negated": 0,
+     "status": "FALLBACK"
+    },
+    "template_coverage": false,
+    "uncovered": [
+     "go",
+     "hospital",
+     "instead",
+     "not",
+     "unless",
+     "protective action (assumed 'stay alert')"
+    ],
+    "text": "Do not go to the hospital unless it is an emergency. Call 111 instead.",
+    "note": "templates would drop 'not' and 'unless': blocked, never review"
+   },
+   {
+    "id": "r37",
+    "ok": true,
+    "hazard": "other",
+    "action": "stay_indoors",
+    "negated": 0,
+    "expect": {
+     "hazard": "other",
+     "action": "stay_indoors",
+     "negated": 0,
+     "status": "REVIEW"
+    },
+    "template_coverage": false,
+    "uncovered": [
+     "campus",
+     "lockdown"
+    ],
+    "text": "Lockdown in effect at UCLA campus. Stay inside, lock doors, silence phones. This is not a drill.",
+    "note": "acronym is a place; lockdown is not assumed to be a shooter; 'not a drill' is not an instruction"
+   },
+   {
+    "id": "r38",
+    "ok": true,
+    "hazard": "other",
+    "action": "monitor",
+    "negated": 1,
+    "expect": {
+     "hazard": "other",
+     "action": "monitor",
+     "negated": 1,
+     "status": "REVIEW"
+    },
+    "template_coverage": false,
+    "uncovered": [
+     "outage",
+     "power",
+     "protective action (assumed 'stay alert')"
+    ],
+    "text": "Power outage in Brooklyn. Do not use generators indoors.",
+    "note": "carbon monoxide instruction"
+   },
+   {
+    "id": "r39",
+    "ok": true,
+    "hazard": "extreme_heat",
+    "action": "monitor",
+    "negated": 0,
+    "expect": {
+     "hazard": "extreme_heat",
+     "action": "monitor",
+     "negated": 0,
+     "status": "REVIEW"
+    },
+    "template_coverage": false,
+    "uncovered": [
+     "today",
+     "protective action (assumed 'stay alert')"
+    ],
+    "text": "Heat advisory today. Drink water, stay out of the sun, check on elderly neighbors. Cooling center at 120 Main St open until 9 pm.",
+    "note": "house number is part of the address; cooling center with closing time; 'today' not in template"
    }
   ]
  },
@@ -10275,6 +10421,755 @@
    "placeholders_ok": true,
    "critical_slots_ok": true,
    "text": "Orman yangını uyarısı. Hemen tahliye olun. Geri dönmeyin.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r33",
+   "lang": "vi",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Cảnh báo khẩn cấp. Trú ẩn tại chỗ ngay.",
+   "reasons": [
+    "No renderer could express this alert",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r33",
+   "lang": "tl",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Babala: emerhensiya. Sumilong sa kinaroroonan ngayon.",
+   "reasons": [
+    "No renderer could express this alert",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r33",
+   "lang": "ko",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "비상 상황 경보. 현재 위치에 머물며 몸을 보호하십시오.",
+   "reasons": [
+    "No renderer could express this alert",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r33",
+   "lang": "ar",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "تحذير: حالة طوارئ. احتموا في مكانكم الآن.",
+   "reasons": [
+    "No renderer could express this alert",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r33",
+   "lang": "ht",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Avètisman: ijans. Rete kote ou ye a epi pwoteje tèt ou kounye a.",
+   "reasons": [
+    "No renderer could express this alert",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r33",
+   "lang": "es",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Alerta de emergencia. Refúgiese donde está ahora.",
+   "reasons": [
+    "No renderer could express this alert",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r33",
+   "lang": "tr",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Acil durum uyarısı. Bulunduğunuz yerde hemen korunun.",
+   "reasons": [
+    "No renderer could express this alert",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "vi",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Cảnh báo nguồn nước bị ô nhiễm tại Flint. Theo dõi thông tin cập nhật. KHÔNG uống nước máy. Chỉ dùng nước đóng chai. Gọi 810-555-0100.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tl",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Babala para sa Flint: kontaminadong tubig. Maging alerto sa mga update. HUWAG uminom ng tubig mula sa gripo. Nakaboteng tubig lamang ang gamitin. Tumawag sa 810-555-0100.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ko",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Flint 지역 수질 오염 경보. 최신 정보를 계속 확인하십시오. 수돗물을 마시지 마십시오. 생수만 사용하십시오. 810-555-0100에 전화하십시오.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ar",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "تحذير: تلوث المياه في ⁨Flint⁩. تابعوا آخر المستجدات. لا تشربوا مياه الصنبور. استخدموا المياه المعبأة فقط. اتصلوا بالرقم ⁨810-555-0100⁩.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ht",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Avètisman: dlo kontamine pou zòn Flint. Rete veyatif epi swiv nouvèl yo. PA bwè dlo tiyo. Sèvi ak dlo nan boutèy sèlman. Rele 810-555-0100.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "es",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Alerta de agua contaminada en Flint. Manténgase atento a las actualizaciones. NO beba agua del grifo. Use solo agua embotellada. Llame al 810-555-0100.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tr",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Flint için su kirliliği uyarısı. Güncel bilgileri takip edin. Musluk suyu içmeyin. Yalnızca şişe suyu kullanın. 810-555-0100 numarasını arayın.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "vi",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Cảnh báo xả súng tại Lincoln High School. Theo dõi thông tin cập nhật. Chạy, trốn, chống trả. KHÔNG rời khỏi chỗ trốn cho đến khi cảnh sát tới.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tl",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Babala para sa Lincoln High School: armadong mamamaril. Maging alerto sa mga update. Tumakbo, magtago, lumaban. HUWAG umalis sa pinagtataguan hanggang dumating ang pulis.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ko",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Lincoln High School 지역 총격 사건 경보. 최신 정보를 계속 확인하십시오. 달아나고, 숨고, 맞서 싸우십시오. 경찰이 도착할 때까지 숨은 곳에서 나오지 마십시오.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ar",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "تحذير: مسلح نشط في ⁨Lincoln High School⁩. تابعوا آخر المستجدات. اهربوا، اختبئوا، قاوموا. لا تغادروا مكان اختبائكم حتى تصل الشرطة.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ht",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Avètisman: moun ame k ap tire pou zòn Lincoln High School. Rete veyatif epi swiv nouvèl yo. Kouri, kache, goumen. PA soti kote w kache a jiskaske lapolis rive.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "es",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Alerta de tirador activo en Lincoln High School. Manténgase atento a las actualizaciones. Corra, escóndase, defiéndase. NO abandone su escondite hasta que llegue la policía.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tr",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Lincoln High School için silahlı saldırgan uyarısı. Güncel bilgileri takip edin. Kaçın, saklanın, savunun. Polis gelene kadar saklandığınız yerden çıkmayın.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "vi",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Cảnh báo khẩn cấp. Theo dõi thông tin cập nhật. Thông tin: 111.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "tl",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Babala: emerhensiya. Maging alerto sa mga update. Impormasyon: 111.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ko",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "비상 상황 경보. 최신 정보를 계속 확인하십시오. 정보: 111.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ar",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "تحذير: حالة طوارئ. تابعوا آخر المستجدات. معلومات: ⁨111⁩.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ht",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Avètisman: ijans. Rete veyatif epi swiv nouvèl yo. Enfòmasyon: 111.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "es",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Alerta de emergencia. Manténgase atento a las actualizaciones. Información: 111.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "tr",
+   "status": "FALLBACK",
+   "expected_status": "FALLBACK",
+   "renderer": "safe_template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Acil durum uyarısı. Güncel bilgileri takip edin. Bilgi: 111.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "vi",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Cảnh báo khẩn cấp tại UCLA. Ở trong nhà. Khóa tất cả các cửa. Giữ im lặng.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tl",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Babala para sa UCLA: emerhensiya. Manatili sa loob ng bahay. Ikandado ang lahat ng pinto. Manatiling tahimik.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ko",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "UCLA 지역 비상 상황 경보. 실내에 머무르십시오. 모든 문을 잠그십시오. 조용히 하십시오.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ar",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "تحذير: حالة طوارئ في ⁨UCLA⁩. ابقوا في الداخل. اقفلوا جميع الأبواب. الزموا الهدوء.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ht",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Avètisman: ijans pou zòn UCLA. Rete anndan kay la. Fèmen tout pòt a kle. Rete an silans.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "es",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Alerta de emergencia en UCLA. Quédese en casa. Cierre con llave todas las puertas. Guarde silencio.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tr",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "UCLA için acil durum uyarısı. Evde kalın. Tüm kapıları kilitleyin. Sessiz kalın.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "vi",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Cảnh báo khẩn cấp tại Brooklyn. Theo dõi thông tin cập nhật. KHÔNG dùng máy phát điện trong nhà.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tl",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Babala para sa Brooklyn: emerhensiya. Maging alerto sa mga update. HUWAG gumamit ng generator sa loob ng bahay.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ko",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Brooklyn 지역 비상 상황 경보. 최신 정보를 계속 확인하십시오. 실내에서 발전기를 사용하지 마십시오.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ar",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "تحذير: حالة طوارئ في ⁨Brooklyn⁩. تابعوا آخر المستجدات. لا تستخدموا المولدات داخل المنزل.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ht",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Avètisman: ijans pou zòn Brooklyn. Rete veyatif epi swiv nouvèl yo. PA itilize dèlko anndan kay.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "es",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Alerta de emergencia en Brooklyn. Manténgase atento a las actualizaciones. NO use generadores dentro de casa.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tr",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Brooklyn için acil durum uyarısı. Güncel bilgileri takip edin. Jeneratörleri kapalı alanda çalıştırmayın.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "vi",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Cảnh báo nắng nóng gay gắt. Theo dõi thông tin cập nhật. Uống nhiều nước. Tránh ánh nắng mặt trời. Hỏi thăm hàng xóm của bạn. Đến trung tâm làm mát tại 120 Main St, hoạt động đến 21:00.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tl",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Babala: matinding init. Maging alerto sa mga update. Uminom ng maraming tubig. Umiwas sa init ng araw. Kumustahin ang inyong mga kapitbahay. Pumunta sa cooling center sa 120 Main St, bukas hanggang 9:00 PM.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ko",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "폭염 경보. 최신 정보를 계속 확인하십시오. 물을 충분히 드십시오. 햇볕을 피하십시오. 이웃의 안부를 확인하십시오. 120 Main St에 있는 무더위 쉼터는 오후 9:00까지 운영하니 그곳으로 가십시오.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ar",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "تحذير: حرارة شديدة. تابعوا آخر المستجدات. اشربوا الكثير من الماء. ابتعدوا عن أشعة الشمس. اطمئنوا على جيرانكم. توجهوا إلى مركز التبريد في ⁨120 Main St⁩، المفتوح حتى ⁨9:00 م⁩.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ht",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Avètisman: chalè ekstrèm. Rete veyatif epi swiv nouvèl yo. Bwè anpil dlo. Rete lwen solèy la. Tcheke vwazen ou yo. Ale nan sant frechè ki nan 120 Main St, li ouvè jiska 9:00 PM.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "es",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Alerta de calor extremo. Manténgase atento a las actualizaciones. Beba mucha agua. Manténgase a la sombra, lejos del sol. Verifique cómo están sus vecinos. Vaya al centro de enfriamiento en 120 Main St, abierto hasta las 21:00.",
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tr",
+   "status": "REVIEW",
+   "expected_status": "REVIEW",
+   "renderer": "template",
+   "backparser": "lexicon",
+   "placeholders_ok": true,
+   "critical_slots_ok": true,
+   "text": "Aşırı sıcak uyarısı. Güncel bilgileri takip edin. Bol su için. Doğrudan güneş ışığından kaçının. Komşularınızı kontrol edin. 120 Main St serinleme merkezine gidin, merkez 21:00 saatine kadar açık.",
    "reasons": [
     "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
    ]
@@ -54897,6 +55792,2554 @@
     "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
     "The hazard changed: source says wildfire, translation says flood",
     "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "vi",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT drink tap_water, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "vi",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Flint')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "vi",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says boil_water, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "vi",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='810-555-0100')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "vi",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tl",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT drink tap_water, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tl",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Flint')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tl",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says boil_water, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tl",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='810-555-0100')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tl",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ko",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT drink tap_water, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ko",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Flint')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ko",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says boil_water, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ko",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='810-555-0100')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ko",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ar",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT drink tap_water, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ar",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Flint')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ar",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says boil_water, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ar",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='810-555-0100')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ar",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ht",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT drink tap_water, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ht",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Flint')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ht",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says boil_water, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ht",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='810-555-0100')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "ht",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "es",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT drink tap_water, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "es",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Flint')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "es",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says boil_water, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "es",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='810-555-0100')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "es",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tr",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT drink tap_water, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tr",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Flint')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tr",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says boil_water, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tr",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='810-555-0100')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r34",
+   "lang": "tr",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "vi",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT leave hiding_place, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "vi",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "vi",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says active_threat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "vi",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "vi",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tl",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT leave hiding_place, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tl",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tl",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says active_threat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tl",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tl",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ko",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT leave hiding_place, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ko",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ko",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says active_threat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ko",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ko",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ar",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT leave hiding_place, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ar",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ar",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says active_threat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ar",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ar",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ht",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT leave hiding_place, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ht",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ht",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says active_threat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ht",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "ht",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "es",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT leave hiding_place, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "es",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "es",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says active_threat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "es",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "es",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tr",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT leave hiding_place, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tr",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tr",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says active_threat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tr",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Lincoln High School')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r35",
+   "lang": "tr",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "vi",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "vi",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='111')",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "vi",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦U1⟧)",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The phone numbers or links changed: source says ⟦U1⟧, translation says ⟦U1⟧; ⟦U1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "tl",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "tl",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='111')",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "tl",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦U1⟧)",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The phone numbers or links changed: source says ⟦U1⟧, translation says ⟦U1⟧; ⟦U1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ko",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ko",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='111')",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ko",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦U1⟧)",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The phone numbers or links changed: source says ⟦U1⟧, translation says ⟦U1⟧; ⟦U1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ar",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ar",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='111')",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ar",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦U1⟧)",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The phone numbers or links changed: source says ⟦U1⟧, translation says ⟦U1⟧; ⟦U1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ht",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ht",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='111')",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "ht",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦U1⟧)",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The phone numbers or links changed: source says ⟦U1⟧, translation says ⟦U1⟧; ⟦U1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "es",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "es",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='111')",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "es",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦U1⟧)",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The phone numbers or links changed: source says ⟦U1⟧, translation says ⟦U1⟧; ⟦U1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "tr",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "tr",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦U1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦U1⟧='111')",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r36",
+   "lang": "tr",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦U1⟧)",
+    "The approved templates leave out part of the source (approved templates would drop a word that changes the instruction ('not', 'unless'); blocked)",
+    "The phone numbers or links changed: source says ⟦U1⟧, translation says ⟦U1⟧; ⟦U1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "vi",
+   "corruption": "downgrade_action",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The required action is missing (no approved phrase for stay_indoors (expected one of: ở trong nhà))",
+    "The action was softened (softened to monitor ('theo dõi thông tin') instead of stay_indoors)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "vi",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "vi",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "vi",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "vi",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tl",
+   "corruption": "downgrade_action",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The required action is missing (no approved phrase for stay_indoors (expected one of: manatili sa loob ng bahay))",
+    "The action was softened (softened to monitor ('maging alerto') instead of stay_indoors)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tl",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tl",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tl",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tl",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ko",
+   "corruption": "downgrade_action",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The required action is missing (no approved phrase for stay_indoors (expected one of: 실내에 머무르))",
+    "The action was softened (softened to monitor ('최신 정보') instead of stay_indoors)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ko",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ko",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ko",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ko",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ar",
+   "corruption": "downgrade_action",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The required action is missing (no approved phrase for stay_indoors (expected one of: ابقوا في الداخل))",
+    "The action was softened (softened to monitor ('تابعوا آخر') instead of stay_indoors)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ar",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ar",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ar",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ar",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ht",
+   "corruption": "downgrade_action",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The required action is missing (no approved phrase for stay_indoors (expected one of: rete anndan))",
+    "The action was softened (softened to monitor ('swiv nouvèl') instead of stay_indoors)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ht",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ht",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ht",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "ht",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "es",
+   "corruption": "downgrade_action",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The required action is missing (no approved phrase for stay_indoors (expected one of: quédese en casa))",
+    "The action was softened (softened to monitor ('manténgase atento') instead of stay_indoors)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "es",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "es",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "es",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "es",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tr",
+   "corruption": "downgrade_action",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The required action is missing (no approved phrase for stay_indoors (expected one of: evde kalın))",
+    "The action was softened (softened to monitor ('güncel bilgileri takip') instead of stay_indoors)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tr",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tr",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tr",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='UCLA')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r37",
+   "lang": "tr",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "vi",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT use generators, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "vi",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "vi",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "vi",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "vi",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tl",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT use generators, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tl",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tl",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tl",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tl",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ko",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT use generators, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ko",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ko",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ko",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ko",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ar",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT use generators, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ar",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ar",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ar",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ar",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ht",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT use generators, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ht",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ht",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ht",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "ht",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "es",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT use generators, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "es",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "es",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "es",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "es",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tr",
+   "corruption": "drop_negation",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A \"do not\" is missing (0 negation marker(s) for 1 negated instruction(s))",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The prohibitions (do not) changed: source says NOT use generators, translation says none"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tr",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tr",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says other, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tr",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='Brooklyn')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r38",
+   "lang": "tr",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "vi",
+   "corruption": "shift_time",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='21:00')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "vi",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='120 Main St')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "vi",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says extreme_heat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "vi",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='21:00')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "vi",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tl",
+   "corruption": "shift_time",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='9:00 PM')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tl",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='120 Main St')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tl",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says extreme_heat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tl",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='9:00 PM')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tl",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ko",
+   "corruption": "shift_time",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='오후 9:00')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ko",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='120 Main St')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ko",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says extreme_heat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ko",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='오후 9:00')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ko",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ar",
+   "corruption": "shift_time",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='9:00 م')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ar",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='120 Main St')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ar",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says extreme_heat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ar",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='9:00 م')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ar",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ht",
+   "corruption": "shift_time",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='9:00 PM')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ht",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='120 Main St')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ht",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says extreme_heat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ht",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='9:00 PM')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "ht",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "es",
+   "corruption": "shift_time",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='las 21:00')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "es",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='120 Main St')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "es",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says extreme_heat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "es",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='las 21:00')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "es",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tr",
+   "corruption": "shift_time",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='21:00')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tr",
+   "corruption": "swap_place",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦P1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦P1⟧='120 Main St')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tr",
+   "corruption": "swap_hazard",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The hazard changed: source says extreme_heat, translation says flood",
+    "Sent the pre-approved generic warning for this hazard instead"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tr",
+   "corruption": "drop_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (missing ⟦T1⟧)",
+    "A literal did not come back intact (literal missing after restore: ⟦T1⟧='21:00')",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)"
+   ]
+  },
+  {
+   "suite": "realistic",
+   "id": "r39",
+   "lang": "tr",
+   "corruption": "duplicate_placeholder",
+   "status": "FALLBACK",
+   "caught": true,
+   "reasons": [
+    "A name, time, number or phone number was lost or changed (unexpected or duplicated ⟦P1⟧)",
+    "The approved templates leave out part of the source (approved templates do not express every word of the source; operator review needed)",
+    "The places changed: source says ⟦P1⟧, translation says ⟦P1⟧; ⟦P1⟧"
    ]
   }
  ]

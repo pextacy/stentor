@@ -421,7 +421,8 @@
         "centro de enfriamiento"
       ],
       "text": {
-        "pos|P": "Vaya al centro de enfriamiento en {P}."
+        "pos|P": "Vaya al centro de enfriamiento en {P}.",
+        "pos|PT": "Vaya al centro de enfriamiento en {P}, abierto hasta {T}."
       }
     },
     "go:shelter": {
@@ -463,6 +464,46 @@
       ],
       "text": {
         "pos|U": "Llame al {U}."
+      }
+    },
+    "stay_out:sun": {
+      "match": [
+        "lejos del sol"
+      ],
+      "text": {
+        "pos": "Manténgase a la sombra, lejos del sol."
+      }
+    },
+    "use:generators": {
+      "match": [
+        "generadores"
+      ],
+      "text": {
+        "neg": "NO use generadores dentro de casa."
+      }
+    },
+    "use:bottled_water": {
+      "match": [
+        "agua embotellada"
+      ],
+      "text": {
+        "pos": "Use solo agua embotellada."
+      }
+    },
+    "run:hide_fight": {
+      "match": [
+        "corra, escóndase"
+      ],
+      "text": {
+        "pos": "Corra, escóndase, defiéndase."
+      }
+    },
+    "leave:hiding_place": {
+      "match": [
+        "escondite"
+      ],
+      "text": {
+        "neg": "NO abandone su escondite hasta que llegue la policía."
       }
     }
   },

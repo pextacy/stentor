@@ -195,7 +195,7 @@ def parse_lexicon(text: str, lang: str) -> ParseResult:
     norm_all = lx.norm(text)
     hazard = _first_hazard(lx, norm_all)
     instructions: list[Instruction] = []
-    action_hits: list[tuple[int, Action]] = []
+    action_hits: list[tuple[int, Action, bool]] = []  # (order, action, negated)
     expires: str | None = None
     sentences: list[SentenceParse] = []
     matched: list[str] = []
@@ -213,12 +213,12 @@ def parse_lexicon(text: str, lang: str) -> ParseResult:
                 order += 1
                 matched.append(m.phrase)
                 if m.kind == "headline_action":
-                    action_hits.append((order, Action(m.key)))
+                    action_hits.append((order, Action(m.key), neg_marker))
                     sent_kind = "headline"
                     continue
                 if m.kind == "action":
                     act = Action(m.key)
-                    action_hits.append((order, act))
+                    action_hits.append((order, act, neg_marker))
                     kinds = _variant_kinds(lx.actions[act.value]["text"])
                     bound = [p for p in phs if kind_of(p) in kinds and kind_of(p) != "P"]
                     obj = None
@@ -265,8 +265,11 @@ def parse_lexicon(text: str, lang: str) -> ParseResult:
             unique.append(i)
 
     all_phs = placeholders_in(text)
-    action_found = bool(action_hits)
-    act = min(action_hits, key=lambda x: x[0])[1] if action_hits else Action.MONITOR
+    # The required action is the first one the alert tells people to DO. "Do not
+    # evacuate. Stay indoors." must read as stay_indoors, never as evacuate_now.
+    positive = [h for h in action_hits if not h[2]]
+    action_found = bool(positive)
+    act = min(positive, key=lambda x: x[0])[1] if positive else Action.MONITOR
     intent = AlertIntent(
         hazard=hazard,
         action=act,

@@ -11,6 +11,9 @@ gets a pre-approved generic safe warning instead of a wrong one.
 Output: CAP 1.2 XML with one `<info>` block per language, SMS segment counts, audio, a
 language independent pictogram card, and a public alert page.
 
+**Live demo:** https://stentor-taupe.vercel.app (API: https://stentor-api.vercel.app/health).
+The demo runs the deterministic path (approved templates + lexicon checks), so it needs no API key.
+
 ![Console after compiling the demo alert, with Arabic blocked by chaos mode](docs/screenshots/03-results.png)
 
 ## Why
@@ -48,6 +51,8 @@ under pressure. STENTOR makes the check mechanical. Sources are in [docs/PRD.md]
 | ! Review | Critical slots match; something non critical needs a person (for example the templates drop a word) | No, operator decides |
 | ✕ Blocked | A critical slot differs | No |
 | ↺ Safe fallback | Blocked, replaced by the verified generic warning for that hazard | Yes, the generic text |
+| ✓ Approved | Was Review; a named operator checked it and approved it | Yes |
+| ✕ Rejected | Was Review; the operator refused it and no safe fallback could be verified | No |
 
 ## Run it
 
@@ -67,7 +72,7 @@ different model, back parses. Claude calls use the server side refusal fallback
 
 ```bash
 cd services/api
-uv run pytest -q                                          # 146 tests
+uv run pytest -q                                          # 227 tests
 uv run python ../../eval/run_eval.py --offline            # eval, writes eval/results/latest.json
 uv run python ../../eval/run_eval.py --force-model llm    # baseline LLM renderer (needs key, costs money)
 pnpm --dir ../../apps/web gen:types                       # TS types from the OpenAPI schema
@@ -81,18 +86,46 @@ Demo script: pick "Wildfire: evacuate via a route (demo)", **Read the alert**, t
 slot ledger shows Negations ✕. Then open the citizen preview and download the CAP file
 ([sample](docs/samples/demo.cap.xml)).
 
+## Operator features
+
+Beyond the demo path (full list with tests in [docs/FEATURES.md](docs/FEATURES.md)):
+
+- **Review workflow:** a Review language is approved or rejected by a named operator on the
+  alert page (`/alerts/[id]`); rejection sends the verified safe fallback.
+- **Lifecycle:** write an update (`/?update=<id>`) or cancel an alert. Both are translated and
+  verified like any alert and go out as CAP `Update` / `Cancel` with `<references>`.
+- **CAP:** status Exercise/Test/Draft/System (Actual is refused), sender, polygon/circle/geocode
+  area, and a built-in CAP 1.2 validator (`POST /validate/cap`).
+- **Source check:** reading grade, long sentences, and intent contradictions before translating.
+- **Back translation:** every language card shows what the translation says, in English.
+- **Channels:** WEA 90 / WEA 360 / SMS fit per language, SSML for broadcast speech, JSON / text /
+  CSV exports, audit log CSV, Atom feed, printable poster with QR code, pictogram SVG.
+- **Language quality:** lexicon explorer, lexicon lint, native speaker sign-off (`/lexicon`),
+  glossary of names never to translate (`/settings`).
+- **Team data:** drafts, language presets, alert history with search (`/history`), stats (`/stats`),
+  batch compile (`POST /batch`), duplicate send warning.
+- **Platform:** optional operator token, rate limit, request id and `Server-Timing` headers,
+  Prometheus `/metrics`, signed webhooks (HMAC SHA-256; chaos runs never sent).
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `STENTOR_OPERATOR_TOKEN` | empty | if set, every write needs `Authorization: Bearer <token>` |
+| `STENTOR_RATE_LIMIT` | 120 | write requests per minute per client, 0 turns it off |
+| `STENTOR_DUPLICATE_MINUTES` | 30 | warn when the same English text was compiled this recently |
+| `API_PUBLIC_URL` | http://localhost:8000 | API address used in feed links |
+
 ## Eval
 
-From `eval/results/latest.json`: 92 alerts (two suites) × 7 languages = 644 translations,
+From `eval/results/latest.json`: 99 alerts (two suites) × 7 languages = 693 translations,
 deterministic path, no API key.
 
-| Metric | Clean suite (60 alerts) | Realistic suite (32 alerts) |
+| Metric | Clean suite (60 alerts) | Realistic suite (39 alerts) |
 |---|---|---|
-| Injected critical errors caught | 2296 / 2296 | 1190 / 1190 |
-| Wrongly blocked clean translations | 0% | 0% |
-| Verified / sent to Review | 93.3% / 6.7% | 81.2% / 18.8% |
+| Injected critical errors caught | 2296 / 2296 | 1386 / 1386 |
+| Wrongly blocked clean translations | 0% | 0% (2 alerts are blocked on purpose, see below) |
+| Verified / sent to Review / safe fallback | 93.3% / 6.7% / 0% | 66.7% / 28.2% / 5.1% |
 | Status exactly as expected | 100% | 100% |
-| Intent read correctly (hazard, action, negation count) | 60 / 60 | 32 / 32 |
+| Intent read correctly (hazard, action, negation count) | 60 / 60 | 39 / 39 |
 
 The realistic suite holds messy wording ("EVACUATION ORDER for Topanga Canyon. Leave now.",
 "Heat wave in Ankara: stay indoors between 11:00 and 16:00", "Stay out of damaged
@@ -104,6 +137,11 @@ undetected. Each is now a unit test.
 Review is not failure: those alerts contain something the approved templates cannot say
 ("Call 911 *if safe*", "a room *without windows*") or STENTOR had to assume the action. They
 are shown to the operator and not sent automatically.
+
+Two realistic alerts are blocked on purpose. "Do not go to the hospital unless it is an
+emergency" has a negation the approved templates cannot express, so leaving it out would
+change the instruction: every language gets the pre-approved generic warning instead of a
+Review item with the "not" silently missing.
 
 **Read these numbers with their limits.** Without a key, the renderer and the back parser
 share one lexicon, so a perfect catch rate is expected by construction: the eval shows the
@@ -127,22 +165,37 @@ back. Those numbers are not here because they have not been run.
   connect to IPAWS or carriers.
 - Audio uses the browser's voices; many devices have none for Haitian Creole or Tagalog,
   and the UI says so.
+- **The model path is not demo ready.** In our first real model run (Gemini free tier,
+  10 Nov 2026) the Flash-Lite back parser mapped meaning into non canonical slots ("return
+  until 6 PM" as "until cleared", a phone number as a quantity), so even the demo alert was
+  blocked in three of four languages, and a 4 language compile took up to 4 minutes. It
+  failed safe: nothing wrong was sent. The demo uses `STENTOR_LLM=off` until the back parser
+  prompt is fixed.
+- The hosted demo keeps SQLite in `/tmp` on Vercel, so alert history resets on a cold start.
 
 ## Layout
 
 ```
 docs/                 PRD, PLAN, DOCS, PHASES, DEVPOST, screenshots, sample CAP
 services/api/         FastAPI: intent/ lock/ render/ verify/ channels/ lexicon/
-apps/web/             Next.js console (/), public alert page (/a/[id]), how it works (/how), eval (/eval)
+apps/web/             Next.js console (/), alert page (/alerts/[id]), history, stats, lexicons, settings,
+                      public alert page (/a/[id]) and poster (/a/[id]/print), how it works, eval
 eval/                 suites/clean.jsonl, suites/realistic.jsonl, run_eval.py, results/latest.json
 data/adaption/        Invent-a-Dataset spec, seed_ht.jsonl, adaption_track.py
 ```
 
 ## Deploy
 
-API: `render.yaml` (Docker, `services/api/Dockerfile`, build context = repo root).
-Web: Vercel with root `apps/web` and `NEXT_PUBLIC_API_URL` set to the API URL; add the
-Vercel URL to the API's `CORS_ORIGINS`.
+Both halves run on Vercel as two projects:
+
+- **API** (`stentor-api`): repo root. `vercel.json` declares one Python service with
+  entrypoint `app:app` (`app.py` imports `services/api`); `pyproject.toml` at the root lists
+  its dependencies. Env: `STENTOR_LLM=off`, `STENTOR_DB_URL=sqlite:////tmp/stentor.db`,
+  `CORS_ORIGINS=<web url>`, `PUBLIC_BASE_URL=<web url>`, `API_PUBLIC_URL=<api url>`.
+- **Web** (`stentor`): root `apps/web`, build env `NEXT_PUBLIC_API_URL=<api url>`.
+
+For a durable database, `render.yaml` still deploys the API as a Docker service
+(`services/api/Dockerfile`, build context = repo root).
 
 ## License
 

@@ -1,7 +1,12 @@
-"""Claude calls: place detection, intent extraction, rendering, back parsing.
+"""LLM calls: place detection, intent extraction, rendering, back parsing.
 
-Only used when ANTHROPIC_API_KEY is configured. Every caller has a deterministic
-path for when this is unavailable or fails.
+Used only when an API key is configured (ANTHROPIC_API_KEY or GEMINI_API_KEY). Every
+caller has a deterministic path for when this is unavailable or fails.
+
+Two providers sit behind one function, `_json_call`, which always returns JSON that
+matches a strict schema:
+* Anthropic: Claude Opus renders and extracts, Claude Sonnet back parses.
+* Gemini: Gemini Flash renders and extracts, Gemini Flash-Lite back parses.
 
 Model choice: the renderer and the back parser are deliberately *different* models
 (docs/PLAN.md: avoid correlated errors).
@@ -9,29 +14,69 @@ Model choice: the renderer and the back parser are deliberately *different* mode
 from __future__ import annotations
 
 import json
+import time
 from functools import lru_cache
 from typing import Any
 
 import anthropic
+import httpx
+from pydantic import ValidationError
 
 from stentor.config import get_settings
 from stentor.intent.schema import Action, AlertIntent, Hazard
 
-EXTRACT_MODEL = "claude-opus-5-5"
-RENDER_MODEL = "claude-opus-5-5"
-BACKPARSE_MODEL = "claude-sonnet-5-5"
+ANTHROPIC_MODELS = {
+    "EXTRACT_MODEL": "claude-opus-5-5",
+    "RENDER_MODEL": "claude-opus-5-5",
+    "BACKPARSE_MODEL": "claude-sonnet-5-5",
+}
 
 # Server side refusal fallback (Claude API). Routes a declined request to a
 # fallback model by refusal category instead of failing the call.
 _FALLBACK = {"betas": ["server-side-fallback-2026-07-01"], "fallbacks": "default"}
+
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+# Effort maps to Gemini thinking levels. The Flash-Lite back parser runs without thinking.
+_GEMINI_THINKING = {"low": "low", "medium": "medium", "high": "high"}
 
 
 class LLMUnavailable(RuntimeError):
     pass
 
 
+def provider() -> str:
+    """anthropic | gemini | none"""
+    s = get_settings()
+    if s.stentor_llm == "off":
+        return "none"
+    if s.stentor_llm == "anthropic":
+        return "anthropic" if s.anthropic_api_key else "none"
+    if s.stentor_llm == "gemini":
+        return "gemini" if s.gemini_api_key else "none"
+    if s.anthropic_api_key:
+        return "anthropic"
+    if s.gemini_api_key:
+        return "gemini"
+    return "none"
+
+
 def available() -> bool:
-    return bool(get_settings().anthropic_api_key)
+    return provider() != "none"
+
+
+def _models() -> dict[str, str]:
+    if provider() == "gemini":
+        s = get_settings()
+        return {"EXTRACT_MODEL": s.stentor_gemini_model, "RENDER_MODEL": s.stentor_gemini_model,
+                "BACKPARSE_MODEL": s.stentor_gemini_backparse_model}
+    return ANTHROPIC_MODELS
+
+
+def __getattr__(name: str) -> str:
+    # llm.EXTRACT_MODEL / RENDER_MODEL / BACKPARSE_MODEL follow the configured provider.
+    if name in ANTHROPIC_MODELS:
+        return _models()[name]
+    raise AttributeError(name)
 
 
 @lru_cache
@@ -40,6 +85,11 @@ def _client() -> anthropic.Anthropic:
     if not key:
         raise LLMUnavailable("ANTHROPIC_API_KEY is not set")
     return anthropic.Anthropic(api_key=key)
+
+
+@lru_cache
+def _http() -> httpx.Client:
+    return httpx.Client(timeout=httpx.Timeout(60.0, connect=10.0))
 
 
 INSTRUCTION_SCHEMA = {
@@ -77,6 +127,12 @@ INTENT_SCHEMA = {
 
 
 def _json_call(model: str, system: str, user: str, schema: dict, effort: str) -> Any:
+    if provider() == "gemini":
+        return _gemini_json_call(model, system, user, schema, effort)
+    return _anthropic_json_call(model, system, user, schema, effort)
+
+
+def _anthropic_json_call(model: str, system: str, user: str, schema: dict, effort: str) -> Any:
     try:
         resp = _client().beta.messages.create(
             model=model,
@@ -92,6 +148,8 @@ def _json_call(model: str, system: str, user: str, schema: dict, effort: str) ->
         raise LLMUnavailable("Claude API rate limited") from e
     except anthropic.APIStatusError as e:
         raise LLMUnavailable(f"Claude API error {e.status_code}") from e
+    except anthropic.APIError as e:
+        raise LLMUnavailable(f"Claude API error: {type(e).__name__}") from e
     if resp.stop_reason == "refusal":
         raise LLMUnavailable("Claude declined the request")
     if resp.stop_reason == "max_tokens":
@@ -99,7 +157,71 @@ def _json_call(model: str, system: str, user: str, schema: dict, effort: str) ->
     text = next((b.text for b in resp.content if b.type == "text"), None)
     if text is None:
         raise LLMUnavailable("Claude returned no text")
-    return json.loads(text)
+    return _parse_json(text, "Claude")
+
+
+def _gemini_json_call(model: str, system: str, user: str, schema: dict, effort: str) -> Any:
+    s = get_settings()
+    config: dict[str, Any] = {"responseMimeType": "application/json", "responseJsonSchema": schema,
+                              "maxOutputTokens": 16000}
+    if model != s.stentor_gemini_backparse_model and effort in _GEMINI_THINKING:
+        config["thinkingConfig"] = {"thinkingLevel": _GEMINI_THINKING[effort]}
+    body = {
+        "systemInstruction": {"parts": [{"text": system}]},
+        "contents": [{"role": "user", "parts": [{"text": user}]}],
+        "generationConfig": config,
+    }
+    last = "no response"
+    # High demand (503) and short rate limit bursts (429) are retried twice with backoff.
+    for attempt in range(3):
+        try:
+            r = _http().post(GEMINI_URL.format(model=model), json=body,
+                             headers={"x-goog-api-key": s.gemini_api_key})
+        except httpx.HTTPError as e:
+            last = f"cannot reach Gemini API: {type(e).__name__}"
+        else:
+            if r.status_code == 200:
+                return _gemini_text(r.json())
+            last = f"Gemini API error {r.status_code}"
+            if r.status_code not in (429, 500, 503):
+                break
+        if attempt < 2:
+            time.sleep(1.5 * (attempt + 1))
+    raise LLMUnavailable(last)
+
+
+def _gemini_text(data: dict) -> Any:
+    if data.get("promptFeedback", {}).get("blockReason"):
+        raise LLMUnavailable("Gemini declined the request")
+    cands = data.get("candidates") or []
+    if not cands:
+        raise LLMUnavailable("Gemini returned no candidates")
+    c = cands[0]
+    reason = c.get("finishReason", "STOP")
+    if reason == "MAX_TOKENS":
+        raise LLMUnavailable("Gemini output was truncated")
+    if reason not in ("STOP", "FINISH_REASON_UNSPECIFIED"):
+        raise LLMUnavailable(f"Gemini stopped: {reason}")
+    text = "".join(p.get("text", "") for p in c.get("content", {}).get("parts", []) if not p.get("thought"))
+    if not text:
+        raise LLMUnavailable("Gemini returned no text")
+    return _parse_json(text, "Gemini")
+
+
+def _parse_json(text: str, who: str) -> Any:
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError as e:
+        raise LLMUnavailable(f"{who} returned malformed JSON") from e
+
+
+def _intent(data: Any) -> AlertIntent:
+    # A schema-valid answer can still break model rules (e.g. a bad urgency string);
+    # callers then take their deterministic path instead of failing the request.
+    try:
+        return AlertIntent.model_validate(data)
+    except ValidationError as e:
+        raise LLMUnavailable(f"the model returned an invalid intent ({e.error_count()} error(s))") from e
 
 
 # ------------------------------------------------------------------ extraction
@@ -119,7 +241,7 @@ def detect_places(text: str) -> list[str]:
         "required": ["places"],
         "additionalProperties": False,
     }
-    data = _json_call(EXTRACT_MODEL, PLACES_SYSTEM, text, schema, effort="low")
+    data = _json_call(_models()["EXTRACT_MODEL"], PLACES_SYSTEM, text, schema, effort="low")
     return [p for p in data["places"] if p and p in text]
 
 
@@ -145,8 +267,8 @@ def _extract_system(verbs: list[str]) -> str:
 
 
 def extract_intent(locked_text: str, verbs: list[str]) -> AlertIntent:
-    data = _json_call(EXTRACT_MODEL, _extract_system(verbs), locked_text, INTENT_SCHEMA, effort="medium")
-    return AlertIntent.model_validate(data)
+    data = _json_call(_models()["EXTRACT_MODEL"], _extract_system(verbs), locked_text, INTENT_SCHEMA, effort="medium")
+    return _intent(data)
 
 
 # ------------------------------------------------------------------- rendering
@@ -163,7 +285,7 @@ def render_text(locked_text: str, intent: AlertIntent, lang_name: str, action_ph
         + "\n- No emoji, no extra advice, no commentary."
     )
     schema = {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"], "additionalProperties": False}
-    return _json_call(RENDER_MODEL, system, locked_text, schema, effort="medium")["text"]
+    return _json_call(_models()["RENDER_MODEL"], system, locked_text, schema, effort="medium")["text"]
 
 
 # ---------------------------------------------------------------- back parsing
@@ -177,8 +299,8 @@ def backparse(rendered: str, lang_name: str, placeholders: list[str], verbs: lis
         f"Valid placeholders: {' '.join(placeholders) or 'none'}. Refer to them by id.\n"
         f"Normalized instruction keys (verb:object): {', '.join(verbs)}. Write verbs in English."
     )
-    data = _json_call(BACKPARSE_MODEL, system, rendered, INTENT_SCHEMA, effort="low")
-    return AlertIntent.model_validate(data)
+    data = _json_call(_models()["BACKPARSE_MODEL"], system, rendered, INTENT_SCHEMA, effort="low")
+    return _intent(data)
 
 
 def compress(locked_rendered: str, lang_name: str, limit: int) -> str:
@@ -189,4 +311,4 @@ def compress(locked_rendered: str, lang_name: str, limit: int) -> str:
         "Answer in the same language."
     )
     schema = {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"], "additionalProperties": False}
-    return _json_call(RENDER_MODEL, system, locked_rendered, schema, effort="medium")["text"]
+    return _json_call(_models()["RENDER_MODEL"], system, locked_rendered, schema, effort="medium")["text"]

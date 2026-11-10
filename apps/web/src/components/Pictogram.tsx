@@ -172,3 +172,60 @@ export function Pictogram({ intent, places, times }: { intent: AlertIntent; plac
     </div>
   );
 }
+
+/** The same card as one standalone SVG (inline styles only), for print, signage and
+ *  download. Tiles flow left to right; place and time chips go underneath. */
+export function PictogramSvg({ intent, places, times, svgRef }: {
+  intent: AlertIntent; places: string[]; times: string[]; svgRef?: React.Ref<SVGSVGElement>;
+}) {
+  const prohibitions = intent.instructions
+    .filter((i) => i.negated)
+    .map((i) => i.verb + (i.object ? `:${i.object}` : ""))
+    .filter((key) => PROHIBIT[key]);
+  const tiles: { icon: JSX.Element; label: string; fill: string; border: string; prohibited?: boolean }[] = [
+    { icon: HAZARD[intent.hazard] ?? HAZARD.other, label: intent.hazard.replace(/_/g, " "), fill: "#F2C230", border: "#13212E" },
+    { icon: ACTION[intent.action] ?? ACTION.monitor, label: intent.action.replace(/_/g, " "), fill: "#FFFFFF", border: "#13212E" },
+    ...prohibitions.map((k) => ({ icon: PROHIBIT[k], label: `not: ${k.replace(":", " ").replace(/_/g, " ")}`, fill: "#FFFFFF", border: "#A3221B", prohibited: true })),
+  ];
+  const tile = 120, gap = 28, pad = 24;
+  const chips = [...places.map((p) => `⌖ ${p}`), ...times.map((t) => `◷ ${t}`)];
+  const width = pad * 2 + tiles.length * tile + (tiles.length - 1) * gap;
+  const height = pad * 2 + tile + 34 + (chips.length ? 24 + chips.length * 30 : 0);
+  return (
+    <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`} width={width} height={height}
+      role="img" aria-label={`Pictogram: ${tiles.map((t) => t.label).join(", ")}`} style={{ color: "#13212E", fontFamily: "sans-serif" }}>
+      <rect x="1" y="1" width={width - 2} height={height - 2} rx="16" fill="#FFFFFF" stroke="#13212E" strokeWidth="2" />
+      {tiles.map((t, i) => {
+        const x = pad + i * (tile + gap);
+        return (
+          <g key={i}>
+            <rect x={x} y={pad} width={tile} height={tile} rx="14" fill={t.fill} stroke={t.border} strokeWidth="5" />
+            <svg x={x + 16} y={pad + 16} width={tile - 32} height={tile - 32} viewBox="0 0 100 100">
+              {t.icon}
+              {t.prohibited && <g stroke="#A3221B" strokeWidth="9" fill="none"><circle cx="50" cy="50" r="44" /><path d="M19 81L81 19" /></g>}
+            </svg>
+            <text x={x + tile / 2} y={pad + tile + 22} textAnchor="middle" fontSize="13" fill="#4A5A6A">{t.label}</text>
+            {i === 0 && tiles.length > 1 && <path d={`M${x + tile + 6} ${pad + tile / 2}h${gap - 12}`} stroke="#13212E" strokeWidth="4" markerEnd="" />}
+          </g>
+        );
+      })}
+      {chips.map((c, i) => (
+        <text key={c} x={width / 2} y={pad + tile + 64 + i * 30} textAnchor="middle" fontSize="18" fontWeight="600" fill="#13212E">{c}</text>
+      ))}
+    </svg>
+  );
+}
+
+/** Serialize an on-page SVG and save it as a file. */
+export function downloadSvg(svg: SVGSVGElement | null, filename: string): void {
+  if (!svg) return;
+  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(svg);
+  const url = URL.createObjectURL(new Blob([xml], { type: "image/svg+xml" }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}

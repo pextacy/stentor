@@ -403,7 +403,8 @@
         "sant frechè"
       ],
       "text": {
-        "pos|P": "Ale nan sant frechè ki nan {P}."
+        "pos|P": "Ale nan sant frechè ki nan {P}.",
+        "pos|PT": "Ale nan sant frechè ki nan {P}, li ouvè jiska {T}."
       }
     },
     "go:shelter": {
@@ -445,6 +446,46 @@
       ],
       "text": {
         "pos|U": "Rele {U}."
+      }
+    },
+    "stay_out:sun": {
+      "match": [
+        "lwen solèy"
+      ],
+      "text": {
+        "pos": "Rete lwen solèy la."
+      }
+    },
+    "use:generators": {
+      "match": [
+        "dèlko"
+      ],
+      "text": {
+        "neg": "PA itilize dèlko anndan kay."
+      }
+    },
+    "use:bottled_water": {
+      "match": [
+        "dlo nan boutèy"
+      ],
+      "text": {
+        "pos": "Sèvi ak dlo nan boutèy sèlman."
+      }
+    },
+    "run:hide_fight": {
+      "match": [
+        "kouri, kache"
+      ],
+      "text": {
+        "pos": "Kouri, kache, goumen."
+      }
+    },
+    "leave:hiding_place": {
+      "match": [
+        "kote w kache"
+      ],
+      "text": {
+        "neg": "PA soti kote w kache a jiskaske lapolis rive."
       }
     }
   },

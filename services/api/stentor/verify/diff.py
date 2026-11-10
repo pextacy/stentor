@@ -15,6 +15,12 @@ class Status(str, Enum):
     REVIEW = "REVIEW"
     BLOCKED = "BLOCKED"
     FALLBACK = "FALLBACK"
+    APPROVED = "APPROVED"  # was REVIEW; a named operator checked it and approved sending
+    REJECTED = "REJECTED"  # was REVIEW; the operator refused it and nothing is sent
+
+
+# Only these statuses are ever exported, published or delivered.
+SENDABLE = {Status.VERIFIED.value, Status.FALLBACK.value, Status.APPROVED.value}
 
 
 class SlotDiff(BaseModel):

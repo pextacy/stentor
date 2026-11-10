@@ -27,14 +27,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               Stentor
             </Link>
             <span className="hidden text-sm text-slate-rule sm:inline">Every warning, in every language, verified before it is sent.</span>
-            <nav aria-label="Main" className="ml-auto flex gap-5 text-sm font-medium">
+            <nav aria-label="Main" className="ml-auto flex flex-wrap justify-end gap-x-5 gap-y-1 text-sm font-medium">
               <Link href="/" className="hover:underline">Console</Link>
-              <Link href="/how" className="hover:underline">How it works</Link>
+              <Link href="/history" className="hover:underline">History</Link>
+              <Link href="/stats" className="hover:underline">Stats</Link>
+              <Link href="/lexicon" className="hover:underline">Lexicons</Link>
               <Link href="/eval" className="hover:underline">Eval</Link>
+              <Link href="/how" className="hover:underline">How it works</Link>
+              <Link href="/settings" className="hover:underline">Settings</Link>
             </nav>
           </div>
         </header>
         <div id="main">{children}</div>
+        <footer className="mx-auto mt-10 max-w-7xl border-t border-slate-rule px-4 py-4 text-xs text-slate-mute print:hidden">
+          STENTOR demo. Not certified for production alerting.{" "}
+          <a className="underline" href={`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"}/feed.atom`}>Atom feed of alerts</a>
+        </footer>
       </body>
     </html>
   );

@@ -39,7 +39,7 @@ Always check `docs/PHASES.md` before starting work and tick items when done.
 ```
 stentor/
   CLAUDE.md  LICENSE  README.md
-  docs/                     PRD.md  PLAN.md  DOCS.md  PHASES.md
+  docs/                     PRD.md  PLAN.md  DOCS.md  PHASES.md  FEATURES.md
   apps/web/                 Next.js console + citizen preview
   services/api/             FastAPI app
     stentor/intent/         extraction + schema
@@ -74,6 +74,8 @@ ADAPTION_API_KEY=
 ADAPTION_BASE_URL=https://api.prod.adaptionlabs.ai
 STENTOR_RENDERER=adaption|llm   # which model renders non template text
 STENTOR_MODEL_ID=               # Adaption model id after training
+STENTOR_OPERATOR_TOKEN=         # optional: bearer token required for every write endpoint
+STENTOR_RATE_LIMIT=120          # write requests per minute per client (0 = off)
 ```
 
 Never commit keys. Use `.env.local` and `.env`.

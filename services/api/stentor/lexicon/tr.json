@@ -412,7 +412,8 @@
         "serinleme merkez"
       ],
       "text": {
-        "pos|P": "{P} serinleme merkezine gidin."
+        "pos|P": "{P} serinleme merkezine gidin.",
+        "pos|PT": "{P} serinleme merkezine gidin, merkez {T} saatine kadar açık."
       }
     },
     "go:shelter": {
@@ -454,6 +455,46 @@
       ],
       "text": {
         "pos|U": "{U} numarasını arayın."
+      }
+    },
+    "stay_out:sun": {
+      "match": [
+        "güneş ışığı"
+      ],
+      "text": {
+        "pos": "Doğrudan güneş ışığından kaçının."
+      }
+    },
+    "use:generators": {
+      "match": [
+        "jeneratör"
+      ],
+      "text": {
+        "neg": "Jeneratörleri kapalı alanda çalıştırmayın."
+      }
+    },
+    "use:bottled_water": {
+      "match": [
+        "şişe suyu"
+      ],
+      "text": {
+        "pos": "Yalnızca şişe suyu kullanın."
+      }
+    },
+    "run:hide_fight": {
+      "match": [
+        "kaçın, saklanın"
+      ],
+      "text": {
+        "pos": "Kaçın, saklanın, savunun."
+      }
+    },
+    "leave:hiding_place": {
+      "match": [
+        "saklandığınız yer"
+      ],
+      "text": {
+        "neg": "Polis gelene kadar saklandığınız yerden çıkmayın."
       }
     }
   },

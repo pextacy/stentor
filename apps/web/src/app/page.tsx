@@ -1,16 +1,24 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AuditLog } from "@/components/AuditLog";
 import { CitizenPreview } from "@/components/CitizenPreview";
+import { AreaEditor, DraftsPanel, PresetPicker, QualityPanel } from "@/components/ConsoleTools";
 import { IntentCard } from "@/components/IntentCard";
 import { LangCard, RENDERER, backparserLabel } from "@/components/LangCard";
 import { Pictogram } from "@/components/Pictogram";
-import { StatusBadge } from "@/components/Status";
+import { StatusBadge, isSendable } from "@/components/Status";
 import {
-  type AlertIntent, type CompileResponse, type Health, type IntentResult, type Meta, type RecentAlert,
-  API_URL, downloadCap, getHealth, getMeta, getRecent, postCompile, postIntent,
+  type AlertIntent, type CapArea, type CompileResponse, type Health, type IntentResult, type LintIssue, type Meta,
+  type RecentAlert, type Status,
+  API_URL, downloadCap, getAlert, getHealth, getMeta, getRecent, lintIntent, postCompile, postIntent,
 } from "@/lib/api";
+
+const AUTOSAVE_KEY = "stentor-console-autosave";
+
+function loadAutosave(): { text?: string; langs?: string[] } {
+  try { return JSON.parse(window.localStorage.getItem(AUTOSAVE_KEY) ?? "{}"); } catch { return {}; }
+}
 
 type Busy = null | "intent" | "compile" | "cap";
 
@@ -36,14 +44,34 @@ export default function Console() {
   const [busy, setBusy] = useState<Busy>(null);
   const [error, setError] = useState<string | null>(null);
   const [took, setTook] = useState<number | null>(null);
+  const [lint, setLint] = useState<LintIssue[]>([]);
+  const [area, setArea] = useState<CapArea | null>(null);
+  const [updateOf, setUpdateOf] = useState<string | null>(null);
+  const [restored, setRestored] = useState(false);
+  const compileRef = useRef<() => void>(() => {});
 
   useEffect(() => {
     Promise.all([getMeta(), getHealth()])
       .then(([m, h]) => {
         setMeta(m);
         setHealth(h);
-        setLangs(m.default_langs);
-        setText(m.examples[0]?.text ?? "");
+        const known = new Set(m.languages.map((l) => l.lang));
+        const saved = loadAutosave();
+        const update = new URLSearchParams(window.location.search).get("update");
+        if (update) {
+          // Update of an earlier alert: start from its text and languages (CAP msgType Update).
+          getAlert(update).then((a) => {
+            setUpdateOf(a.id);
+            setText(a.source_text);
+            setLangs(a.results.map((r) => r.lang));
+            if (a.area) setArea(a.area);
+          }).catch(() => setError(`Alert ${update} could not be loaded for an update.`));
+        } else {
+          setText(saved.text || m.examples[0]?.text || "");
+        }
+        const savedLangs = (saved.langs ?? []).filter((l) => known.has(l));
+        setLangs(savedLangs.length ? savedLangs : m.default_langs);
+        setRestored(Boolean(saved.text) && !update);
       })
       .catch(() => setApiError(`The STENTOR API at ${API_URL} is not reachable. Start it with: cd services/api && uv run uvicorn stentor.main:app --port 8000`));
     getRecent().then(setRecent).catch(() => setRecent([]));
@@ -53,6 +81,19 @@ export default function Console() {
   useEffect(() => {
     if (langs.length && !langs.includes(chaosLang)) setChaosLang(langs.includes("ar") ? "ar" : langs[0]);
   }, [langs, chaosLang]);
+
+  // Autosave: the text and language choice survive a reload or a closed tab, in this browser only.
+  useEffect(() => {
+    if (!meta) return;
+    try { window.localStorage.setItem(AUTOSAVE_KEY, JSON.stringify({ text, langs })); } catch {}
+  }, [text, langs, meta]);
+
+  // Re-check the intent card after every edit, so contradictions show before translating.
+  useEffect(() => {
+    if (!ir || !intent) return;
+    const t = setTimeout(() => { lintIntent(intent, ir.mapping, ir.locked_text).then(setLint).catch(() => {}); }, 250);
+    return () => clearTimeout(t);
+  }, [ir, intent]);
 
   const langInfo = useMemo(() => Object.fromEntries((meta?.languages ?? []).map((l) => [l.lang, l])), [meta]);
 
@@ -70,6 +111,7 @@ export default function Console() {
       const r = await postIntent(text);
       setIr(r);
       setIntent(r.intent);
+      setLint(r.lint);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -84,11 +126,12 @@ export default function Console() {
     const t0 = performance.now();
     try {
       const r = await postCompile(
-        { intent, locked_text: ir.locked_text, mapping: ir.mapping, langs },
+        { intent, locked_text: ir.locked_text, mapping: ir.mapping, langs, references: updateOf, area },
         chaosOn ? `${chaosKind}:${chaosLang}` : undefined,
       );
       setRes(r);
       setTook((performance.now() - t0) / 1000);
+      if (updateOf) { setUpdateOf(null); window.history.replaceState(null, "", "/"); }
       getRecent().then(setRecent).catch(() => {});
     } catch (e) {
       setError((e as Error).message);
@@ -100,6 +143,7 @@ export default function Console() {
   async function exportCap() {
     if (!res) return;
     setBusy("cap");
+    setError(null);
     try {
       await downloadCap(res.alert_id);
     } catch (e) {
@@ -110,10 +154,20 @@ export default function Console() {
   }
 
   const counts = useMemo(() => {
-    const c = { VERIFIED: 0, REVIEW: 0, BLOCKED: 0, FALLBACK: 0 };
+    const c: Record<Status, number> = { VERIFIED: 0, REVIEW: 0, BLOCKED: 0, FALLBACK: 0, APPROVED: 0, REJECTED: 0 };
     res?.results.forEach((r) => (c[r.status] += 1));
     return c;
   }, [res]);
+
+  compileRef.current = () => { if (ir && intent && busy === null && langs.length) compile(); };
+  // Keyboard: Ctrl/Cmd+Enter reads the alert (in the text box); Ctrl/Cmd+Shift+Enter translates and verifies.
+  const onKey = useCallback((e: KeyboardEvent) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "Enter") { e.preventDefault(); compileRef.current(); }
+  }, []);
+  useEffect(() => {
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onKey]);
 
   const common = useMemo(() => ({
     renderer: mostCommon(res?.results.map((r) => r.renderer) ?? []),
@@ -121,7 +175,7 @@ export default function Console() {
   }), [res]);
   const unreviewed = res ? res.results.filter((r) => r.reviewed_by === "unreviewed").length : 0;
 
-  const sendable = res ? res.results.filter((r) => (r.status === "VERIFIED" || r.status === "FALLBACK") && r.text) : [];
+  const sendable = res ? res.results.filter((r) => isSendable(r.status) && r.text) : [];
   const places = ir && intent ? Array.from(new Set((intent.area_refs ?? []).map((p) => ir.mapping[p]).filter(Boolean))) : [];
   const times = ir && intent ? Array.from(new Set((intent.time_refs ?? []).map((p) => ir.mapping[p]).filter(Boolean))) : [];
   const btn = "rounded-md border-2 border-ink px-4 py-2 text-base font-semibold disabled:cursor-not-allowed disabled:opacity-50";
@@ -136,6 +190,19 @@ export default function Console() {
           Reading: <strong className="text-ink">{meta?.extractor === "lexicon" ? "rule parser" : meta?.extractor}</strong>
           {" · "}Checking: <strong className="text-ink">{meta?.backparser === "lexicon" ? "lexicon back parser" : meta?.backparser}</strong>
           {!health.anthropic_configured && " · No Claude key: approved templates translate and the lexicon checks them."}
+        </p>
+      )}
+
+      {updateOf && (
+        <p role="status" className="mb-4 rounded-md border-2 border-fallback bg-fallback-bg p-3 font-semibold text-fallback">
+          Updating alert {updateOf}. The result is sent as a CAP Update that replaces it.{" "}
+          <button type="button" className="underline" onClick={() => { setUpdateOf(null); window.history.replaceState(null, "", "/"); }}>Make a new alert instead</button>
+        </p>
+      )}
+      {restored && !updateOf && (
+        <p role="status" className="mb-4 text-sm text-slate-mute">
+          Restored your last text from this browser.{" "}
+          <button type="button" className="underline" onClick={() => { setText(meta?.examples[0]?.text ?? ""); setRestored(false); resetFrom("text"); }}>Start from the demo example</button>
         </p>
       )}
 
@@ -166,21 +233,31 @@ export default function Console() {
                 <textarea
                   value={text}
                   onChange={(e) => { setText(e.target.value); resetFrom("text"); }}
+                  onKeyDown={(e) => {
+                    if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === "Enter" && text.trim() && busy === null) { e.preventDefault(); readIntent(); }
+                  }}
+                  aria-describedby="compose-keys"
                   rows={4}
                   className="rounded-md border-2 border-ink p-3 text-lg leading-snug"
                 />
               </label>
               <p className="text-xs text-slate-mute">Names, times, numbers and phone numbers are found and locked automatically. To force a name, wrap it: ⟦Altadena⟧.</p>
+              <p id="compose-keys" className="text-xs text-slate-mute">Keys: <kbd className="font-mono">Ctrl/⌘ + Enter</kbd> reads the alert, <kbd className="font-mono">Ctrl/⌘ + Shift + Enter</kbd> translates and verifies.</p>
               <button type="button" onClick={readIntent} disabled={!text.trim() || busy !== null} className={`${btn} bg-ink text-white`}>
                 {busy === "intent" ? "Reading…" : "Read the alert"}
               </button>
             </div>
           </section>
 
+          <DraftsPanel text={text} langs={langs}
+            onLoad={(d) => { setText(d.text); if (d.langs.length) setLangs(d.langs); resetFrom("text"); }} />
+
           {ir && intent && meta && (
             <IntentCard result={ir} intent={intent} phrasebook={meta.phrasebook}
               onChange={(i) => { setIntent(i); resetFrom("intent"); }} />
           )}
+
+          {ir && <QualityPanel ir={ir} lint={lint} />}
 
           {ir && intent && (
             <section aria-labelledby="compile-h" className="rounded-xl border-2 border-ink bg-white p-4">
@@ -200,13 +277,16 @@ export default function Console() {
                     </label>
                   ))}
                 </div>
+                <PresetPicker langs={langs} onPick={(l) => { setLangs(l); resetFrom("intent"); }} />
               </fieldset>
+
+              <AreaEditor value={area} onChange={(a) => { setArea(a); resetFrom("intent"); }} />
 
               <div className={`mt-4 rounded-md border-2 ${chaosOn ? "border-ink" : "border-dashed border-slate-rule"}`}>
                 {chaosOn && <div className="tape h-2" aria-hidden="true" />}
                 <div className="p-3">
                   <label className="flex items-center gap-2 font-semibold">
-                    <input type="checkbox" className="h-5 w-5 accent-[#13212E]" checked={chaosOn} onChange={(e) => setChaosOn(e.target.checked)} />
+                    <input type="checkbox" className="h-5 w-5 accent-[#13212E]" checked={chaosOn} onChange={(e) => { setChaosOn(e.target.checked); resetFrom("intent"); }} />
                     Chaos mode: inject a translation error (demo only)
                   </label>
                   <p className="mt-1 text-sm text-slate-mute">Corrupts one language after translating and before checking, to show that the error is caught.</p>
@@ -214,13 +294,13 @@ export default function Console() {
                     <div className="mt-2 flex flex-wrap gap-3">
                       <label className="flex flex-col text-xs font-semibold uppercase tracking-wider text-slate-mute">
                         Error
-                        <select value={chaosKind} onChange={(e) => setChaosKind(e.target.value)} className="mt-1 rounded-md border-2 border-ink bg-white px-2 py-1 text-base normal-case tracking-normal text-ink">
+                        <select value={chaosKind} onChange={(e) => { setChaosKind(e.target.value); resetFrom("intent"); }} className="mt-1 rounded-md border-2 border-ink bg-white px-2 py-1 text-base normal-case tracking-normal text-ink">
                           {meta?.corruptions.map((c) => <option key={c} value={c}>{c.replace(/_/g, " ")}</option>)}
                         </select>
                       </label>
                       <label className="flex flex-col text-xs font-semibold uppercase tracking-wider text-slate-mute">
                         In language
-                        <select value={chaosLang} onChange={(e) => setChaosLang(e.target.value)} className="mt-1 rounded-md border-2 border-ink bg-white px-2 py-1 text-base normal-case tracking-normal text-ink">
+                        <select value={chaosLang} onChange={(e) => { setChaosLang(e.target.value); resetFrom("intent"); }} className="mt-1 rounded-md border-2 border-ink bg-white px-2 py-1 text-base normal-case tracking-normal text-ink">
                           {langs.map((l) => <option key={l} value={l}>{langInfo[l]?.english_name ?? l}</option>)}
                         </select>
                       </label>
@@ -254,7 +334,8 @@ export default function Console() {
                   <ul className="mt-2 divide-y divide-slate-rule rounded-md border border-slate-rule bg-white text-ink">
                     {recent.map((a) => (
                       <li key={a.id} className="flex flex-wrap items-center gap-2 px-3 py-2 text-sm">
-                        <a href={`/a/${a.id}`} className="flex-1 truncate underline">{a.source_text}</a>
+                        <a href={`/alerts/${a.id}`} className="flex-1 truncate underline">{a.source_text}</a>
+                        {a.msg_type !== "Alert" && <span className="rounded border border-ink px-1 text-xs font-bold">{a.msg_type}</span>}
                         {a.chaos && <span className="rounded bg-tape px-1 text-xs font-bold">chaos</span>}
                         <span className="font-mono text-xs text-slate-mute">
                           {Object.values(a.statuses).filter((s) => s === "VERIFIED").length}/{Object.keys(a.statuses).length} verified
@@ -262,6 +343,7 @@ export default function Console() {
                       </li>
                     ))}
                   </ul>
+                  <a href="/history" className="mt-2 inline-block text-sm font-semibold text-ink underline">All alerts</a>
                 </div>
               )}
             </section>
@@ -272,13 +354,22 @@ export default function Console() {
               <section aria-labelledby="summary-h" className="rounded-xl border-2 border-ink bg-ink p-4 text-white">
                 <h2 id="summary-h" className="sr-only">Result summary</h2>
                 <div className="flex flex-wrap items-center gap-3">
-                  {(["VERIFIED", "FALLBACK", "REVIEW", "BLOCKED"] as const).map((s) =>
+                  {(["VERIFIED", "APPROVED", "FALLBACK", "REVIEW", "BLOCKED", "REJECTED"] as const).map((s) =>
                     counts[s] ? (
                       <span key={s} className="flex items-center gap-2"><StatusBadge status={s} /><span className="font-mono text-lg">×{counts[s]}</span></span>
                     ) : null,
                   )}
                   {took !== null && <span className="ml-auto font-mono text-sm text-slate-rule">checked in {took < 1 ? `${Math.round(took * 1000)} ms` : `${took.toFixed(1)} s`}</span>}
                 </div>
+                {res.msg_type !== "Alert" && (
+                  <p className="mt-2 text-sm font-semibold text-tape">CAP {res.msg_type} of alert {res.references}.</p>
+                )}
+                {res.duplicate_of && (
+                  <p role="status" className="mt-2 rounded-md bg-review-bg px-2 py-1 text-sm font-semibold text-review">
+                    The same English text was compiled recently as alert{" "}
+                    <a className="underline" href={`/alerts/${res.duplicate_of}`}>{res.duplicate_of}</a>. Check it is not a duplicate send.
+                  </p>
+                )}
                 <p className="mt-2 text-sm text-slate-rule">
                   Translated by {RENDERER[common.renderer] ?? common.renderer}, checked by {backparserLabel(common.backparser)}.
                   {unreviewed > 0 && ` ${unreviewed} of ${res.results.length} lexicons are not yet reviewed by a native speaker.`}
@@ -288,6 +379,9 @@ export default function Console() {
                     {busy === "cap" ? "Exporting…" : "Download CAP 1.2 XML"}
                   </button>
                   <a href={`/a/${res.alert_id}`} className={`${btn} border-white text-white`}>Public alert page</a>
+                  <a href={`/alerts/${res.alert_id}`} className={`${btn} border-white text-white`}>
+                    {counts.REVIEW ? `Review ${counts.REVIEW} language${counts.REVIEW === 1 ? "" : "s"}` : "Details and exports"}
+                  </a>
                   <span className="self-center text-sm text-slate-rule">CAP holds English plus {sendable.length} sendable language{sendable.length === 1 ? "" : "s"}.</span>
                 </div>
               </section>

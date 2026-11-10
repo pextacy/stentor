@@ -206,6 +206,23 @@ Reasons are written in plain language, shown on the card and stored in the audit
 | GET | `/public/{id}?lang=` | | citizen page data, sendable languages only |
 | POST | `/eval/run` | `{langs[], suites[]}` | eval summary (only without an API key) |
 | GET | `/eval/latest`, `/eval/renderers` | | latest eval file; model renderer comparison |
+| POST | `/intent/lint` | `{intent, mapping, locked_text}` | contradictions and gaps in an edited intent card |
+| POST | `/alerts/{id}/review` | `{lang, decision, reviewer, note}` | REVIEW -> APPROVED, or FALLBACK / REJECTED |
+| POST | `/alerts/{id}/cancel` | `{reason}` | a verified, multilingual CAP Cancel |
+| GET | `/alerts/{id}/export.{json,txt,csv}`, `/audit.csv`, `/cap.xml`, `/cap/validate`, `/ssml?lang=` | | exports |
+| POST | `/validate/cap` | `{xml}` | CAP 1.2 structural validation report |
+| POST | `/batch` | `{items[], langs[]}` | read, compile and store up to 20 alerts |
+| CRUD | `/drafts`, `/presets`, `/glossary`, `/webhooks` | | operator data |
+| GET | `/lexicon/{lang}`, `/lexicon/{lang}/lint`, `/lexicon/{lang}/signoffs` | | lexicon tools |
+| POST | `/lexicon/{lang}/signoff` | `{reviewer, note, native_speaker}` | native speaker sign-off (lexicon must lint clean) |
+| GET | `/stats`, `/feed.atom`, `/metrics` | | operations counts, Atom feed, Prometheus |
+
+`/compile` also takes `references` (an alert id: the result is a CAP Update; a replaced or
+cancelled alert cannot be updated again) and `area` (polygons, circles, geocodes). `/alerts`
+takes `q, hazard, status, lang, msg_type, chaos, offset, limit` and returns the match count in
+`X-Total-Count`. Sendable statuses everywhere (CAP, public page, feed, exports, webhooks):
+VERIFIED, FALLBACK, APPROVED. Write endpoints honour `STENTOR_OPERATOR_TOKEN` and
+`STENTOR_RATE_LIMIT`; every response carries `X-Request-ID` and `Server-Timing`.
 
 `/compile` de-duplicates languages, rejects an empty list, rejects chaos aimed at a language
 that is not compiled, and rebuilds the English source text from the locked text, so the
@@ -232,7 +249,7 @@ buildings, windows, waiting) + place and time chips.
 
 Suites:
 - `eval/suites/clean.jsonl`: 60 alerts in template wording, 8+ hazards, 29 with negations.
-- `eval/suites/realistic.jsonl`: 32 alerts with messy wording and every bug found in review,
+- `eval/suites/realistic.jsonl`: 39 alerts with messy wording and every bug found in review,
   each with a note. These are also unit tests (`tests/test_realistic.py`).
 
 Each alert has an expected hazard, action, negation count and status. Every rendering is then

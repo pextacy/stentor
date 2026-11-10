@@ -141,6 +141,7 @@
   "/alerts": {
    "get": {
     "summary": "List Alerts",
+    "description": "Newest first. The total number of matches is in the X-Total-Count header.",
     "operationId": "list_alerts_alerts_get",
     "parameters": [
      {
@@ -149,10 +150,120 @@
       "required": false,
       "schema": {
        "type": "integer",
-       "maximum": 50,
+       "maximum": 100,
        "minimum": 1,
        "default": 10,
        "title": "Limit"
+      }
+     },
+     {
+      "name": "offset",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 0,
+       "default": 0,
+       "title": "Offset"
+      }
+     },
+     {
+      "name": "q",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "maxLength": 200
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Q"
+      }
+     },
+     {
+      "name": "hazard",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Hazard"
+      }
+     },
+     {
+      "name": "status",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "any language with this status",
+       "title": "Status"
+      },
+      "description": "any language with this status"
+     },
+     {
+      "name": "lang",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Lang"
+      }
+     },
+     {
+      "name": "msg_type",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Msg Type"
+      }
+     },
+     {
+      "name": "chaos",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "boolean"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Chaos"
       }
      }
     ],
@@ -164,8 +275,7 @@
         "schema": {
          "type": "array",
          "items": {
-          "type": "object",
-          "additionalProperties": true
+          "$ref": "#/components/schemas/AlertSummary"
          },
          "title": "Response List Alerts Alerts Get"
         }
@@ -281,6 +391,23 @@
        "default": "en",
        "title": "Lang"
       }
+     },
+     {
+      "name": "now",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date-time"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Now"
+      }
      }
     ],
     "responses": {
@@ -384,6 +511,1218 @@
          },
          "type": "array",
          "title": "Response Eval Renderers Eval Renderers Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/alerts/{alert_id}/review": {
+   "post": {
+    "summary": "Review",
+    "description": "A REVIEW language is never sent automatically. A named operator approves it\n(APPROVED, sendable) or rejects it (the verified safe fallback is sent instead, or\nnothing if the fallback cannot be verified). Every decision is audited.",
+    "operationId": "review_alerts__alert_id__review_post",
+    "parameters": [
+     {
+      "name": "alert_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Alert Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ReviewRequest"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/AlertOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/alerts/{alert_id}/cancel": {
+   "post": {
+    "summary": "Cancel",
+    "description": "A CAP Cancel message, itself translated and verified in every language of the original:\n\"The wildfire warning for Altadena has been cancelled.\"",
+    "operationId": "cancel_alerts__alert_id__cancel_post",
+    "parameters": [
+     {
+      "name": "alert_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Alert Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CancelRequest"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CompileResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/validate/cap": {
+   "post": {
+    "summary": "Validate",
+    "operationId": "validate_validate_cap_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CapValidateRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CapReport"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/alerts/{alert_id}/cap.xml": {
+   "get": {
+    "summary": "Cap Get",
+    "description": "Read-only CAP (status Exercise) for feeds and links. Not audited as an export.",
+    "operationId": "cap_get_alerts__alert_id__cap_xml_get",
+    "parameters": [
+     {
+      "name": "alert_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Alert Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/xml": {}
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/alerts/{alert_id}/cap/validate": {
+   "get": {
+    "summary": "Cap Validate Stored",
+    "operationId": "cap_validate_stored_alerts__alert_id__cap_validate_get",
+    "parameters": [
+     {
+      "name": "alert_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Alert Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CapReport"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/alerts/{alert_id}/export.json": {
+   "get": {
+    "summary": "Export Json",
+    "operationId": "export_json_alerts__alert_id__export_json_get",
+    "parameters": [
+     {
+      "name": "alert_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Alert Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "additionalProperties": true,
+         "title": "Response Export Json Alerts  Alert Id  Export Json Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/alerts/{alert_id}/export.txt": {
+   "get": {
+    "summary": "Export Txt",
+    "operationId": "export_txt_alerts__alert_id__export_txt_get",
+    "parameters": [
+     {
+      "name": "alert_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Alert Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "text/plain": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/alerts/{alert_id}/export.csv": {
+   "get": {
+    "summary": "Export Csv",
+    "operationId": "export_csv_alerts__alert_id__export_csv_get",
+    "parameters": [
+     {
+      "name": "alert_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Alert Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "text/plain": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/alerts/{alert_id}/audit.csv": {
+   "get": {
+    "summary": "Export Audit",
+    "operationId": "export_audit_alerts__alert_id__audit_csv_get",
+    "parameters": [
+     {
+      "name": "alert_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Alert Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "text/plain": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/alerts/{alert_id}/ssml": {
+   "get": {
+    "summary": "Ssml",
+    "operationId": "ssml_alerts__alert_id__ssml_get",
+    "parameters": [
+     {
+      "name": "alert_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Alert Id"
+      }
+     },
+     {
+      "name": "lang",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "default": "en",
+       "title": "Lang"
+      }
+     },
+     {
+      "name": "repeat",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 3,
+       "minimum": 1,
+       "default": 2,
+       "title": "Repeat"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/ssml+xml": {}
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/feed.atom": {
+   "get": {
+    "summary": "Feed",
+    "operationId": "feed_feed_atom_get",
+    "parameters": [
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 100,
+       "minimum": 1,
+       "default": 20,
+       "title": "Limit"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/atom+xml": {}
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/batch": {
+   "post": {
+    "summary": "Batch",
+    "description": "Prepare many alerts at once (e.g. a pre-scripted set for a season). Each is read,\ntranslated, verified and stored exactly as if compiled one by one. No chaos here.",
+    "operationId": "batch_batch_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/BatchRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/BatchResult"
+         },
+         "type": "array",
+         "title": "Response Batch Batch Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/drafts": {
+   "get": {
+    "summary": "Drafts",
+    "operationId": "drafts_drafts_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/DraftOut"
+         },
+         "type": "array",
+         "title": "Response Drafts Drafts Get"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "summary": "Draft Create",
+    "operationId": "draft_create_drafts_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DraftIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DraftOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/drafts/{draft_id}": {
+   "put": {
+    "summary": "Draft Update",
+    "operationId": "draft_update_drafts__draft_id__put",
+    "parameters": [
+     {
+      "name": "draft_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Draft Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DraftIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DraftOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "delete": {
+    "summary": "Draft Delete",
+    "operationId": "draft_delete_drafts__draft_id__delete",
+    "parameters": [
+     {
+      "name": "draft_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Draft Id"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Successful Response"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/presets": {
+   "get": {
+    "summary": "Presets",
+    "operationId": "presets_presets_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/PresetOut"
+         },
+         "type": "array",
+         "title": "Response Presets Presets Get"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "summary": "Preset Create",
+    "operationId": "preset_create_presets_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PresetIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PresetOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/presets/{preset_id}": {
+   "delete": {
+    "summary": "Preset Delete",
+    "operationId": "preset_delete_presets__preset_id__delete",
+    "parameters": [
+     {
+      "name": "preset_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Preset Id"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Successful Response"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/stats": {
+   "get": {
+    "summary": "Stats",
+    "description": "Counts over alerts compiled on this server. Operational numbers, not eval results.",
+    "operationId": "stats_stats_get",
+    "parameters": [
+     {
+      "name": "include_chaos",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false,
+       "title": "Include Chaos"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Stats"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/lexicon/{lang}": {
+   "get": {
+    "summary": "Lexicon View",
+    "operationId": "lexicon_view_lexicon__lang__get",
+    "parameters": [
+     {
+      "name": "lang",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Lang"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LexiconView"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/lexicon/{lang}/lint": {
+   "get": {
+    "summary": "Lexicon Lint",
+    "operationId": "lexicon_lint_lexicon__lang__lint_get",
+    "parameters": [
+     {
+      "name": "lang",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Lang"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LintReport"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/lexicon/{lang}/signoffs": {
+   "get": {
+    "summary": "Lexicon Signoffs",
+    "operationId": "lexicon_signoffs_lexicon__lang__signoffs_get",
+    "parameters": [
+     {
+      "name": "lang",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Lang"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/SignoffOut"
+         },
+         "title": "Response Lexicon Signoffs Lexicon  Lang  Signoffs Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/lexicon/{lang}/signoff": {
+   "post": {
+    "summary": "Lexicon Signoff",
+    "description": "Record that a native speaker checked this lexicon. The lexicon must lint clean first:\nsigning off a lexicon that cannot read its own templates back would be meaningless.",
+    "operationId": "lexicon_signoff_lexicon__lang__signoff_post",
+    "parameters": [
+     {
+      "name": "lang",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Lang"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SignoffIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SignoffOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/intent/lint": {
+   "post": {
+    "summary": "Intent Lint",
+    "operationId": "intent_lint_intent_lint_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/LintRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/LintIssue"
+         },
+         "type": "array",
+         "title": "Response Intent Lint Intent Lint Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/glossary": {
+   "get": {
+    "summary": "Glossary",
+    "operationId": "glossary_glossary_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/GlossaryOut"
+         },
+         "type": "array",
+         "title": "Response Glossary Glossary Get"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "summary": "Glossary Add",
+    "operationId": "glossary_add_glossary_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/GlossaryIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/GlossaryOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/glossary/{term_id}": {
+   "delete": {
+    "summary": "Glossary Delete",
+    "operationId": "glossary_delete_glossary__term_id__delete",
+    "parameters": [
+     {
+      "name": "term_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Term Id"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Successful Response"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/webhooks": {
+   "get": {
+    "summary": "Webhook List",
+    "operationId": "webhook_list_webhooks_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/WebhookOut"
+         },
+         "type": "array",
+         "title": "Response Webhook List Webhooks Get"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "summary": "Webhook Add",
+    "operationId": "webhook_add_webhooks_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/WebhookIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/WebhookOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/webhooks/{hook_id}": {
+   "delete": {
+    "summary": "Webhook Delete",
+    "operationId": "webhook_delete_webhooks__hook_id__delete",
+    "parameters": [
+     {
+      "name": "hook_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Hook Id"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Successful Response"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/webhooks/test": {
+   "post": {
+    "summary": "Webhook Test",
+    "description": "Send a signed test event to every active webhook, now, and report each result.",
+    "operationId": "webhook_test_webhooks_test_post",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "additionalProperties": true,
+          "type": "object"
+         },
+         "type": "array",
+         "title": "Response Webhook Test Webhooks Test Post"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/metrics": {
+   "get": {
+    "summary": "Metrics",
+    "operationId": "metrics_metrics_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "text/plain": {
+        "schema": {
+         "type": "string"
         }
        }
       }
@@ -564,6 +1903,43 @@
       },
       "type": "array",
       "title": "Audit"
+     },
+     "msg_type": {
+      "type": "string",
+      "title": "Msg Type",
+      "default": "Alert"
+     },
+     "references": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "References"
+     },
+     "superseded_by": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Superseded By"
+     },
+     "area": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/CapArea"
+       },
+       {
+        "type": "null"
+       }
+      ]
      }
     },
     "type": "object",
@@ -579,6 +1955,102 @@
      "audit"
     ],
     "title": "AlertOut"
+   },
+   "AlertSummary": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "created_at": {
+      "type": "string",
+      "title": "Created At"
+     },
+     "source_text": {
+      "type": "string",
+      "title": "Source Text"
+     },
+     "chaos": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Chaos"
+     },
+     "hazard": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Hazard"
+     },
+     "action": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Action"
+     },
+     "msg_type": {
+      "type": "string",
+      "title": "Msg Type"
+     },
+     "references": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "References"
+     },
+     "superseded_by": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Superseded By"
+     },
+     "statuses": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Statuses"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "created_at",
+     "source_text",
+     "chaos",
+     "hazard",
+     "action",
+     "msg_type",
+     "references",
+     "superseded_by",
+     "statuses"
+    ],
+    "title": "AlertSummary"
    },
    "AuditOut": {
     "properties": {
@@ -613,11 +2085,270 @@
     ],
     "title": "AuditOut"
    },
+   "BatchItem": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Text"
+     },
+     "langs": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Langs"
+     }
+    },
+    "type": "object",
+    "required": [
+     "text"
+    ],
+    "title": "BatchItem"
+   },
+   "BatchRequest": {
+    "properties": {
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/BatchItem"
+      },
+      "type": "array",
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Items"
+     },
+     "langs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Langs"
+     }
+    },
+    "type": "object",
+    "required": [
+     "items"
+    ],
+    "title": "BatchRequest"
+   },
+   "BatchResult": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "title": "Text"
+     },
+     "alert_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Alert Id"
+     },
+     "statuses": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Statuses",
+      "default": {}
+     },
+     "warnings": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Warnings",
+      "default": []
+     },
+     "error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     }
+    },
+    "type": "object",
+    "required": [
+     "text"
+    ],
+    "title": "BatchResult"
+   },
+   "CancelRequest": {
+    "properties": {
+     "reason": {
+      "type": "string",
+      "maxLength": 300,
+      "title": "Reason",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "title": "CancelRequest"
+   },
+   "CapArea": {
+    "properties": {
+     "desc": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Desc"
+     },
+     "polygons": {
+      "items": {
+       "items": {
+        "prefixItems": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "number"
+         }
+        ],
+        "type": "array",
+        "maxItems": 2,
+        "minItems": 2
+       },
+       "type": "array"
+      },
+      "type": "array",
+      "title": "Polygons",
+      "default": []
+     },
+     "circles": {
+      "items": {
+       "$ref": "#/components/schemas/Circle"
+      },
+      "type": "array",
+      "title": "Circles",
+      "default": []
+     },
+     "geocodes": {
+      "items": {
+       "$ref": "#/components/schemas/Geocode"
+      },
+      "type": "array",
+      "title": "Geocodes",
+      "default": []
+     }
+    },
+    "type": "object",
+    "title": "CapArea"
+   },
+   "CapIssue": {
+    "properties": {
+     "path": {
+      "type": "string",
+      "title": "Path"
+     },
+     "message": {
+      "type": "string",
+      "title": "Message"
+     }
+    },
+    "type": "object",
+    "required": [
+     "path",
+     "message"
+    ],
+    "title": "CapIssue"
+   },
+   "CapReport": {
+    "properties": {
+     "valid": {
+      "type": "boolean",
+      "title": "Valid"
+     },
+     "errors": {
+      "items": {
+       "$ref": "#/components/schemas/CapIssue"
+      },
+      "type": "array",
+      "title": "Errors"
+     },
+     "warnings": {
+      "items": {
+       "$ref": "#/components/schemas/CapIssue"
+      },
+      "type": "array",
+      "title": "Warnings"
+     },
+     "info_blocks": {
+      "type": "integer",
+      "title": "Info Blocks"
+     },
+     "languages": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Languages"
+     }
+    },
+    "type": "object",
+    "required": [
+     "valid",
+     "errors",
+     "warnings",
+     "info_blocks",
+     "languages"
+    ],
+    "title": "CapReport"
+   },
    "CapRequest": {
     "properties": {
      "alert_id": {
       "type": "string",
       "title": "Alert Id"
+     },
+     "status": {
+      "type": "string",
+      "enum": [
+       "Exercise",
+       "System",
+       "Test",
+       "Draft",
+       "Actual"
+      ],
+      "title": "Status",
+      "default": "Exercise"
+     },
+     "sender": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 3,
+      "pattern": "^[^\\s,<&]+$",
+      "title": "Sender",
+      "default": "stentor-demo@example.org"
+     },
+     "sender_name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Sender Name",
+      "default": "STENTOR demo operator"
      }
     },
     "type": "object",
@@ -625,6 +2356,54 @@
      "alert_id"
     ],
     "title": "CapRequest"
+   },
+   "CapValidateRequest": {
+    "properties": {
+     "xml": {
+      "type": "string",
+      "maxLength": 500000,
+      "minLength": 1,
+      "title": "Xml"
+     }
+    },
+    "type": "object",
+    "required": [
+     "xml"
+    ],
+    "title": "CapValidateRequest"
+   },
+   "ChannelFit": {
+    "properties": {
+     "channel": {
+      "type": "string",
+      "title": "Channel"
+     },
+     "limit": {
+      "type": "integer",
+      "title": "Limit"
+     },
+     "used": {
+      "type": "integer",
+      "title": "Used"
+     },
+     "fits": {
+      "type": "boolean",
+      "title": "Fits"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "channel",
+     "limit",
+     "used",
+     "fits"
+    ],
+    "title": "ChannelFit"
    },
    "Check": {
     "properties": {
@@ -653,6 +2432,35 @@
      "detail"
     ],
     "title": "Check"
+   },
+   "Circle": {
+    "properties": {
+     "lat": {
+      "type": "number",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "title": "Lat"
+     },
+     "lon": {
+      "type": "number",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "title": "Lon"
+     },
+     "radius_km": {
+      "type": "number",
+      "maximum": 1000.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Radius Km"
+     }
+    },
+    "type": "object",
+    "required": [
+     "lat",
+     "lon",
+     "radius_km"
+    ],
+    "title": "Circle"
    },
    "CompileRequest": {
     "properties": {
@@ -687,6 +2495,28 @@
        }
       ],
       "title": "Source Text"
+     },
+     "references": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "References",
+      "description": "alert id this one updates (CAP msgType Update)"
+     },
+     "area": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/CapArea"
+       },
+       {
+        "type": "null"
+       }
+      ]
      }
     },
     "type": "object",
@@ -727,6 +2557,33 @@
        }
       ],
       "title": "Chaos"
+     },
+     "msg_type": {
+      "type": "string",
+      "title": "Msg Type",
+      "default": "Alert"
+     },
+     "references": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "References"
+     },
+     "duplicate_of": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Duplicate Of"
      }
     },
     "type": "object",
@@ -737,6 +2594,81 @@
      "results"
     ],
     "title": "CompileResponse"
+   },
+   "DraftIn": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 80,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "text": {
+      "type": "string",
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Text"
+     },
+     "langs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Langs",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "text"
+    ],
+    "title": "DraftIn"
+   },
+   "DraftOut": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 80,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "text": {
+      "type": "string",
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Text"
+     },
+     "langs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Langs",
+      "default": []
+     },
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "created_at": {
+      "type": "string",
+      "title": "Created At"
+     },
+     "updated_at": {
+      "type": "string",
+      "title": "Updated At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "text",
+     "id",
+     "created_at",
+     "updated_at"
+    ],
+    "title": "DraftOut"
    },
    "EvalRequest": {
     "properties": {
@@ -780,6 +2712,77 @@
      "text"
     ],
     "title": "Example"
+   },
+   "Geocode": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "value": {
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1,
+      "title": "Value"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "value"
+    ],
+    "title": "Geocode"
+   },
+   "GlossaryIn": {
+    "properties": {
+     "term": {
+      "type": "string",
+      "maxLength": 60,
+      "minLength": 2,
+      "pattern": "^[^⟦⟧]+$",
+      "title": "Term"
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 200,
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "term"
+    ],
+    "title": "GlossaryIn"
+   },
+   "GlossaryOut": {
+    "properties": {
+     "term": {
+      "type": "string",
+      "maxLength": 60,
+      "minLength": 2,
+      "pattern": "^[^⟦⟧]+$",
+      "title": "Term"
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 200,
+      "title": "Note",
+      "default": ""
+     },
+     "id": {
+      "type": "string",
+      "title": "Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "term",
+     "id"
+    ],
+    "title": "GlossaryOut"
    },
    "HTTPValidationError": {
     "properties": {
@@ -832,6 +2835,11 @@
      "adaption_configured": {
       "type": "boolean",
       "title": "Adaption Configured"
+     },
+     "auth_required": {
+      "type": "boolean",
+      "title": "Auth Required",
+      "default": false
      }
     },
     "type": "object",
@@ -934,6 +2942,32 @@
       },
       "type": "array",
       "title": "Uncovered",
+      "default": []
+     },
+     "readability": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Readability"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "lint": {
+      "items": {
+       "$ref": "#/components/schemas/LintIssue"
+      },
+      "type": "array",
+      "title": "Lint",
+      "default": []
+     },
+     "glossary_locked": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Glossary Locked",
       "default": []
      }
     },
@@ -1070,6 +3104,46 @@
         "type": "null"
        }
       ]
+     },
+     "channels": {
+      "items": {
+       "$ref": "#/components/schemas/ChannelFit"
+      },
+      "type": "array",
+      "title": "Channels",
+      "default": []
+     },
+     "back_english": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Back English"
+     },
+     "blocked_back_english": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Blocked Back English"
+     },
+     "review": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/ReviewStamp"
+       },
+       {
+        "type": "null"
+       }
+      ]
      }
     },
     "type": "object",
@@ -1139,6 +3213,14 @@
       "type": "string",
       "title": "Sample Prohibition",
       "default": ""
+     },
+     "signed_off_by": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Signed Off By",
+      "default": []
      }
     },
     "type": "object",
@@ -1152,6 +3234,173 @@
      "approved"
     ],
     "title": "LanguageInfo"
+   },
+   "LexiconView": {
+    "properties": {
+     "lang": {
+      "type": "string",
+      "title": "Lang"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "english_name": {
+      "type": "string",
+      "title": "English Name"
+     },
+     "dir": {
+      "type": "string",
+      "title": "Dir"
+     },
+     "reviewed_by": {
+      "type": "string",
+      "title": "Reviewed By"
+     },
+     "negation_markers": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Negation Markers"
+     },
+     "rows": {
+      "items": {
+       "$ref": "#/components/schemas/PhraseRow"
+      },
+      "type": "array",
+      "title": "Rows"
+     }
+    },
+    "type": "object",
+    "required": [
+     "lang",
+     "name",
+     "english_name",
+     "dir",
+     "reviewed_by",
+     "negation_markers",
+     "rows"
+    ],
+    "title": "LexiconView"
+   },
+   "LintFinding": {
+    "properties": {
+     "severity": {
+      "type": "string",
+      "title": "Severity"
+     },
+     "where": {
+      "type": "string",
+      "title": "Where"
+     },
+     "message": {
+      "type": "string",
+      "title": "Message"
+     }
+    },
+    "type": "object",
+    "required": [
+     "severity",
+     "where",
+     "message"
+    ],
+    "title": "LintFinding"
+   },
+   "LintIssue": {
+    "properties": {
+     "code": {
+      "type": "string",
+      "title": "Code"
+     },
+     "severity": {
+      "type": "string",
+      "title": "Severity"
+     },
+     "message": {
+      "type": "string",
+      "title": "Message"
+     }
+    },
+    "type": "object",
+    "required": [
+     "code",
+     "severity",
+     "message"
+    ],
+    "title": "LintIssue"
+   },
+   "LintReport": {
+    "properties": {
+     "lang": {
+      "type": "string",
+      "title": "Lang"
+     },
+     "ok": {
+      "type": "boolean",
+      "title": "Ok"
+     },
+     "errors": {
+      "type": "integer",
+      "title": "Errors"
+     },
+     "warnings": {
+      "type": "integer",
+      "title": "Warnings"
+     },
+     "checked_templates": {
+      "type": "integer",
+      "title": "Checked Templates"
+     },
+     "findings": {
+      "items": {
+       "$ref": "#/components/schemas/LintFinding"
+      },
+      "type": "array",
+      "title": "Findings"
+     }
+    },
+    "type": "object",
+    "required": [
+     "lang",
+     "ok",
+     "errors",
+     "warnings",
+     "checked_templates",
+     "findings"
+    ],
+    "title": "LintReport"
+   },
+   "LintRequest": {
+    "properties": {
+     "intent": {
+      "$ref": "#/components/schemas/AlertIntent"
+     },
+     "mapping": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Mapping"
+     },
+     "locked_text": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Locked Text"
+     }
+    },
+    "type": "object",
+    "required": [
+     "intent",
+     "mapping"
+    ],
+    "title": "LintRequest"
    },
    "Meta": {
     "properties": {
@@ -1212,6 +3461,47 @@
     ],
     "title": "Meta"
    },
+   "PhraseRow": {
+    "properties": {
+     "section": {
+      "type": "string",
+      "title": "Section"
+     },
+     "key": {
+      "type": "string",
+      "title": "Key"
+     },
+     "variant": {
+      "type": "string",
+      "title": "Variant"
+     },
+     "en": {
+      "type": "string",
+      "title": "En"
+     },
+     "text": {
+      "type": "string",
+      "title": "Text"
+     },
+     "match": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Match",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "section",
+     "key",
+     "variant",
+     "en",
+     "text"
+    ],
+    "title": "PhraseRow"
+   },
    "Phrasebook": {
     "properties": {
      "actions": {
@@ -1242,6 +3532,64 @@
     ],
     "title": "Phrasebook",
     "description": "English wording of every approved template, so the intent card can show each\ninstruction as the sentence it will become."
+   },
+   "PresetIn": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 60,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "langs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "minItems": 1,
+      "title": "Langs"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "langs"
+    ],
+    "title": "PresetIn"
+   },
+   "PresetOut": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 60,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "langs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "minItems": 1,
+      "title": "Langs"
+     },
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "builtin": {
+      "type": "boolean",
+      "title": "Builtin",
+      "default": false
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "langs",
+     "id"
+    ],
+    "title": "PresetOut"
    },
    "PublicAlert": {
     "properties": {
@@ -1287,6 +3635,38 @@
      },
      "selected": {
       "$ref": "#/components/schemas/PublicLang"
+     },
+     "msg_type": {
+      "type": "string",
+      "title": "Msg Type",
+      "default": "Alert"
+     },
+     "expires_at": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Expires At"
+     },
+     "expired": {
+      "type": "boolean",
+      "title": "Expired",
+      "default": false
+     },
+     "superseded_by": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Superseded By"
      }
     },
     "type": "object",
@@ -1340,6 +3720,173 @@
      "text"
     ],
     "title": "PublicLang"
+   },
+   "Readability": {
+    "properties": {
+     "words": {
+      "type": "integer",
+      "title": "Words"
+     },
+     "sentences": {
+      "type": "integer",
+      "title": "Sentences"
+     },
+     "words_per_sentence": {
+      "type": "number",
+      "title": "Words Per Sentence"
+     },
+     "grade": {
+      "type": "number",
+      "title": "Grade"
+     },
+     "long_sentences": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Long Sentences"
+     },
+     "all_caps_words": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "All Caps Words"
+     },
+     "notes": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Notes"
+     }
+    },
+    "type": "object",
+    "required": [
+     "words",
+     "sentences",
+     "words_per_sentence",
+     "grade",
+     "long_sentences",
+     "all_caps_words",
+     "notes"
+    ],
+    "title": "Readability"
+   },
+   "ReviewRequest": {
+    "properties": {
+     "lang": {
+      "type": "string",
+      "title": "Lang"
+     },
+     "decision": {
+      "type": "string",
+      "pattern": "^(approve|reject)$",
+      "title": "Decision"
+     },
+     "reviewer": {
+      "type": "string",
+      "maxLength": 80,
+      "minLength": 2,
+      "title": "Reviewer"
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 500,
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "lang",
+     "decision",
+     "reviewer"
+    ],
+    "title": "ReviewRequest"
+   },
+   "ReviewStamp": {
+    "properties": {
+     "reviewer": {
+      "type": "string",
+      "title": "Reviewer"
+     },
+     "decision": {
+      "type": "string",
+      "title": "Decision"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note",
+      "default": ""
+     },
+     "at": {
+      "type": "string",
+      "title": "At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "reviewer",
+     "decision",
+     "at"
+    ],
+    "title": "ReviewStamp"
+   },
+   "SignoffIn": {
+    "properties": {
+     "reviewer": {
+      "type": "string",
+      "maxLength": 80,
+      "minLength": 2,
+      "title": "Reviewer"
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 500,
+      "title": "Note",
+      "default": ""
+     },
+     "native_speaker": {
+      "type": "boolean",
+      "title": "Native Speaker",
+      "description": "the reviewer confirms they are a native speaker"
+     }
+    },
+    "type": "object",
+    "required": [
+     "reviewer",
+     "native_speaker"
+    ],
+    "title": "SignoffIn"
+   },
+   "SignoffOut": {
+    "properties": {
+     "lang": {
+      "type": "string",
+      "title": "Lang"
+     },
+     "reviewer": {
+      "type": "string",
+      "title": "Reviewer"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note"
+     },
+     "created_at": {
+      "type": "string",
+      "title": "Created At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "lang",
+     "reviewer",
+     "note",
+     "created_at"
+    ],
+    "title": "SignoffOut"
    },
    "SlotDiff": {
     "properties": {
@@ -1400,13 +3947,113 @@
     ],
     "title": "SmsInfo"
    },
+   "Stats": {
+    "properties": {
+     "alerts": {
+      "type": "integer",
+      "title": "Alerts"
+     },
+     "chaos_alerts": {
+      "type": "integer",
+      "title": "Chaos Alerts"
+     },
+     "languages_compiled": {
+      "type": "integer",
+      "title": "Languages Compiled"
+     },
+     "by_status": {
+      "additionalProperties": {
+       "type": "integer"
+      },
+      "type": "object",
+      "title": "By Status"
+     },
+     "by_lang": {
+      "additionalProperties": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "type": "object"
+      },
+      "type": "object",
+      "title": "By Lang"
+     },
+     "by_hazard": {
+      "additionalProperties": {
+       "type": "integer"
+      },
+      "type": "object",
+      "title": "By Hazard"
+     },
+     "by_msg_type": {
+      "additionalProperties": {
+       "type": "integer"
+      },
+      "type": "object",
+      "title": "By Msg Type"
+     },
+     "top_block_reasons": {
+      "items": {
+       "prefixItems": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ],
+       "type": "array",
+       "maxItems": 2,
+       "minItems": 2
+      },
+      "type": "array",
+      "title": "Top Block Reasons"
+     },
+     "sendable_pct": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sendable Pct"
+     },
+     "operator_reviews": {
+      "type": "integer",
+      "title": "Operator Reviews"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note"
+     }
+    },
+    "type": "object",
+    "required": [
+     "alerts",
+     "chaos_alerts",
+     "languages_compiled",
+     "by_status",
+     "by_lang",
+     "by_hazard",
+     "by_msg_type",
+     "top_block_reasons",
+     "sendable_pct",
+     "operator_reviews",
+     "note"
+    ],
+    "title": "Stats"
+   },
    "Status": {
     "type": "string",
     "enum": [
      "VERIFIED",
      "REVIEW",
      "BLOCKED",
-     "FALLBACK"
+     "FALLBACK",
+     "APPROVED",
+     "REJECTED"
     ],
     "title": "Status"
    },
@@ -1449,6 +4096,60 @@
      "type"
     ],
     "title": "ValidationError"
+   },
+   "WebhookIn": {
+    "properties": {
+     "url": {
+      "type": "string",
+      "maxLength": 500,
+      "minLength": 8,
+      "title": "Url"
+     }
+    },
+    "type": "object",
+    "required": [
+     "url"
+    ],
+    "title": "WebhookIn"
+   },
+   "WebhookOut": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "url": {
+      "type": "string",
+      "title": "Url"
+     },
+     "active": {
+      "type": "boolean",
+      "title": "Active"
+     },
+     "created_at": {
+      "type": "string",
+      "title": "Created At"
+     },
+     "secret": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Secret"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "url",
+     "active",
+     "created_at"
+    ],
+    "title": "WebhookOut"
    }
   }
  }

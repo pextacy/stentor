@@ -108,7 +108,12 @@
       "terms": [
         "heat wave",
         "excessive heat",
-        "heat warning"
+        "heat warning",
+        "heat advisory",
+        "excessive heat warning",
+        "extreme heat warning",
+        "extreme heat",
+        "heat emergency"
       ]
     },
     "hazmat": {
@@ -131,7 +136,8 @@
         "active threat",
         "armed person",
         "gunman",
-        "shooting"
+        "shooting",
+        "active shooter"
       ]
     },
     "boil_water": {
@@ -139,7 +145,11 @@
       "terms": [
         "boil water notice",
         "boil water advisory",
-        "contaminated water"
+        "contaminated water",
+        "tap water",
+        "drinking water",
+        "water advisory",
+        "do not drink advisory"
       ]
     },
     "other": {
@@ -174,7 +184,11 @@
         "prepare to evacuate",
         "be ready to evacuate",
         "get ready to leave",
-        "be ready to leave"
+        "be ready to leave",
+        "prepare to leave",
+        "be prepared to leave",
+        "be prepared to evacuate",
+        "get ready to evacuate"
       ],
       "headline_match": [
         "evacuation warning"
@@ -489,7 +503,11 @@
         "stay quiet",
         "be quiet",
         "keep quiet",
-        "silence your phone"
+        "silence your phone",
+        "silence phones",
+        "silence your phones",
+        "silence cell phones",
+        "silence your cell phone"
       ],
       "text": {
         "pos": "Stay quiet."
@@ -529,7 +547,12 @@
       "match": [
         "check on your neighbors",
         "check on neighbors",
-        "check on your neighbours"
+        "check on your neighbours",
+        "check on elderly neighbors",
+        "check on elderly neighbours",
+        "check on your elderly neighbors",
+        "check on older neighbors",
+        "check on vulnerable neighbors"
       ],
       "text": {
         "pos": "Check on your neighbors."
@@ -539,7 +562,10 @@
       "match": [
         "drink plenty of water",
         "drink lots of water",
-        "stay hydrated"
+        "stay hydrated",
+        "drink water",
+        "drink lots of fluids",
+        "drink plenty of fluids"
       ],
       "text": {
         "pos": "Drink plenty of water."
@@ -561,7 +587,8 @@
         "cooling centre"
       ],
       "text": {
-        "pos|P": "Go to the cooling center at {P}."
+        "pos|P": "Go to the cooling center at {P}.",
+        "pos|PT": "Go to the cooling center at {P}, open until {T}."
       }
     },
     "go:shelter": {
@@ -621,6 +648,67 @@
       ],
       "text": {
         "pos|U": "Call {U}."
+      }
+    },
+    "stay_out:sun": {
+      "match": [
+        "stay out of the sun",
+        "avoid the sun",
+        "avoid direct sun",
+        "stay in the shade"
+      ],
+      "text": {
+        "pos": "Stay out of the sun."
+      }
+    },
+    "use:generators": {
+      "match": [
+        "use generators indoors",
+        "use a generator indoors",
+        "use generators inside",
+        "use a generator inside",
+        "run generators indoors",
+        "run a generator indoors",
+        "run a generator inside",
+        "use a generator in your home"
+      ],
+      "text": {
+        "neg": "Do NOT use generators indoors."
+      }
+    },
+    "use:bottled_water": {
+      "match": [
+        "use bottled water",
+        "use only bottled water",
+        "drink bottled water",
+        "drink only bottled water",
+        "bottled water only"
+      ],
+      "text": {
+        "pos": "Use only bottled water."
+      }
+    },
+    "run:hide_fight": {
+      "match": [
+        "run, hide, fight",
+        "run hide fight",
+        "run, hide and fight",
+        "run, hide or fight"
+      ],
+      "text": {
+        "pos": "Run, hide, fight."
+      }
+    },
+    "leave:hiding_place": {
+      "match": [
+        "leave your hiding place",
+        "leave your hiding spot",
+        "leave your hiding place until police arrive",
+        "come out of hiding",
+        "come out until police arrive"
+      ],
+      "text": {
+        "neg": "Do NOT leave your hiding place until police arrive."
       }
     }
   },

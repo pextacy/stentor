@@ -399,7 +399,8 @@
         "cooling center"
       ],
       "text": {
-        "pos|P": "Pumunta sa cooling center sa {P}."
+        "pos|P": "Pumunta sa cooling center sa {P}.",
+        "pos|PT": "Pumunta sa cooling center sa {P}, bukas hanggang {T}."
       }
     },
     "go:shelter": {
@@ -441,6 +442,46 @@
       ],
       "text": {
         "pos|U": "Tumawag sa {U}."
+      }
+    },
+    "stay_out:sun": {
+      "match": [
+        "init ng araw"
+      ],
+      "text": {
+        "pos": "Umiwas sa init ng araw."
+      }
+    },
+    "use:generators": {
+      "match": [
+        "generator"
+      ],
+      "text": {
+        "neg": "HUWAG gumamit ng generator sa loob ng bahay."
+      }
+    },
+    "use:bottled_water": {
+      "match": [
+        "nakaboteng tubig"
+      ],
+      "text": {
+        "pos": "Nakaboteng tubig lamang ang gamitin."
+      }
+    },
+    "run:hide_fight": {
+      "match": [
+        "tumakbo, magtago"
+      ],
+      "text": {
+        "pos": "Tumakbo, magtago, lumaban."
+      }
+    },
+    "leave:hiding_place": {
+      "match": [
+        "pinagtataguan"
+      ],
+      "text": {
+        "neg": "HUWAG umalis sa pinagtataguan hanggang dumating ang pulis."
       }
     }
   },

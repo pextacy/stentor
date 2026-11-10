@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { type AlertOut, getAlert } from "@/lib/api";
+import { type AlertOut, exportUrl, getAlert } from "@/lib/api";
 
 /** Every decision with its reason, as stored on the server (CLAUDE.md: judges and
  *  operators both need to see why something was blocked). */
@@ -18,6 +18,9 @@ export function AuditLog({ alertId, refreshKey }: { alertId: string; refreshKey?
       <summary className="cursor-pointer px-4 py-3 font-display text-xl font-bold uppercase tracking-wide">
         Audit log <span className="font-sans text-sm font-normal normal-case text-slate-mute">({alert.audit.length} records for alert {alert.id})</span>
       </summary>
+      <p className="border-t border-slate-rule px-4 py-2 text-sm">
+        <a className="font-semibold underline" href={exportUrl(alert.id, "audit.csv")}>Download the audit log as CSV</a>
+      </p>
       <div className="max-h-96 overflow-auto border-t border-slate-rule">
         <table className="w-full text-left text-sm">
           <thead className="sticky top-0 bg-slate-paper">

@@ -1,7 +1,39 @@
 "use client";
 
-import type { LangResult } from "@/lib/api";
+import { useState } from "react";
+import { type LangResult, copyText } from "@/lib/api";
 import { Locked, STATUS_STYLE, StatusBadge } from "./Status";
+
+const CHANNEL_LABEL: Record<string, string> = { wea_90: "WEA 90", wea_360: "WEA 360", sms_1: "1 SMS" };
+
+export function CopyButton({ text, label = "Copy" }: { text: string; label?: string }) {
+  const [done, setDone] = useState<null | boolean>(null);
+  return (
+    <button
+      type="button"
+      onClick={async () => { setDone(await copyText(text)); setTimeout(() => setDone(null), 2000); }}
+      className="rounded-md border-2 border-ink bg-white px-2 py-0.5 text-sm font-semibold"
+    >
+      <span aria-live="polite">{done === null ? label : done ? "Copied" : "Copy failed"}</span>
+    </button>
+  );
+}
+
+/** Which delivery channels the sent text fits, never by colour alone. */
+export function ChannelFits({ r }: { r: LangResult }) {
+  if (!r.channels?.length) return null;
+  return (
+    <ul aria-label="Channel fit" className="flex flex-wrap gap-2 text-xs">
+      {r.channels.map((c) => (
+        <li key={c.channel} title={c.note || undefined}
+          className={`rounded border px-1.5 py-0.5 font-mono ${c.fits ? "border-ok text-ok" : "border-review bg-review-bg text-review"}`}>
+          <span aria-hidden="true">{c.fits ? "✓" : "!"} </span>{CHANNEL_LABEL[c.channel] ?? c.channel} {c.used}/{c.limit}
+          <span className="sr-only">{c.fits ? " fits" : " too long"}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export const SLOT_LABEL: Record<string, string> = {
   hazard: "Hazard", action: "Action", area_refs: "Places", time_refs: "Times", info_refs: "Phone",
@@ -39,7 +71,7 @@ export function SlotLedger({ r }: { r: LangResult }) {
 }
 
 export function LangCard({ r, common }: { r: LangResult; common: { renderer: string; backparser: string } }) {
-  const bad = r.status === "BLOCKED" || r.status === "FALLBACK";
+  const bad = r.status === "BLOCKED" || r.status === "FALLBACK" || r.status === "REJECTED";
   const s = STATUS_STYLE[r.status];
   const differs = r.renderer !== common.renderer || r.backparser !== common.backparser;
   const reason = r.reasons.find((x) => !x.startsWith("Sent the pre-approved"));
@@ -59,7 +91,10 @@ export function LangCard({ r, common }: { r: LangResult; common: { renderer: str
 
       <div className="flex flex-1 flex-col gap-3 p-4">
         {r.text ? (
-          <p lang={r.lang} dir={r.dir} className="text-lg leading-relaxed">{r.text}</p>
+          <div className="flex items-start gap-2">
+            <p lang={r.lang} dir={r.dir} className="flex-1 text-lg leading-relaxed">{r.text}</p>
+            <CopyButton text={r.text} />
+          </div>
         ) : (
           <p className="font-semibold text-blocked">Nothing will be sent in this language.</p>
         )}
@@ -71,7 +106,27 @@ export function LangCard({ r, common }: { r: LangResult; common: { renderer: str
           </div>
         )}
 
+        {r.back_english && (
+          <p className="rounded-md bg-slate-paper px-3 py-2 text-sm">
+            <span className="font-semibold">Read back in English: </span>
+            <span lang="en">{r.back_english}</span>
+          </p>
+        )}
+        {r.blocked_back_english && (
+          <p className="rounded-md bg-blocked-bg px-3 py-2 text-sm">
+            <span className="font-semibold text-blocked">The blocked translation said: </span>
+            <span lang="en">{r.blocked_back_english}</span>
+          </p>
+        )}
+
         <SlotLedger r={r} />
+        <ChannelFits r={r} />
+        {r.review && (
+          <p className="text-sm font-medium">
+            {r.review.decision === "approve" ? "Approved" : "Rejected"} by {r.review.reviewer}
+            {r.review.note ? `: ${r.review.note}` : ""}
+          </p>
+        )}
 
         {r.status !== "VERIFIED" && (
           <p className={`text-sm font-medium ${bad ? "text-blocked" : "text-review"}`}>

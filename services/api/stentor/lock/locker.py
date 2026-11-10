@@ -19,7 +19,9 @@ from dataclasses import dataclass
 
 PH_RE = re.compile(r"⟦([TPNUE])(\d+)⟧")
 # An explicit operator marker such as ⟦Altadena⟧ means "lock this as a place".
-EXPLICIT_RE = re.compile(r"⟦(?![TPNUE]\d+⟧)([^⟦⟧]{1,60})⟧")
+# Every bracketed span in operator text is a marker, even one shaped like ⟦P1⟧: the
+# brackets are reserved for placeholders, so they never survive into the locked text.
+EXPLICIT_RE = re.compile(r"⟦([^⟦⟧]{0,60})⟧")
 
 SHORT_CODES = {"211", "311", "511", "911", "112", "999", "110", "119", "988"}
 
@@ -54,10 +56,21 @@ STREET_SUFFIX = (
     r"Bridge|Park|Canyon|Creek|River|Beach|Bay|Valley|Hills|Heights|School|Center|Centre|"
     r"Stadium|Hall|Church|Library|Mall|Plaza|Square|Station|Harbor|Port|Pier|Campus|Village|Hospital|Airport)"
 )
-STREET_RE = re.compile(rf"(?:\b{_ABBR}\s+)?\b(?:{_CAPW}\s+){{1,3}}{STREET_SUFFIX}\b")
+# An optional house number belongs to the address: "120 Main St" is one literal.
+STREET_RE = re.compile(rf"(?:\b\d{{1,6}}\s+)?(?:\b{_ABBR}\s+)?\b(?:{_CAPW}\s+){{1,3}}{STREET_SUFFIX}\b")
+# Evacuation zones and similar designated areas: "Zone A", "Zones 3", "Sector 4B", "Gate 2".
+ZONE_RE = re.compile(r"\b(?:Zones?|Sector|District|Ward|Block|Building|Bldg|Gate|Lot|Level|Floor|Unit|Area|Terminal|Pier|Section)\s+(?:[A-Z]{1,2}\b|\d{1,4}[A-Z]?\b)")
+# Named geographic features with a generic head word first: "Mount Hood", "Lake Tahoe".
+FEATURE_RE = re.compile(r"\b(?:Mount|Mt\.|Lake|Fort|Ft\.|Port|Cape|Point|Saint|Isle|Camp)\s+[A-Z][\w'’-]+(?:\s+[A-Z][\w'’-]+)?")
+# Codes that mix letters and digits: licence plates, "N95", flight or unit numbers. Never translated.
+ALNUM_RE = re.compile(r"(?<![\w⟦-])(?=[A-Za-z-]*\d)(?=[\d-]*[A-Za-z])[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?![\w⟧-])")
+_ORDINAL = re.compile(r"\d+(?:st|nd|rd|th)", re.I)
+# All-caps words that are emphasis, not names ("EVACUATE NOW", "for ALL residents").
+CAPS_NOT_NAMES = {"ALL", "NOW", "NOT", "AREA", "ZONE", "ORDER", "ALERT", "WARNING", "DANGER", "EMERGENCY",
+                  "IMMEDIATELY", "EVERYONE", "RESIDENTS", "HOME", "INSIDE", "INDOORS", "TODAY", "TONIGHT", "THE", "YOUR"}
 ROUTE_RE = re.compile(r"\b(?:Highway|Hwy|Route|Interstate|Exit|I-|US-|SR-|CA-)\s?\d+[A-Z]?\b")
 PREP_PLACE_RE = re.compile(
-    r"\b(?:near|in|at|from|around|of|for|to|toward|towards|via|between|and|across|along)\s+"
+    r"\b(?:near|in|at|from|around|of|for|to|toward|towards|via|between|and|across|along|on|over|inside|outside|off)\s+"
     rf"((?:{_ABBR}\s+)?[A-Z][\w'’-]+(?:\s+(?:(?:of|de|del|la)\s+)?[A-Z][\w'’-]+)*)"
 )
 EVENT_RE = re.compile(r"\b(?:Hurricane|Tropical Storm|Typhoon|Cyclone|Storm)\s+([A-Z][a-z]+)\b")
@@ -106,6 +119,9 @@ def _spans(text: str, places: list[str] | None) -> list[Span]:
             found.append(Span(m.start(), m.end(), "P", p))
     for m in ROUTE_RE.finditer(text):
         found.append(Span(m.start(), m.end(), "P", m.group(0)))
+    for rx in (ZONE_RE, FEATURE_RE):
+        for m in rx.finditer(text):
+            found.append(Span(m.start(), m.end(), "P", m.group(0)))
     for m in STREET_RE.finditer(text):
         v = m.group(0)
         words = v.split()
@@ -119,13 +135,21 @@ def _spans(text: str, places: list[str] | None) -> list[Span]:
         words = m.group(1).split()
         while words and words[-1] in STOP_CAPS - PLACE_SUFFIX_OK:
             words.pop()
-        if not words or words[0] in STOP_CAPS or all(w.isupper() for w in words):
+        if not words or words[0] in STOP_CAPS:
+            continue
+        # All-caps words are usually emphasis; short acronyms ("UCLA", "LAX") are names.
+        if all(w.isupper() for w in words) and not all(
+                2 <= len(w) <= 5 and w.isalpha() and w not in CAPS_NOT_NAMES and w.capitalize() not in STOP_CAPS
+                for w in words):
             continue
         v = " ".join(words)
         s = m.start(1)
         found.append(Span(s, s + len(v), "P", v))
     for m in QTY_RE.finditer(text):
         found.append(Span(m.start(), m.end(), "N", m.group(0)))
+    for m in ALNUM_RE.finditer(text):
+        if not _ORDINAL.fullmatch(m.group(0)):
+            found.append(Span(m.start(), m.end(), "N", m.group(0)))
     for m in NUMBER_RE.finditer(text):
         found.append(Span(m.start(), m.end(), "N", m.group(0)))
     return found
@@ -147,8 +171,10 @@ def _resolve(spans: list[Span]) -> list[Span]:
 def apply(text: str, places: list[str] | None = None) -> tuple[str, dict[str, str]]:
     """Lock literals. Returns (locked_text, {placeholder: literal})."""
     explicit: list[str] = [m.group(1).strip() for m in EXPLICIT_RE.finditer(text)]
-    text = EXPLICIT_RE.sub(lambda m: m.group(1), text)
-    spans = _resolve(_spans(text, (places or []) + explicit))
+    text = EXPLICIT_RE.sub(lambda m: m.group(1), text).replace("⟦", "").replace("⟧", "")
+    # An empty or whitespace place would match at every position of the text.
+    names = [p.strip() for p in (places or []) + explicit if p and p.strip()]
+    spans = _resolve(_spans(text, names))
     counters: Counter[str] = Counter()
     mapping: dict[str, str] = {}
     out: list[str] = []

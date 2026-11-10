@@ -6,7 +6,12 @@ export const STATUS_STYLE: Record<Status, { icon: string; word: string; cls: str
   REVIEW: { icon: "!", word: "Review", cls: "bg-review-bg text-review border-review", explain: "Critical slots match, but something needs a person to check it. Not sent automatically." },
   BLOCKED: { icon: "✕", word: "Blocked", cls: "bg-blocked-bg text-blocked border-blocked", explain: "A critical slot does not match. Nothing is sent in this language." },
   FALLBACK: { icon: "↺", word: "Safe fallback", cls: "bg-fallback-bg text-fallback border-fallback", explain: "The translation was blocked. The pre-approved generic warning is sent instead." },
+  APPROVED: { icon: "✓", word: "Approved", cls: "bg-ok-bg text-ok border-ok border-dashed", explain: "Needed review. A named operator checked it and approved sending." },
+  REJECTED: { icon: "✕", word: "Rejected", cls: "bg-blocked-bg text-blocked border-blocked border-dashed", explain: "Needed review. The operator rejected it and no safe fallback could be verified. Nothing is sent." },
 };
+
+export const SENDABLE: Status[] = ["VERIFIED", "FALLBACK", "APPROVED"];
+export const isSendable = (s: Status) => SENDABLE.includes(s);
 
 export function StatusBadge({ status, size = "md" }: { status: Status; size?: "md" | "lg" }) {
   const s = STATUS_STYLE[status];

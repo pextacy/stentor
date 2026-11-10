@@ -73,7 +73,7 @@ text sits next to what will actually be sent.
   was wrapped in a Unicode directional isolate.
 
 ## Accomplishments
-- In our eval (92 alerts × 7 languages, deterministic path), all 3,486 injected critical
+- In our eval (99 alerts × 7 languages, deterministic path), all 3,682 injected critical
   errors were blocked and no clean translation was wrongly blocked. Every alert landed on
   exactly the status we expected (Verified or Review). We publish the limits next to the
   numbers: without a key, renderer and checker share a lexicon, so this shows the checks
